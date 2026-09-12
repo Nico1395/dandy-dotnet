@@ -1,6 +1,6 @@
 using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
-using DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
+using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite;
 using DandyDotnet.Serialization;
 using DandyDotnet.Serialization.SystemTextJson;
 using FluentMigrator.Runner;

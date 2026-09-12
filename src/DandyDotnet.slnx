@@ -7,9 +7,9 @@
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
     <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
-    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Sql.Postgres.csproj" />
-    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Sql.Sqlite.csproj" />
-    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Sql\DandyDotnet.Patterns.EventSourcing.Sql.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Tests\DandyDotnet.Patterns.EventSourcing.Tests.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
   </Folder>

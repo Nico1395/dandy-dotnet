@@ -17,7 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.SystemTextJson\DandyDotnet.Serialization.SystemTextJson.csproj" />
-      <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Sql.Sqlite.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.csproj" />
     </ItemGroup>
 
 </Project>

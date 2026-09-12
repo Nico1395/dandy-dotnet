@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FluentMigrator.Runner.SQLite" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
+  </ItemGroup>
+</Project>
