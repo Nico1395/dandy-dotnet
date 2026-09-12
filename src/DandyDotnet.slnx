@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Serialization/">
+    <Project Path="serialization/DandyDotnet.Serialization.NewtonsoftJson/DandyDotnet.Serialization.NewtonsoftJson.csproj" />
+    <Project Path="serialization/DandyDotnet.Serialization.Abstractions/DandyDotnet.Serialization.Abstractions.csproj" />
+    <Project Path="serialization/DandyDotnet.Serialization.SystemTextJson/DandyDotnet.Serialization.SystemTextJson.csproj" />
+  </Folder>
   <Folder Name="/_/">
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
