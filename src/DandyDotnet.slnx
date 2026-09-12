@@ -7,6 +7,13 @@
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/" />
   <Folder Name="/Patterns/Mediator/">
+    <Project Path="mediator/DandyDotnet.Patterns.Mediator.Abstractions/DandyDotnet.Patterns.Mediator.Abstractions.csproj" />
+    <Project Path="mediator/DandyDotnet.Patterns.Mediator.Commands.Abstractions/DandyDotnet.Patterns.Mediator.Commands.Abstractions.csproj" />
+    <Project Path="mediator/DandyDotnet.Patterns.Mediator.Commands.Tests/DandyDotnet.Patterns.Mediator.Commands.Tests.csproj" />
+    <Project Path="mediator/DandyDotnet.Patterns.Mediator.Commands/DandyDotnet.Patterns.Mediator.Commands.csproj" />
+    <Project Path="mediator/DandyDotnet.Patterns.Mediator.Queries.Abstractions/DandyDotnet.Patterns.Mediator.Queries.Abstractions.csproj" />
+    <Project Path="mediator/DandyDotnet.Patterns.Mediator.Queries.Tests/DandyDotnet.Patterns.Mediator.Queries.Tests.csproj" />
+    <Project Path="mediator/DandyDotnet.Patterns.Mediator.Queries/DandyDotnet.Patterns.Mediator.Queries.csproj" />
     <Project Path="mediator\DandyDotnet.Patterns.Mediator.Tests\DandyDotnet.Patterns.Mediator.Tests.csproj" />
     <Project Path="mediator\DandyDotnet.Patterns.Mediator.Validation.Tests\DandyDotnet.Patterns.Mediator.Validation.Tests.csproj" />
     <Project Path="mediator\DandyDotnet.Patterns.Mediator.Validation\DandyDotnet.Patterns.Mediator.Validation.csproj" />

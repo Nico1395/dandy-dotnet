@@ -1,7 +1,6 @@
 using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
-using DandyDotnet.Patterns.Mediator.Queries;
 
-namespace DandyDotnet.Patterns.Mediator.Tests.Queries;
+namespace DandyDotnet.Patterns.Mediator.Queries.Tests;
 
 public class QueryResponseExtensionsTests
 {

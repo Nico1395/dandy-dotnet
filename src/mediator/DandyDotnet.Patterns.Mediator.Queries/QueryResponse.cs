@@ -1,4 +1,5 @@
 using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
+using DandyDotnet.Patterns.Mediator.Queries.Abstractions;
 using DandyDotnet.Patterns.Mediator.Requests;
 
 namespace DandyDotnet.Patterns.Mediator.Queries;
