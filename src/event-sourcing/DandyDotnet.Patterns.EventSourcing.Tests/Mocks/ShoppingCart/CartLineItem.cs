@@ -1,4 +1,4 @@
-namespace DandyEventStore.Tests.Mocks.ShoppingCart;
+namespace DandyDotnet.Patterns.EventSourcing.Tests.Mocks.ShoppingCart;
 
 internal sealed class CartLineItem
 {

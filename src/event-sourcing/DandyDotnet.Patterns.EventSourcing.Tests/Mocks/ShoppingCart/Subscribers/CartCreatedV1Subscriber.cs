@@ -1,7 +1,7 @@
-using DandyEventStore.Subscribers;
-using DandyEventStore.Tests.Mocks.ShoppingCart.Events;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
+using DandyDotnet.Patterns.EventSourcing.Tests.Mocks.ShoppingCart.Events;
 
-namespace DandyEventStore.Tests.Mocks.ShoppingCart.Subscribers;
+namespace DandyDotnet.Patterns.EventSourcing.Tests.Mocks.ShoppingCart.Subscribers;
 
 [Subscriber(Mode = SubscriberMode.Inline)]
 internal sealed class CartCreatedV1Subscriber : ISubscriber<CartCreatedV1>

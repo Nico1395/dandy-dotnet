@@ -1,10 +1,11 @@
-using DandyEventStore.Configuration;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
 using DandyEventStore.Serialization.SystemTextJson;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyEventStore.Tests.Fixtures;
+namespace DandyDotnet.Patterns.EventSourcing.Tests.Fixtures;
 
 public sealed class DefaultFixture : IServiceProvider, IAsyncLifetime
 {

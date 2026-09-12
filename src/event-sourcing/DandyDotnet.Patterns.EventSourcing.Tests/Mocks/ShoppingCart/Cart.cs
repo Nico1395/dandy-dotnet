@@ -1,6 +1,7 @@
-using DandyEventStore.Tests.Mocks.ShoppingCart.Events;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
+using DandyDotnet.Patterns.EventSourcing.Tests.Mocks.ShoppingCart.Events;
 
-namespace DandyEventStore.Tests.Mocks.ShoppingCart;
+namespace DandyDotnet.Patterns.EventSourcing.Tests.Mocks.ShoppingCart;
 
 [Aggregate(SnapshotInterval = 5)]
 internal sealed class Cart

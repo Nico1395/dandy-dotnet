@@ -1,8 +1,9 @@
-using DandyEventStore.Tests.Fixtures;
-using DandyEventStore.Tests.Mocks.ShoppingCart;
-using DandyEventStore.Tests.Mocks.ShoppingCart.Events;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
+using DandyDotnet.Patterns.EventSourcing.Tests.Fixtures;
+using DandyDotnet.Patterns.EventSourcing.Tests.Mocks.ShoppingCart;
+using DandyDotnet.Patterns.EventSourcing.Tests.Mocks.ShoppingCart.Events;
 
-namespace DandyEventStore.Tests;
+namespace DandyDotnet.Patterns.EventSourcing.Tests;
 
 public class EventStoreTests(DefaultFixture fixture) : IClassFixture<DefaultFixture>
 {
