@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping;
 
-namespace DandyDotnet.Patterns.Mediator.Responses;
+namespace DandyDotnet.Patterns.Mediator.Requests.Mapping;
 
 /// <inheritdoc/>
 public class RequestResponseMapper(IEnumerable<IRequestResponseMap> maps) : IRequestResponseMapper

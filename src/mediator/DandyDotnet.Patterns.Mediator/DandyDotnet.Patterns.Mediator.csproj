@@ -15,7 +15,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	  <ProjectReference Include="..\DandyDotnet.Patterns.Mediator.Abstractions\DandyDotnet.Patterns.Mediator.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>

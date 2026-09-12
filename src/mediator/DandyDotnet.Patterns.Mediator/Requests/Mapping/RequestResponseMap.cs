@@ -1,4 +1,6 @@
-namespace DandyDotnet.Patterns.Mediator.Responses;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping;
+
+namespace DandyDotnet.Patterns.Mediator.Requests.Mapping;
 
 /// <inheritdoc/>
 public class RequestResponseMap(Type genericAbstractType, Type genericImplementationType) : IRequestResponseMap

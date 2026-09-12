@@ -1,6 +1,7 @@
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.Patterns.Mediator;
+namespace DandyDotnet.Patterns.Mediator.Requests;
 
 internal sealed class RequestPipeline(IServiceProvider serviceProvider) : IRequestPipeline
 {

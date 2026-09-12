@@ -1,9 +1,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using DandyDotnet.Patterns.Mediator.Abstractions;
+using DandyDotnet.Patterns.Mediator.Abstractions.Notifications;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests.Factories;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping;
 using DandyDotnet.Patterns.Mediator.Commands;
 using DandyDotnet.Patterns.Mediator.Configuration;
 using DandyDotnet.Patterns.Mediator.Queries;
-using DandyDotnet.Patterns.Mediator.Responses;
+using DandyDotnet.Patterns.Mediator.Requests;
+using DandyDotnet.Patterns.Mediator.Requests.Factories;
+using DandyDotnet.Patterns.Mediator.Requests.Mapping;
 
 namespace DandyDotnet.Patterns.Mediator;
 

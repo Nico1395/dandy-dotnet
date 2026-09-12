@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests.Factories;
 
-namespace DandyDotnet.Patterns.Mediator.Responses;
+namespace DandyDotnet.Patterns.Mediator.Requests.Factories;
 
 /// <summary>
 /// Creates concrete response instances.

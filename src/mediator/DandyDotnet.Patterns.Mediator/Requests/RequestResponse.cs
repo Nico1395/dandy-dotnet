@@ -1,4 +1,6 @@
-namespace DandyDotnet.Patterns.Mediator.Responses;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
+
+namespace DandyDotnet.Patterns.Mediator.Requests;
 
 /// <summary>
 /// Concrete response without data.
