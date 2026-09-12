@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Encoding.Configuration;
 
-public static class EncodingServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDandyEncoder(this IServiceCollection services, Action<EncodingConfigurationBuilder>? action)
     {
