@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyStrategies;
+namespace DandyDotnet.Patterns.Strategies;
 
 public sealed class StrategyRegistrar<TDefinition>(IServiceCollection services) : IStrategyRegistrar<TDefinition>
     where TDefinition : IStrategyDefinition

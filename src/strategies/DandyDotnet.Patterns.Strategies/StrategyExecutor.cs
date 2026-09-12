@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyStrategies;
+namespace DandyDotnet.Patterns.Strategies;
 
 internal sealed class StrategyExecutor(IServiceProvider serviceProvider) : IStrategyExecutor
 {

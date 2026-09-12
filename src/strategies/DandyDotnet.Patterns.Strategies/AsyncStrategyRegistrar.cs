@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyStrategies;
+namespace DandyDotnet.Patterns.Strategies;
 
 public sealed class AsyncStrategyRegistrar<TDefinition>(IServiceCollection services) : IAsyncStrategyRegistrar<TDefinition>
     where TDefinition : IAsyncStrategyDefinition

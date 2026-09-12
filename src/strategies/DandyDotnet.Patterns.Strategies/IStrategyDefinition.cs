@@ -1,4 +1,4 @@
-namespace DandyStrategies;
+namespace DandyDotnet.Patterns.Strategies;
 
 public interface IStrategyDefinition
 {

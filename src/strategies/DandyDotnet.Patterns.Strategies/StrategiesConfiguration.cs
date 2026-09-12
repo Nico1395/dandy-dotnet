@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace DandyStrategies;
+namespace DandyDotnet.Patterns.Strategies;
 
 public sealed class StrategiesConfiguration
 {

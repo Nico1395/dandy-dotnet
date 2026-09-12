@@ -4,6 +4,11 @@
     <Project Path="encoding/DandyDotnet.Encoding.Tests/DandyDotnet.Encoding.Tests.csproj" />
     <Project Path="encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
   </Folder>
+  <Folder Name="/Patterns/" />
+  <Folder Name="/Patterns/Strategies/">
+    <Project Path="strategies/DandyStrategies.Tests/DandyStrategies.Tests.csproj" />
+    <Project Path="strategies\DandyDotnet.Patterns.Strategies\DandyDotnet.Patterns.Strategies.csproj" />
+  </Folder>
   <Folder Name="/Serialization/">
     <Project Path="serialization/DandyDotnet.Serialization.NewtonsoftJson.Tests/DandyDotnet.Serialization.NewtonsoftJson.Tests.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization.NewtonsoftJson/DandyDotnet.Serialization.NewtonsoftJson.csproj" />
@@ -11,10 +16,6 @@
     <Project Path="serialization/DandyDotnet.Serialization.SystemTextJson.Tests/DandyDotnet.Serialization.SystemTextJson.Tests.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization.SystemTextJson/DandyDotnet.Serialization.SystemTextJson.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization/DandyDotnet.Serialization.csproj" />
-  </Folder>
-  <Folder Name="/Strategies/">
-    <Project Path="strategies/DandyStrategies.Tests/DandyStrategies.Tests.csproj" />
-    <Project Path="strategies/DandyStrategies/DandyStrategies.csproj" />
   </Folder>
   <Folder Name="/_/">
     <File Path="Directory.Build.props" />

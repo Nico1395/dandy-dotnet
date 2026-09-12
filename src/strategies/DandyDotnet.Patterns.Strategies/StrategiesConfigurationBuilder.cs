@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyStrategies;
+namespace DandyDotnet.Patterns.Strategies;
 
 public sealed class StrategiesConfigurationBuilder(IServiceCollection services)
 {
