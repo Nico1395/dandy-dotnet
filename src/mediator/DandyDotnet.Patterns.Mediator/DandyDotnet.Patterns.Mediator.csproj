@@ -6,7 +6,7 @@
 		<PackageId>DandyDotnet.Patterns.Mediator</PackageId>
 		<Authors>Nicolai Wolf</Authors>
 		<Description>Implementation for the mediator pattern.</Description>
-		<RepositoryUrl>https://github.com/Nico1395/dandy-mediator</RepositoryUrl>
+		<RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
 		<PackageTags>Mediator</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeSymbols>true</IncludeSymbols>

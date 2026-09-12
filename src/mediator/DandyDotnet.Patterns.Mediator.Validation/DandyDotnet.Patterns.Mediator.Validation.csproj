@@ -6,7 +6,7 @@
         <PackageId>DandyDotnet.Patterns.Mediator.Validation</PackageId>
         <Authors>Nicolai Wolf</Authors>
         <Description>Validation plugin for DandyMediator.</Description>
-        <RepositoryUrl>https://github.com/Nico1395/dandy-mediator</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
         <PackageTags>Mediator, Validation</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IncludeSymbols>true</IncludeSymbols>
