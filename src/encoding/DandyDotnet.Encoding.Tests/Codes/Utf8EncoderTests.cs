@@ -1,6 +1,6 @@
 using DandyDotnet.Encoding.Codes;
 
-namespace DandyDotnet.Encoding.Tests;
+namespace DandyDotnet.Encoding.Tests.Codes;
 
 public class Utf8EncoderTests
 {

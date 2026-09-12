@@ -1,23 +1,23 @@
 using DandyDotnet.Encoding.Codes;
 
-namespace DandyDotnet.Encoding.Tests;
+namespace DandyDotnet.Encoding.Tests.Codes;
 
-public class BigEndianUnicodeEncoderTests
+public class UnicodeEncoderTests
 {
-    private readonly BigEndianUnicodeEncoder _encoder = new();
+    private readonly UnicodeEncoder _encoder = new();
 
     [Fact]
-    public void Encode_ReturnsUtf16BigEndianBytes()
+    public void Encode_ReturnsUtf16LittleEndianBytes()
     {
         var encoded = _encoder.Encode("AΩ");
 
-        Assert.Equal([0, 65, 3, 169], encoded.ToArray());
+        Assert.Equal([65, 0, 169, 3], encoded.ToArray());
     }
 
     [Fact]
-    public void Decode_ReturnsUtf16BigEndianString()
+    public void Decode_ReturnsUtf16LittleEndianString()
     {
-        var decoded = _encoder.Decode([0, 65, 3, 169]);
+        var decoded = _encoder.Decode([65, 0, 169, 3]);
 
         Assert.Equal("AΩ", decoded);
     }
