@@ -1,4 +1,5 @@
-using DandyDotnet.Patterns.Mediator.Responses;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
+using DandyDotnet.Patterns.Mediator.Requests;
 
 namespace DandyDotnet.Patterns.Mediator.Tests.Requests.Responses;
 

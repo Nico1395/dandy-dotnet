@@ -1,5 +1,7 @@
 using DandyDotnet.Patterns.Mediator.Tests.Mocks;
 using DandyDotnet.Patterns.Mediator;
+using DandyDotnet.Patterns.Mediator.Abstractions;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 namespace DandyDotnet.Patterns.Mediator.Tests.Requests.ExceptionHandler.Mocks;
 

@@ -1,4 +1,6 @@
 ﻿using DandyDotnet.Patterns.Mediator;
+using DandyDotnet.Patterns.Mediator.Abstractions;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using DandyDotnet.Patterns.Mediator.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

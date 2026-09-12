@@ -1,4 +1,4 @@
-using DandyDotnet.Patterns.Mediator.Responses;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using DandyDotnet.Patterns.Mediator.Validation.Tests.Fixtures;
 using DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
 

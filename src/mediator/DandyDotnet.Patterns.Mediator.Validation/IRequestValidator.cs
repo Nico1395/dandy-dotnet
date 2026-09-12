@@ -1,4 +1,4 @@
-using DandyDotnet.Patterns.Mediator.Responses;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 namespace DandyDotnet.Patterns.Mediator.Validation;
 

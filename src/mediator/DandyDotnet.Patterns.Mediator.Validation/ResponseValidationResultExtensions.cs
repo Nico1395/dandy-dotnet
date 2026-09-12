@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using DandyDotnet.Patterns.Mediator.Configuration;
-using DandyDotnet.Patterns.Mediator.Responses;
 
 namespace DandyDotnet.Patterns.Mediator.Validation;
 
