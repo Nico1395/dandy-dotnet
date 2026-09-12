@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Interceptors;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.Interceptors;
 
 /// <summary>
 /// Observes acknowledgement operations performed for consumed messages.

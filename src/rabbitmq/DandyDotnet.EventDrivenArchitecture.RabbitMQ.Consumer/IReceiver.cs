@@ -2,7 +2,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Worker;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 
 /// <summary>
 /// Receives and processes RabbitMQ deliveries.

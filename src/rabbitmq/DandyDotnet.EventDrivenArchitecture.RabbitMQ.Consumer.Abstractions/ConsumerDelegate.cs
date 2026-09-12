@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
 
 /// <summary>
 /// Represents the next step in a consumer middleware pipeline.

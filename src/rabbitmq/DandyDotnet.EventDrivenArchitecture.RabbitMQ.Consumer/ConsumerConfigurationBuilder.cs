@@ -3,7 +3,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 
 /// <summary>
 /// Builds consumer service configuration.

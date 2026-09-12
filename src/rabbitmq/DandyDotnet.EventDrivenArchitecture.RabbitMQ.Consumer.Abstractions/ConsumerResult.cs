@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
 
 /// <summary>
 /// Describes how a consumed message should be acknowledged.

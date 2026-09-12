@@ -39,12 +39,13 @@ public class Declarer(
             autoDelete: channelConfiguration.Exchange.AutoDelete,
             cancellationToken: cancellationToken);
 
+        var arguments = channelConfiguration.Queue.Arguments.ToDictionary(x => x.Key, x => x.Value);
         await channel.QueueDeclareAsync(
             queue: channelConfiguration.Queue.Name,
             durable: channelConfiguration.Queue.Durable,
             exclusive: channelConfiguration.Queue.Exclusive,
             autoDelete: channelConfiguration.Queue.AutoDelete,
-            arguments: channelConfiguration.Queue.Arguments,
+            arguments: arguments,
             noWait: channelConfiguration.Queue.NoWait,
             cancellationToken);
 
@@ -63,7 +64,7 @@ public class Declarer(
                 queue: channelConfiguration.Queue.Name,
                 exchange: channelConfiguration.Exchange.Name,
                 routingKey: routingKey,
-                arguments: channelConfiguration.Queue.Arguments,
+                arguments: arguments,
                 noWait: channelConfiguration.Queue.NoWait,
                 cancellationToken: cancellationToken);
         }

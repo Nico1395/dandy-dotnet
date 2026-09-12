@@ -1,3 +1,4 @@
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations;
 using RabbitMQ.Client;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
@@ -5,7 +6,7 @@ namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 /// <summary>
 /// Configures a RabbitMQ channel, exchange, queue, and consumer settings.
 /// </summary>
-public sealed class ChannelConfiguration(string exchangeName, string queueName)
+public sealed class ChannelConfiguration(string exchangeName, string queueName) : IReadOnlyChannelConfiguration
 {
     /// <summary>
     /// Gets or sets the options used when creating the channel.
@@ -15,12 +16,12 @@ public sealed class ChannelConfiguration(string exchangeName, string queueName)
     /// <summary>
     /// Gets or sets the exchange declaration.
     /// </summary>
-    public ExchangeConfiguration Exchange { get; set; } = new(exchangeName);
+    public IReadOnlyExchangeConfiguration Exchange { get; set; } = new ExchangeConfiguration(exchangeName);
 
     /// <summary>
     /// Gets or sets the queue declaration.
     /// </summary>
-    public QueueConfiguration Queue { get; set; } = new(queueName);
+    public IReadOnlyQueueConfiguration Queue { get; set; } = new QueueConfiguration(queueName);
 
     /// <summary>
     /// Gets or sets the channel prefetch size.

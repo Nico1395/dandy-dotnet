@@ -1,9 +1,11 @@
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations;
+
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 
 /// <summary>
 /// Configures a RabbitMQ exchange declaration.
 /// </summary>
-public sealed class ExchangeConfiguration(string name)
+public sealed class ExchangeConfiguration(string name) : IReadOnlyExchangeConfiguration
 {
     /// <summary>
     /// Gets the exchange name.

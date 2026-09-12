@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
 
 /// <summary>
 /// Intercepts consumption of messages of the specified type.

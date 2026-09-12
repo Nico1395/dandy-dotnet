@@ -2,8 +2,8 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using DandyDotnet.Encoding.Abstractions;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Interceptors;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.Interceptors;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using DandyDotnet.Serialization.Abstractions;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Worker;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 
 /// <summary>
 /// Receives deliveries, invokes consumers, and acknowledges results.

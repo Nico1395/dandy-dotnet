@@ -1,9 +1,11 @@
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations;
+
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 
 /// <summary>
 /// Configures a RabbitMQ queue declaration.
 /// </summary>
-public sealed class QueueConfiguration(string name)
+public sealed class QueueConfiguration(string name) : IReadOnlyQueueConfiguration
 {
     /// <summary>
     /// Gets the queue name.
@@ -38,7 +40,7 @@ public sealed class QueueConfiguration(string name)
     /// <summary>
     /// Gets or sets the queue declaration arguments.
     /// </summary>
-    public Dictionary<string, object?> Arguments { get; set; } = new()
+    public IReadOnlyDictionary<string, object?> Arguments { get; set; } = new Dictionary<string, object?>()
     {
         { "x-queue-type", "quorum" },
     };
