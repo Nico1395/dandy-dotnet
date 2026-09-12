@@ -3,7 +3,7 @@ using DandyDotnet.Patterns.EventSourcing.Sql.Connections;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyEventStore.Persistence.Sql.SQLite;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
 
 internal sealed class SqliteConfiguration : PersistenceConfiguration
 {

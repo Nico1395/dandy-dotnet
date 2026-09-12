@@ -7,11 +7,11 @@
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
     <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
-    <Project Path="event-sourcing/DandyEventStore.Persistence.Sql.SQLite/DandyEventStore.Persistence.Sql.SQLite.csproj" />
     <Project Path="event-sourcing/DandyEventStore.Serialization.NewtonsoftJson/DandyEventStore.Serialization.NewtonsoftJson.csproj" />
     <Project Path="event-sourcing/DandyEventStore.Serialization.SystemTextJson/DandyEventStore.Serialization.SystemTextJson.csproj" />
     <Project Path="event-sourcing/DandyEventStore.Tests/DandyEventStore.Tests.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Sql.Postgres.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Sql.Sqlite.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Sql\DandyDotnet.Patterns.EventSourcing.Sql.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
   </Folder>

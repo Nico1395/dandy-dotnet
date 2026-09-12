@@ -1,6 +1,6 @@
-using DandyEventStore.Configuration;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 
-namespace DandyEventStore.Persistence.Sql.SQLite;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
 
 public static class EventStoreConfigurationBuilderExtensions
 {

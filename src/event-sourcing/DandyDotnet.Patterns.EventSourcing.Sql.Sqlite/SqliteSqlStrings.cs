@@ -1,6 +1,6 @@
 using DandyDotnet.Patterns.EventSourcing.Sql.Constants;
 
-namespace DandyEventStore.Persistence.Sql.SQLite;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
 
 internal sealed class SqliteSqlStrings : SqlStrings
 {

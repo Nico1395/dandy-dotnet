@@ -1,5 +1,5 @@
 using DandyEventStore.Configuration;
-using DandyEventStore.Persistence.Sql.SQLite;
+using DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
 using DandyEventStore.Serialization.SystemTextJson;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;

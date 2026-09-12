@@ -1,7 +1,7 @@
 using DandyDotnet.Patterns.EventSourcing.Sql.Constants;
 using FluentMigrator;
 
-namespace DandyEventStore.Persistence.Sql.SQLite.Migrations;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Sqlite.Migrations;
 
 [Migration(20260907205400, "Creating tables")]
 public class Migration_20260907205400 : Migration

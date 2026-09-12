@@ -2,7 +2,7 @@ using System.Data;
 using DandyDotnet.Patterns.EventSourcing.Sql.Connections;
 using Microsoft.Data.Sqlite;
 
-namespace DandyEventStore.Persistence.Sql.SQLite;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
 
 internal sealed class SqliteDbConnectionFactory(SqliteConfiguration configuration) : IDbConnectionFactory
 {
