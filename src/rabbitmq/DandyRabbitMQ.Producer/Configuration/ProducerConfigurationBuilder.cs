@@ -1,7 +1,7 @@
-using DandyRabbitMQ.Core.Connectivity.Configuration;
-using DandyRabbitMQ.Core.Declarations.Configuration;
-using DandyRabbitMQ.Core.Encoding.Configuration;
-using DandyRabbitMQ.Core.Messages.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 
 namespace DandyRabbitMQ.Producer.Configuration;
 

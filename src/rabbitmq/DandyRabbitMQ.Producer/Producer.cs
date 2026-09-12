@@ -1,7 +1,7 @@
 using DandyDotnet.Serialization.Abstractions;
-using DandyRabbitMQ.Core.Connectivity;
-using DandyRabbitMQ.Core.Encoding;
-using DandyRabbitMQ.Core.Messages.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using RabbitMQ.Client;
 
 namespace DandyRabbitMQ.Producer;

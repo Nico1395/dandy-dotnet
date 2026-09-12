@@ -1,4 +1,4 @@
-using DandyRabbitMQ.Core.Declarations.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using RabbitMQ.Client.Events;
 
 namespace DandyRabbitMQ.Consumer;

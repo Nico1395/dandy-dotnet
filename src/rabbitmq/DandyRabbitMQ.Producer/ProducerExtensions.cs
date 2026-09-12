@@ -1,4 +1,4 @@
-using DandyRabbitMQ.Core.Messages;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using RabbitMQ.Client;
 
 namespace DandyRabbitMQ.Producer;

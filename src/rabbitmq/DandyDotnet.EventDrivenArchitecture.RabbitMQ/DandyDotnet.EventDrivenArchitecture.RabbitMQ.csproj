@@ -2,7 +2,7 @@
     <PropertyGroup>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageId>DandyRabbitMQ.Producer</PackageId>
+        <PackageId>DandyDotnet.EventDrivenArchitecture.RabbitMQ</PackageId>
         <Authors>Nicolai Wolf</Authors>
         <Description>.NET library aiming to make the use of RabbitMQ easier.</Description>
         <RepositoryUrl>https://github.com/Nico1395/dandy-rabbitmq</RepositoryUrl>
@@ -16,10 +16,13 @@
     <ItemGroup>
         <None Include="../../README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
-
+    
     <ItemGroup>
-      <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.Abstractions\DandyDotnet.Serialization.Abstractions.csproj" />
-      <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="RabbitMQ.Client" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\DandyRabbitMQ.Serialization\DandyRabbitMQ.Serialization.csproj" />
+    </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 using DandyRabbitMQ.Consumer.Configuration;
-using DandyRabbitMQ.Core.Connectivity;
-using DandyRabbitMQ.Core.Declarations;
-using DandyRabbitMQ.Core.Declarations.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
