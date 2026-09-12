@@ -12,7 +12,7 @@ public sealed class OutboxEnvelope : IReadOnlyOutboxEnvelope
     public required Type RuntimeType { get; init; }
     public List<OutboxEnvelopeConsumer> Consumers { get; init; } = [];
 
-    public static OutboxEnvelope Create(Envelope envelope)
+    public static OutboxEnvelope Create(IReadOnlyEnvelope envelope)
     {
         return new OutboxEnvelope
         {

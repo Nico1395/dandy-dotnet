@@ -6,7 +6,6 @@ using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Mapping;
 using DandyDotnet.Serialization.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing;
 
@@ -33,13 +32,15 @@ internal sealed class EventStore(
             return configuration.FactoryFunc(snapshot?.Aggregate, stream);
 
         var factoryType = typeof(IAggregateFactory<>).MakeGenericType(configuration.RuntimeType);
-        var factory = serviceProvider.GetRequiredService(factoryType);
+        var factory = serviceProvider.GetService(factoryType);
+        if (factory == null)
+            throw new InvalidOperationException($"Could not resolve aggregate factory for aggregate of type '{configuration.RuntimeType}'.");
 
         var create = factoryType.GetMethod(nameof(IAggregateFactory<>.Create)) ?? throw new UnreachableException();
         return create.Invoke(factory, [snapshot?.Aggregate, stream]);
     }
 
-    public async Task<Envelope[]> GetStreamAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)
+    public async Task<IReadOnlyEnvelope[]> GetStreamAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
         var envelopeEntities = await unitOfWork.Envelopes.GetStreamAsync(streamId, fromVersion, toVersion, fromTimestamp, toTimestamp, cancellationToken);
         var envelopes = InternalMapper.MapFromEntity(
@@ -50,7 +51,7 @@ internal sealed class EventStore(
         return envelopes.ToArray();
     }
 
-    public async Task<Snapshot?> GetLastSnapshotAsync(string streamId, long? version, CancellationToken cancellationToken)
+    public async Task<IReadOnlySnapshot?> GetLastSnapshotAsync(string streamId, long? version, CancellationToken cancellationToken)
     {
         var snapshotEntity = await unitOfWork.Snapshots.GetLatestSnapshotAsync(streamId, version, cancellationToken);
         if (snapshotEntity == null)

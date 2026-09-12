@@ -30,7 +30,7 @@ public sealed class AggregateConfigurationBuilder<TAggregate>
         return this;
     }
 
-    public AggregateConfigurationBuilder<TAggregate> UseFactory(Func<TAggregate?, Envelope[], TAggregate> factoryFunc)
+    public AggregateConfigurationBuilder<TAggregate> UseFactory(Func<TAggregate?, IReadOnlyEnvelope[], TAggregate> factoryFunc)
     {
         _configuration.FactoryFunc = (aggregate, envelopes) =>
         {

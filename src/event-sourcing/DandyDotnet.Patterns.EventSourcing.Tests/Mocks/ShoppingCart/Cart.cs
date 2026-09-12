@@ -14,7 +14,7 @@ internal sealed class Cart
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     [AggregateFactory]
-    public static Cart Create(Cart? snapshot, Envelope[] envelopes)
+    public static Cart Create(Cart? snapshot, IReadOnlyEnvelope[] envelopes)
     {
         if (snapshot == null)
         {
@@ -37,7 +37,7 @@ internal sealed class Cart
         return snapshot;
     }
 
-    public void Apply(Envelope[] envelopes)
+    public void Apply(IReadOnlyEnvelope[] envelopes)
     {
         foreach (var envelope in envelopes)
         {

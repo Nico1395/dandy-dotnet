@@ -13,7 +13,7 @@ public static class ReadOnlyEventStoreExtensions
         return await eventStore.ReplayAggregateAsync(aggregateType, streamId, toVersion, toTimestamp: null, cancellationToken);
     }
 
-    public static async Task<(Snapshot? Snapshot, Envelope[] Stream)> ReplayStreamAsync(this IReadOnlyEventStore eventStore, string streamId, long? toVersion, DateTime? toTimestamp, CancellationToken cancellationToken)
+    public static async Task<(IReadOnlySnapshot? Snapshot, IReadOnlyEnvelope[] Stream)> ReplayStreamAsync(this IReadOnlyEventStore eventStore, string streamId, long? toVersion, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
         var snapshot = await eventStore.GetLastSnapshotAsync(streamId, toVersion, cancellationToken);
         var stream = await eventStore.GetStreamAsync(
@@ -27,7 +27,7 @@ public static class ReadOnlyEventStoreExtensions
         return (snapshot, stream);
     }
 
-    public static Task<(Snapshot? Snapshot, Envelope[] Stream)> ReplayStreamAsync(this IReadOnlyEventStore eventStore, string streamId, long? toVersion, CancellationToken cancellationToken)
+    public static Task<(IReadOnlySnapshot? Snapshot, IReadOnlyEnvelope[] Stream)> ReplayStreamAsync(this IReadOnlyEventStore eventStore, string streamId, long? toVersion, CancellationToken cancellationToken)
     {
         return eventStore.ReplayStreamAsync(streamId, toVersion, toTimestamp: null, cancellationToken);
     }

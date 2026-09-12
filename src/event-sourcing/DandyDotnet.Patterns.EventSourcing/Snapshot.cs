@@ -1,6 +1,8 @@
-namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 
-public sealed class Snapshot
+namespace DandyDotnet.Patterns.EventSourcing;
+
+internal sealed class Snapshot : IReadOnlySnapshot
 {
     public required string StreamId { get; init; }
     public required object Aggregate { get; init; }

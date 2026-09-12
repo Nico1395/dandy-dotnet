@@ -1,6 +1,8 @@
-namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 
-public sealed class Envelope
+namespace DandyDotnet.Patterns.EventSourcing;
+
+internal sealed class Envelope : IReadOnlyEnvelope
 {
     public required string StreamId { get; init; }
     public required object Event { get; init; }

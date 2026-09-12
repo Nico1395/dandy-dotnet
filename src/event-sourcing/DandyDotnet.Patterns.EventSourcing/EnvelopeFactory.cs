@@ -1,9 +1,8 @@
-using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 
 namespace DandyDotnet.Patterns.EventSourcing;
 
-public class EnvelopeFactory(EventStoreConfiguration eventStoreConfiguration) : IEnvelopeFactory
+internal sealed class EnvelopeFactory(EventStoreConfiguration eventStoreConfiguration) : IEnvelopeFactory
 {
     public Envelope Create(string streamId, object @event, long version)
     {

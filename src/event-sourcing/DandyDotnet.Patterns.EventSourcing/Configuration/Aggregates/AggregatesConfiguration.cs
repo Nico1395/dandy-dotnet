@@ -55,6 +55,6 @@ public sealed class AggregatesConfiguration
     {
         return parameters.Length == 2 &&
             parameters[0].ParameterType == aggregateType &&
-            parameters[1].ParameterType == typeof(Envelope[]);
+            parameters[1].ParameterType == typeof(IReadOnlyEnvelope[]);
     }
 }
