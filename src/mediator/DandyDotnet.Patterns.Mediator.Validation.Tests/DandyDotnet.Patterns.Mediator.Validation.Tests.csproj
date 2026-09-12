@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\DandyDotnet.Tests.Core\DandyDotnet.Tests.Core.csproj" />
       <ProjectReference Include="..\DandyDotnet.Patterns.Mediator.Validation\DandyDotnet.Patterns.Mediator.Validation.csproj" />
     </ItemGroup>
 

@@ -3,21 +3,18 @@ using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite;
 using DandyDotnet.Serialization;
 using DandyDotnet.Serialization.SystemTextJson;
+using DandyDotnet.Tests.Core.Fixtures;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing.Tests.Fixtures;
 
-public sealed class DefaultFixture : IServiceProvider, IAsyncLifetime
+public sealed class DefaultFixture : Fixture
 {
-    private readonly ServiceProvider _serviceProvider;
-
-    public DefaultFixture()
+    protected override void ConfigureServices(IServiceCollection services)
     {
         try
         {
-            var services = new ServiceCollection();
-
             services.AddDandySerializer(cfg => cfg.UseSystemTextJson());
             services.AddDandyEventSourcing(cfg =>
             {
@@ -27,8 +24,6 @@ public sealed class DefaultFixture : IServiceProvider, IAsyncLifetime
                     sqlite.WithConnectionString("Data Source=Tests;Mode=Memory;Cache=Shared");
                 });
             });
-
-            _serviceProvider = services.BuildServiceProvider();
         }
         catch (Exception ex)
         {
@@ -37,21 +32,16 @@ public sealed class DefaultFixture : IServiceProvider, IAsyncLifetime
         }
     }
 
-    public object? GetService(Type serviceType)
-    {
-        return _serviceProvider.GetService(serviceType);
-    }
-
     public IEventStore GetEventStore()
     {
-        return _serviceProvider.GetRequiredService<IEventStore>();
+        return ServiceProvider.GetRequiredService<IEventStore>();
     }
 
-    public Task InitializeAsync()
+    public override Task InitializeAsync()
     {
         try
         {
-            var migrationRunner = _serviceProvider.GetRequiredService<IMigrationRunner>();
+            var migrationRunner = ServiceProvider.GetRequiredService<IMigrationRunner>();
             migrationRunner.MigrateUp();
         }
         catch (Exception ex)
@@ -60,11 +50,6 @@ public sealed class DefaultFixture : IServiceProvider, IAsyncLifetime
             throw;
         }
 
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
         return Task.CompletedTask;
     }
 }

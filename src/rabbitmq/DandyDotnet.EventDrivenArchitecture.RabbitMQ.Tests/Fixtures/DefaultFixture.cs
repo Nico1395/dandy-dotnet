@@ -1,17 +1,14 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
+using DandyDotnet.Tests.Core.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Fixtures;
 
-public sealed class DefaultFixture : IServiceProvider
+public sealed class DefaultFixture : Fixture
 {
-    private readonly IServiceProvider _serviceProvider;
-    
-    public DefaultFixture()
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        var services = new ServiceCollection();
-
         services.AddDandyRabbitMQMessages(config =>
         {
             config.AddMessage(typeof(ConfiguredMessage), msg =>
@@ -20,17 +17,10 @@ public sealed class DefaultFixture : IServiceProvider
                 msg.SetRoutingKeys("routing-key");
             });
         });
-
-        _serviceProvider = services.BuildServiceProvider();
     }
 
-    public object? GetService(Type serviceType)
-    {
-        return _serviceProvider.GetService(serviceType);
-    }
-    
     public MessagesConfiguration GetMessagesConfiguration()
     {
-        return _serviceProvider.GetRequiredService<MessagesConfiguration>();
+        return ServiceProvider.GetRequiredService<MessagesConfiguration>();
     }
 }
