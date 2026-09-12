@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using DandyMediator;
 using DandyMediator.Responses;
+using DandyMediator.Validation;
 
-namespace DandyMediator.Validation.Tests.Mocks;
+namespace DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
 
 internal sealed record EnumerableItem([StringLength(10)] string String);
 

@@ -1,9 +1,9 @@
+using DandyDotnet.Patterns.Mediator.Validation.Tests.Fixtures;
+using DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
 using DandyMediator.Responses;
-using DandyMediator.Validation.Tests.Fixtures;
-using DandyMediator.Validation.Tests.Mocks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyMediator.Validation.Tests;
+namespace DandyDotnet.Patterns.Mediator.Validation.Tests;
 
 public class RequestValidationTests(DefaultFixture fixture) : IClassFixture<DefaultFixture>
 {

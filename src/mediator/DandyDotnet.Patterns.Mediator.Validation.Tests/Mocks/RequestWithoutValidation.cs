@@ -1,6 +1,7 @@
+using DandyMediator;
 using DandyMediator.Responses;
 
-namespace DandyMediator.Validation.Tests.Mocks;
+namespace DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
 
 internal sealed record RequestWithoutValidation(string String) : IResponseRequest<IRequestResponse>;
 

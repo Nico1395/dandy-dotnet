@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using DandyMediator;
 using DandyMediator.Responses;
 
-namespace DandyMediator.Validation.Tests.Mocks;
+namespace DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
 
 internal sealed record ValidationRequest([StringLength(10)] string String) : IResponseRequest<IRequestResponse>;
 

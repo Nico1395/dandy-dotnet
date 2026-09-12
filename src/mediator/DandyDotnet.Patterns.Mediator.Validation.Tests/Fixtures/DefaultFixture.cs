@@ -1,6 +1,8 @@
+using DandyMediator;
+using DandyMediator.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyMediator.Validation.Tests.Fixtures;
+namespace DandyDotnet.Patterns.Mediator.Validation.Tests.Fixtures;
 
 public sealed class DefaultFixture : IServiceProvider
 {

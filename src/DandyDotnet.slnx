@@ -8,9 +8,9 @@
   <Folder Name="/Patterns/EventSourcing/" />
   <Folder Name="/Patterns/Mediator/">
     <Project Path="mediator/DandyMediator.Tests/DandyMediator.Tests.csproj" />
-    <Project Path="mediator/DandyMediator.Validation.Tests/DandyMediator.Validation.Tests.csproj" />
     <Project Path="mediator/DandyMediator.Validation/DandyMediator.Validation.csproj" />
     <Project Path="mediator/DandyMediator/DandyMediator.csproj" />
+    <Project Path="mediator\DandyDotnet.Patterns.Mediator.Validation.Tests\DandyDotnet.Patterns.Mediator.Validation.Tests.csproj" />
   </Folder>
   <Folder Name="/Patterns/Strategies/">
     <Project Path="strategies/DandyDotnet.Patterns.Strategies.Abstractions/DandyDotnet.Patterns.Strategies.Abstractions.csproj" />
