@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DandyRabbitMQ.Producer\DandyRabbitMQ.Producer.csproj" />
+      <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.csproj" />
     </ItemGroup>
 
 </Project>

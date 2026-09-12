@@ -1,5 +1,5 @@
 using DandyRabbitMQ.Core.Messages.Configuration;
-using DandyRabbitMQ.Producer.Tests.Mocks;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Tests.Mocks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyRabbitMQ.Producer.Tests.Fixtures;

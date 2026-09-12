@@ -4,7 +4,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using RabbitMQ.Client;
 
-namespace DandyRabbitMQ.Producer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
 
 internal sealed class Producer(
     ISerializer payloadSerializer,

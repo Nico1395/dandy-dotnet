@@ -1,5 +1,5 @@
-using DandyRabbitMQ.Producer.Tests.Fixtures;
-using DandyRabbitMQ.Producer.Tests.Mocks;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Tests.Fixtures;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Tests.Mocks;
 using RabbitMQ.Client;
 
 namespace DandyRabbitMQ.Producer.Tests;

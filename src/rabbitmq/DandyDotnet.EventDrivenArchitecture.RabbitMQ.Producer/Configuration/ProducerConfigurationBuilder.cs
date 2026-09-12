@@ -3,7 +3,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 
-namespace DandyRabbitMQ.Producer.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Configuration;
 
 /// <summary>
 /// Builds the configuration for DandyRabbitMQ producer services.

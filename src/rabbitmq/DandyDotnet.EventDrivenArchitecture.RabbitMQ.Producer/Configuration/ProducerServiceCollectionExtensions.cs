@@ -4,7 +4,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyRabbitMQ.Producer.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Configuration;
 
 /// <summary>
 /// Provides dependency injection registration extensions for the producer.

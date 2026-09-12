@@ -1,7 +1,7 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using RabbitMQ.Client;
 
-namespace DandyRabbitMQ.Producer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
 
 /// <summary>
 /// Contains the resolved values used to publish a message.
