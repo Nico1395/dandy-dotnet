@@ -1,19 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <EnablePackageValidation>true</EnablePackageValidation>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageId>DandyDotnet.Patterns.Mediator.Validation</PackageId>
-        <Authors>Nicolai Wolf</Authors>
-        <Description>Validation plugin for DandyMediator.</Description>
-        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
-        <PackageTags>Mediator, Validation</PackageTags>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-    </PropertyGroup>
-
     <ItemGroup>
         <ProjectReference Include="..\DandyDotnet.Patterns.Mediator\DandyDotnet.Patterns.Mediator.csproj" />
     </ItemGroup>
