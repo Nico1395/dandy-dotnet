@@ -1,7 +1,6 @@
 using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
-using DandyDotnet.Patterns.Mediator.Commands;
 
-namespace DandyDotnet.Patterns.Mediator.Tests.Commands;
+namespace DandyDotnet.Patterns.Mediator.Commands.Tests;
 
 public class CommandResponseBuilderTests
 {

@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\DandyDotnet.Patterns.Mediator.Commands.Abstractions\DandyDotnet.Patterns.Mediator.Commands.Abstractions.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Patterns.Mediator\DandyDotnet.Patterns.Mediator.csproj" />
+    </ItemGroup>
+
+</Project>
