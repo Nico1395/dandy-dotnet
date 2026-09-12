@@ -5,7 +5,14 @@
     <Project Path="encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
   </Folder>
   <Folder Name="/Patterns/" />
-  <Folder Name="/Patterns/EventSourcing/" />
+  <Folder Name="/Patterns/EventSourcing/">
+    <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Tests\DandyDotnet.Patterns.EventSourcing.Tests.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
+  </Folder>
   <Folder Name="/Patterns/Mediator/">
     <Project Path="mediator/DandyDotnet.Patterns.Mediator.Abstractions/DandyDotnet.Patterns.Mediator.Abstractions.csproj" />
     <Project Path="mediator/DandyDotnet.Patterns.Mediator.Commands.Abstractions/DandyDotnet.Patterns.Mediator.Commands.Abstractions.csproj" />

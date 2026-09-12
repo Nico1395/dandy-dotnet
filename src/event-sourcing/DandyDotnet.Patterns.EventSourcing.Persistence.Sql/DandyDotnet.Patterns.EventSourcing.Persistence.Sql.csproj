@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
+    </ItemGroup>
+
+</Project>
