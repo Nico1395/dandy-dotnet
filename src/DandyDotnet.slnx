@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Encoding/">
+    <Project Path="encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
+  </Folder>
   <Folder Name="/Serialization/">
     <Project Path="serialization/DandyDotnet.Serialization.NewtonsoftJson.Tests/DandyDotnet.Serialization.NewtonsoftJson.Tests.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization.NewtonsoftJson/DandyDotnet.Serialization.NewtonsoftJson.csproj" />
