@@ -3,16 +3,16 @@
 /// <summary>
 /// Builder for the validation plugin configuration.
 /// </summary>
-public sealed class DandyMediatorValidationPluginConfigurationBuilder
+public sealed class ValidationConfigurationBuilder
 {
-    private readonly DandyMediatorValidationPluginConfiguration _configuration = new();
+    private readonly ValidationConfiguration _configuration = new();
 
     /// <summary>
     /// Enables or disables validation.
     /// </summary>
     /// <param name="enabled">Whether the plugin is enabled or disabled. <see langword="true"/> by default.</param>
     /// <returns>The builder.</returns>
-    public DandyMediatorValidationPluginConfigurationBuilder SetEnabled(bool enabled = true)
+    public ValidationConfigurationBuilder SetEnabled(bool enabled = true)
     {
         _configuration.Enabled = enabled;
         return this;
@@ -23,11 +23,11 @@ public sealed class DandyMediatorValidationPluginConfigurationBuilder
     /// </summary>
     /// <param name="recursionDepth">Maximum recursion depth.</param>
     /// <returns>The builder.</returns>
-    public DandyMediatorValidationPluginConfigurationBuilder SetRecursionDepth(int recursionDepth)
+    public ValidationConfigurationBuilder SetRecursionDepth(int recursionDepth)
     {
         _configuration.RecursionDepth = recursionDepth;
         return this;
     }
 
-    internal DandyMediatorValidationPluginConfiguration Build() => _configuration;
+    internal ValidationConfiguration Build() => _configuration;
 }

@@ -22,7 +22,7 @@ internal sealed class ResponseRequestValidationMiddleware<TRequest, TResponse>(
 
         var metadata = new Dictionary<string, object>
         {
-            [DandyMediatorConstants.Plugins.Validation.RequestMetadataKey] = validationResult,
+            [MediatorConstants.Plugins.Validation.RequestMetadataKey] = validationResult,
         };
 
         return requestResponseFactory.CreateAndCast<TResponse>(

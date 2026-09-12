@@ -5,7 +5,7 @@ using System.Reflection;
 namespace DandyDotnet.Patterns.Mediator.Validation;
 
 internal sealed class RequestValidator(
-    DandyMediatorValidationPluginConfiguration configuration,
+    ValidationConfiguration configuration,
     IServiceProvider serviceProvider) : IRequestValidator
 {
     public IResponseValidationResult? Validate(object request)

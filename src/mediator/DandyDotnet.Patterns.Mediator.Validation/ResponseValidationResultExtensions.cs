@@ -16,7 +16,7 @@ public static class ResponseValidationResultExtensions
     /// <returns>The fetched validation result if found.</returns>
     public static IResponseValidationResult? GetValidationResult(this IRequestResponse response)
     {
-        return response.GetMetadataValueOrDefault(DandyMediatorConstants.Plugins.Validation.RequestMetadataKey) as IResponseValidationResult;
+        return response.GetMetadataValueOrDefault(MediatorConstants.Plugins.Validation.RequestMetadataKey) as IResponseValidationResult;
     }
 
     /// <summary>
