@@ -1,8 +1,7 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using RabbitMQ.Client;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions;
 
 /// <summary>
 /// Provides convenience overloads for publishing messages with identifiers and timestamps.

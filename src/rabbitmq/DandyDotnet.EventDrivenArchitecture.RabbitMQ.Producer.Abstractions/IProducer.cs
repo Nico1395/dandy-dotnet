@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions;
 
 /// <summary>
 /// Publishes messages to RabbitMQ.

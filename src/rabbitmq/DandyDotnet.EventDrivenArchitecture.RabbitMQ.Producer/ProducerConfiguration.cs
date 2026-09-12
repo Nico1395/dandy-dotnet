@@ -2,7 +2,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
 
 /// <summary>
 /// Stores the configuration used to register producer services.

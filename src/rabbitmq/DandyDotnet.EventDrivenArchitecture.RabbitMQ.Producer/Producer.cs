@@ -3,6 +3,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity;
 using DandyDotnet.Serialization.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions;
 using RabbitMQ.Client;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
