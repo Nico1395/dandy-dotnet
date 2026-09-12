@@ -1,4 +1,4 @@
-namespace DandyRabbitMQ.Consumer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 
 /// <summary>
 /// Handles exceptions raised while consuming messages of the specified type.

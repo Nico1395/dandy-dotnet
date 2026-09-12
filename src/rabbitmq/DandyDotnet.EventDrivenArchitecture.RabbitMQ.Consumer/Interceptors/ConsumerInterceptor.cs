@@ -1,4 +1,4 @@
-namespace DandyRabbitMQ.Consumer.Interceptors;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Interceptors;
 
 /// <summary>
 /// Provides no-op hooks for consumer acknowledgement interception.

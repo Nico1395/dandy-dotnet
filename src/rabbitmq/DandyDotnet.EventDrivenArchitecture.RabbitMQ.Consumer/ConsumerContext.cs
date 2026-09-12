@@ -1,7 +1,7 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using RabbitMQ.Client.Events;
 
-namespace DandyRabbitMQ.Consumer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 
 /// <summary>
 /// Provides message delivery data and declaration settings to a consumer.

@@ -4,7 +4,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 
-namespace DandyRabbitMQ.Consumer.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;
 
 /// <summary>
 /// Stores configuration for consumer services.

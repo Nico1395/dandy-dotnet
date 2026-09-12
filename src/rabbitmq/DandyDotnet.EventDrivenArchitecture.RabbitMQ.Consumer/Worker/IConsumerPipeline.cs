@@ -1,4 +1,4 @@
-namespace DandyRabbitMQ.Consumer.Worker;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Worker;
 
 /// <summary>
 /// Executes consumers and their middleware pipeline.

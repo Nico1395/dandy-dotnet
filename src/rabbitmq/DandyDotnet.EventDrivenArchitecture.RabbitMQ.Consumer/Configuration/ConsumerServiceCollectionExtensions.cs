@@ -1,12 +1,12 @@
 using System.Reflection;
-using DandyRabbitMQ.Consumer.Worker;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Worker;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyRabbitMQ.Consumer.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;
 
 /// <summary>
 /// Provides dependency injection registration extensions for consumers.

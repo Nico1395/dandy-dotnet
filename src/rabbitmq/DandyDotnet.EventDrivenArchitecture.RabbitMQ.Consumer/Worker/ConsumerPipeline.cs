@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyRabbitMQ.Consumer.Worker;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Worker;
 
 /// <summary>
 /// Executes consumers and middleware resolved from dependency injection.

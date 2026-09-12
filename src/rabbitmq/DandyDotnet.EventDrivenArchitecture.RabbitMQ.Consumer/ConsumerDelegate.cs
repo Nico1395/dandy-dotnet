@@ -1,4 +1,4 @@
-namespace DandyRabbitMQ.Consumer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 
 /// <summary>
 /// Represents the next step in a consumer middleware pipeline.

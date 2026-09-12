@@ -1,4 +1,4 @@
-namespace DandyRabbitMQ.Consumer;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 
 /// <summary>
 /// Specifies the acknowledgement operation for a consumed message.

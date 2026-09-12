@@ -1,5 +1,5 @@
-using DandyRabbitMQ.Consumer.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace DandyRabbitMQ.Consumer.Worker;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Worker;
 
 internal sealed class ConsumerWorker(
     ConsumerConfiguration consumerConfiguration,

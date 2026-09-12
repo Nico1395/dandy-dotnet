@@ -6,9 +6,9 @@
   </Folder>
   <Folder Name="/EventDrivenArchitecture/" />
   <Folder Name="/EventDrivenArchitecture/RabbitMQ/">
-    <Project Path="rabbitmq/DandyRabbitMQ.Consumer/DandyRabbitMQ.Consumer.csproj" />
     <Project Path="rabbitmq/DandyRabbitMQ.Producer.Tests/DandyRabbitMQ.Producer.Tests.csproj" />
     <Project Path="rabbitmq/DandyRabbitMQ.Producer/DandyRabbitMQ.Producer.csproj" />
+    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.csproj" />
     <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
   </Folder>
   <Folder Name="/Patterns/" />
