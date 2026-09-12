@@ -2,8 +2,8 @@ using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Mapping;
-using DandyDotnet.Patterns.EventSourcing.Serialization;
 using DandyDotnet.Patterns.EventSourcing.Subscribers;
+using DandyDotnet.Serialization.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Outbox;
 

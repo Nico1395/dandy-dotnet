@@ -5,7 +5,7 @@ using DandyDotnet.Patterns.EventSourcing.Outbox;
 using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Mapping;
-using DandyDotnet.Patterns.EventSourcing.Serialization;
+using DandyDotnet.Serialization.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing;

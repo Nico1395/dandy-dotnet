@@ -1,7 +1,8 @@
 using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Sql.Sqlite;
-using DandyEventStore.Serialization.SystemTextJson;
+using DandyDotnet.Serialization;
+using DandyDotnet.Serialization.SystemTextJson;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,10 +18,10 @@ public sealed class DefaultFixture : IServiceProvider, IAsyncLifetime
         {
             var services = new ServiceCollection();
 
-            services.AddDandyEventStore(cfg =>
+            services.AddDandySerializer(cfg => cfg.UseSystemTextJson());
+            services.AddDandyEventSourcing(cfg =>
             {
                 cfg.ScanInAssemblies(typeof(DefaultFixture).Assembly);
-                cfg.UseSystemTextJson();
                 cfg.UseSqlite(sqlite =>
                 {
                     sqlite.WithConnectionString("Data Source=Tests;Mode=Memory;Cache=Shared");

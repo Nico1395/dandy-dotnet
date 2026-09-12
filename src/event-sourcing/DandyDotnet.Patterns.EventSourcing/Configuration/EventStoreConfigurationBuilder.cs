@@ -4,7 +4,6 @@ using DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Events;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Outbox;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;
-using DandyDotnet.Patterns.EventSourcing.Subscribers;
 
 namespace DandyDotnet.Patterns.EventSourcing.Configuration;
 

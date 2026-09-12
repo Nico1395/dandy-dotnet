@@ -2,7 +2,7 @@ using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Outbox;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
-using DandyDotnet.Patterns.EventSourcing.Serialization;
+using DandyDotnet.Serialization.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Mapping;
 

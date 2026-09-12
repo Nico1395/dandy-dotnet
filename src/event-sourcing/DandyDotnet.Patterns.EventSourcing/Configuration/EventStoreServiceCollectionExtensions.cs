@@ -18,7 +18,7 @@ public static class EventStoreServiceCollectionExtensions
         typeof(IAggregateFactory<>),
     ];
 
-    public static IServiceCollection AddDandyEventStore(this IServiceCollection services, Action<EventStoreConfigurationBuilder> builderAction)
+    public static IServiceCollection AddDandyEventSourcing(this IServiceCollection services, Action<EventStoreConfigurationBuilder> builderAction)
     {
         var builder = new EventStoreConfigurationBuilder();
         builderAction(builder);
