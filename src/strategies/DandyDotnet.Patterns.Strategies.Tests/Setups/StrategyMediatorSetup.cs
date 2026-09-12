@@ -1,3 +1,4 @@
+using DandyDotnet.Patterns.Strategies.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.Strategies.Tests.Setups;
