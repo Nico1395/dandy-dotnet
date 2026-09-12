@@ -1,5 +1,5 @@
-using DandyMediator.Commands;
-using DandyMediator.Responses;
+using DandyDotnet.Patterns.Mediator.Commands;
+using DandyDotnet.Patterns.Mediator.Responses;
 
 namespace DandyDotnet.Patterns.Mediator.Tests.Commands;
 

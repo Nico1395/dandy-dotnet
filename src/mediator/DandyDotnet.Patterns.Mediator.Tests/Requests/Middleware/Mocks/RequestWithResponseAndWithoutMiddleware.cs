@@ -1,5 +1,5 @@
 using DandyDotnet.Patterns.Mediator.Tests.Mocks;
-using DandyMediator;
+using DandyDotnet.Patterns.Mediator;
 
 namespace DandyDotnet.Patterns.Mediator.Tests.Requests.Middleware.Mocks;
 

@@ -1,4 +1,4 @@
-﻿using DandyMediator.Configuration;
+﻿using DandyDotnet.Patterns.Mediator.Configuration;
 
 namespace DandyDotnet.Patterns.Mediator.Validation;
 

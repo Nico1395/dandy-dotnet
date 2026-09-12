@@ -1,5 +1,5 @@
-﻿using DandyMediator;
-using DandyMediator.Configuration;
+﻿using DandyDotnet.Patterns.Mediator;
+using DandyDotnet.Patterns.Mediator.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.Mediator.Validation;

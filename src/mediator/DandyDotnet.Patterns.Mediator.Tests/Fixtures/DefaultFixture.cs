@@ -1,4 +1,4 @@
-using DandyMediator;
+using DandyDotnet.Patterns.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.Mediator.Tests.Fixtures;

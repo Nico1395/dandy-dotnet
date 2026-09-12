@@ -1,4 +1,4 @@
-using DandyMediator;
+using DandyDotnet.Patterns.Mediator;
 
 namespace DandyDotnet.Patterns.Mediator.Tests.Requests.RequestSender.Mocks;
 

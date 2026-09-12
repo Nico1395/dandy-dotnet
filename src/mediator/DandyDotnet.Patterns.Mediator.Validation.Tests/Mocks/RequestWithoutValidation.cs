@@ -1,5 +1,4 @@
-using DandyMediator;
-using DandyMediator.Responses;
+using DandyDotnet.Patterns.Mediator.Responses;
 
 namespace DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
 

@@ -1,6 +1,6 @@
-using DandyMediator;
-using DandyMediator.Configuration;
-using DandyMediator.Responses;
+using DandyDotnet.Patterns.Mediator;
+using DandyDotnet.Patterns.Mediator.Configuration;
+using DandyDotnet.Patterns.Mediator.Responses;
 
 namespace DandyDotnet.Patterns.Mediator.Validation;
 

@@ -1,7 +1,6 @@
+using DandyDotnet.Patterns.Mediator.Responses;
 using DandyDotnet.Patterns.Mediator.Validation.Tests.Fixtures;
 using DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
-using DandyMediator.Responses;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.Mediator.Validation.Tests;
 

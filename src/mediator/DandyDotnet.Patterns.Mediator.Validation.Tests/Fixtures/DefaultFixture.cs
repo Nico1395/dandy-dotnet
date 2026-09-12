@@ -1,5 +1,3 @@
-using DandyMediator;
-using DandyDotnet.Patterns.Mediator.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.Mediator.Validation.Tests.Fixtures;
