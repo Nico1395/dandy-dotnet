@@ -1,15 +1,15 @@
+using DandyDotnet.Patterns.Strategies.Tests.Fixtures;
 using DandyDotnet.Patterns.Strategies.Tests.Mocks;
-using DandyDotnet.Patterns.Strategies.Tests.Setups;
 
 namespace DandyDotnet.Patterns.Strategies.Tests;
 
-public class StrategyExecutorTests(StrategyMediatorSetup _setup) : IClassFixture<StrategyMediatorSetup>
+public class StrategyExecutorTests(DefaultFixture fixture) : IClassFixture<DefaultFixture>
 {
     [Fact]
     public void Execute_Passes()
     {
         var helper = new StrategyAssertHelper();
-        var executor = _setup.GetStrategyExecutor();
+        var executor = fixture.GetStrategyExecutor();
         var def = new SyncStrategies.Definition("strat-b", helper);
 
         executor.Execute(def);
@@ -21,7 +21,7 @@ public class StrategyExecutorTests(StrategyMediatorSetup _setup) : IClassFixture
     [Fact]
     public void ExecuteWithReturning_Passes()
     {
-        var executor = _setup.GetStrategyExecutor();
+        var executor = fixture.GetStrategyExecutor();
         var def = new SyncReturningStrategies.Definition("strat-b");
 
         Assert.Equal("strat-b", executor.Execute(def));
@@ -31,7 +31,7 @@ public class StrategyExecutorTests(StrategyMediatorSetup _setup) : IClassFixture
     public async Task ExecuteAsync_Passes()
     {
         var helper = new StrategyAssertHelper();
-        var executor = _setup.GetStrategyExecutor();
+        var executor = fixture.GetStrategyExecutor();
         var def = new AsyncStrategies.Definition("strat-a", helper);
 
         await executor.ExecuteAsync(def, cancellationToken: CancellationToken.None);
@@ -43,7 +43,7 @@ public class StrategyExecutorTests(StrategyMediatorSetup _setup) : IClassFixture
     [Fact]
     public async Task ExecuteAsyncWithReturning_Passes()
     {
-        var executor = _setup.GetStrategyExecutor();
+        var executor = fixture.GetStrategyExecutor();
         var def = new AsyncReturningStrategies.Definition("strat-a");
 
         var resultingKey = await executor.ExecuteAsync(def, cancellationToken: CancellationToken.None);
