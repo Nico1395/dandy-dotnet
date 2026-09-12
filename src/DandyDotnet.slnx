@@ -10,6 +10,7 @@
     <Project Path="serialization/DandyDotnet.Serialization.Abstractions/DandyDotnet.Serialization.Abstractions.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization.SystemTextJson.Tests/DandyDotnet.Serialization.SystemTextJson.Tests.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization.SystemTextJson/DandyDotnet.Serialization.SystemTextJson.csproj" />
+    <Project Path="serialization/DandyDotnet.Serialization/DandyDotnet.Serialization.csproj" />
   </Folder>
   <Folder Name="/_/">
     <File Path="Directory.Build.props" />

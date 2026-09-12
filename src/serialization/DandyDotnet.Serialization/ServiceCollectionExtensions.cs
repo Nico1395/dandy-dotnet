@@ -1,6 +1,7 @@
+using DandyDotnet.Serialization.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.Serialization.Abstractions;
+namespace DandyDotnet.Serialization;
 
 public static class ServiceCollectionExtensions
 {

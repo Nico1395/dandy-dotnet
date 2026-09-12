@@ -1,4 +1,4 @@
-namespace DandyDotnet.Serialization.Abstractions;
+namespace DandyDotnet.Serialization;
 
 public sealed class SerializerConfigurationBuilder
 {

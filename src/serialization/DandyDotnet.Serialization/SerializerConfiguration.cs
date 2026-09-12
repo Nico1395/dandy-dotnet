@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace DandyDotnet.Serialization.Abstractions;
+namespace DandyDotnet.Serialization;
 
 internal sealed class SerializerConfiguration
 {
