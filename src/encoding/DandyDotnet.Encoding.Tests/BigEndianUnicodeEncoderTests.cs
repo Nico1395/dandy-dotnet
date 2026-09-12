@@ -4,12 +4,12 @@ namespace DandyDotnet.Encoding.Tests;
 
 public class BigEndianUnicodeEncoderTests
 {
-    private readonly BigEndianUnicodeEncoder encoder = new();
+    private readonly BigEndianUnicodeEncoder _encoder = new();
 
     [Fact]
     public void Encode_ReturnsUtf16BigEndianBytes()
     {
-        var encoded = encoder.Encode("AΩ");
+        var encoded = _encoder.Encode("AΩ");
 
         Assert.Equal([0, 65, 3, 169], encoded.ToArray());
     }
@@ -17,7 +17,7 @@ public class BigEndianUnicodeEncoderTests
     [Fact]
     public void Decode_ReturnsUtf16BigEndianString()
     {
-        var decoded = encoder.Decode([0, 65, 3, 169]);
+        var decoded = _encoder.Decode([0, 65, 3, 169]);
 
         Assert.Equal("AΩ", decoded);
     }
@@ -27,7 +27,7 @@ public class BigEndianUnicodeEncoderTests
     {
         const string payload = "AΩ";
 
-        var result = encoder.Decode(encoder.Encode(payload).Span);
+        var result = _encoder.Decode(_encoder.Encode(payload).Span);
 
         Assert.Equal(payload, result);
     }
