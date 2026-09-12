@@ -12,6 +12,10 @@
     <Project Path="serialization/DandyDotnet.Serialization.SystemTextJson/DandyDotnet.Serialization.SystemTextJson.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization/DandyDotnet.Serialization.csproj" />
   </Folder>
+  <Folder Name="/Strategies/">
+    <Project Path="strategies/DandyStrategies.Tests/DandyStrategies.Tests.csproj" />
+    <Project Path="strategies/DandyStrategies/DandyStrategies.csproj" />
+  </Folder>
   <Folder Name="/_/">
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
