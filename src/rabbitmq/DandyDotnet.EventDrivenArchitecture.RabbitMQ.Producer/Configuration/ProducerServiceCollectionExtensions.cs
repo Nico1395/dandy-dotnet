@@ -1,6 +1,5 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,7 +27,6 @@ public static class ProducerServiceCollectionExtensions
 
         services.AddDandyRabbitMQConnectivity(configuration.ConnectivityConfigurationBuilder.Build());
         services.AddDandyRabbitMQMessages(configuration.MessagesConfigurationBuilder.Build());
-        services.AddDandyRabbitMQEncoding(configuration.EncodingConfigurationBuilder.Build());
         services.AddDandyRabbitMQDeclarations(configuration.DeclarationsConfiguration.Build());
 
         return services;

@@ -1,7 +1,6 @@
 using System.Reflection;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;
@@ -13,7 +12,6 @@ public sealed class ConsumerConfiguration
 {
     internal ConnectivityConfigurationBuilder ConnectivityConfigurationBuilder { get; set; } = new();
     internal MessagesConfigurationBuilder MessagesConfigurationBuilder { get; set; } = new();
-    internal EncodingConfigurationBuilder EncodingConfigurationBuilder { get; set; } = new();
     internal DeclarationsConfigurationBuilder DeclarationsConfigurationBuilder { get; set; } = new();
 
     /// <summary>

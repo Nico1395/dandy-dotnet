@@ -1,11 +1,11 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
+using DandyDotnet.Encoding.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Interceptors;
 using DandyDotnet.Serialization.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
@@ -21,7 +21,7 @@ public class Receiver(
     MessagesConfiguration messagesConfiguration,
     IServiceProvider serviceProvider,
     IConsumerPipeline consumerPipeline,
-    IPayloadEncoder payloadEncoder,
+    IEncoder encoder,
     ISerializer serializer) : IReceiver
 {
     private static readonly ConcurrentDictionary<Type, MethodInfo> _executeAsync = [];
@@ -47,7 +47,7 @@ public class Receiver(
             if (!messagesConfiguration.MessagesByKey.TryGetValue(args.BasicProperties.Type, out var messageConfiguration))
                 throw new InvalidOperationException("Failed to resolve message type.");
 
-            var serialized = payloadEncoder.Decode(args.Body.Span);
+            var serialized = encoder.Decode(args.Body.Span);
             if (string.IsNullOrWhiteSpace(serialized))
                 throw new InvalidOperationException("Failed to deserialize message.");
 

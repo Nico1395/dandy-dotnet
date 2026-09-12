@@ -1,6 +1,5 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Configuration;
@@ -23,11 +22,6 @@ public sealed class ProducerConfigurationBuilder
     public MessagesConfigurationBuilder Messages { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the payload encoding configuration.
-    /// </summary>
-    public EncodingConfigurationBuilder Encoding { get; set; } = new();
-
-    /// <summary>
     /// Gets or sets the exchange, queue, and binding declaration configuration.
     /// </summary>
     public DeclarationsConfigurationBuilder Declarations { get; set; } = new();
@@ -36,7 +30,6 @@ public sealed class ProducerConfigurationBuilder
     {
         _configuration.ConnectivityConfigurationBuilder = Connectivity;
         _configuration.MessagesConfigurationBuilder = Messages;
-        _configuration.EncodingConfigurationBuilder = Encoding;
         _configuration.DeclarationsConfiguration = Declarations;
 
         return _configuration;

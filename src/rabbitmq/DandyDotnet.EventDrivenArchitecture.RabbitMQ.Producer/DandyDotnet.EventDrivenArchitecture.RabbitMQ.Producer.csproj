@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\..\encoding\DandyDotnet.Encoding.Abstractions\DandyDotnet.Encoding.Abstractions.csproj" />
       <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.Abstractions\DandyDotnet.Serialization.Abstractions.csproj" />
       <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
     </ItemGroup>

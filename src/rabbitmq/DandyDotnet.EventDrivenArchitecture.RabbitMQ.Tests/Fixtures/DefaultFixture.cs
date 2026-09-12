@@ -1,3 +1,4 @@
+using DandyDotnet.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
 using DandyDotnet.Tests.Core.Fixtures;
@@ -9,6 +10,7 @@ public sealed class DefaultFixture : Fixture
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
+        services.AddDandyEncoder();
         services.AddDandyRabbitMQMessages(config =>
         {
             config.AddMessage(typeof(ConfiguredMessage), msg =>

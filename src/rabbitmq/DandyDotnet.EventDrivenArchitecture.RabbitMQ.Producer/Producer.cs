@@ -1,6 +1,6 @@
+using DandyDotnet.Encoding.Abstractions;
 using DandyDotnet.Serialization.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Encoding;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
 using RabbitMQ.Client;
 
@@ -8,7 +8,7 @@ namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
 
 internal sealed class Producer(
     ISerializer payloadSerializer,
-    IPayloadEncoder payloadEncoder,
+    IEncoder encoder,
     IConnectionProvider connectionProvider,
     MessagesConfiguration messagesConfiguration) : IProducer
 {
@@ -18,7 +18,7 @@ internal sealed class Producer(
     {
         var dispatchInfo = DispatchInfo.Create(messagesConfiguration, exchange, routingKeys, message, properties);
         var payload = payloadSerializer.Serialize(message, dispatchInfo.RuntimeType);
-        var encodedPayload = payloadEncoder.Encode(payload);
+        var encodedPayload = encoder.Encode(payload);
         var channel = await GetChannelAsync(cancellationToken);
 
         foreach (var routingKey in dispatchInfo.RoutingKeys)
