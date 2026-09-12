@@ -1,27 +1,27 @@
 namespace DandyDotnet.Encoding.Codes;
 
 /// <summary>
-/// Encodes payloads using UTF-32.
+/// Encodes payloads using UTF-8.
 /// </summary>
-public class Utf32PayloadEncoder : IEncoder
+public sealed class Utf8Encoder : IEncoder
 {
     /// <summary>
-    /// Encodes a string as UTF-32 bytes.
+    /// Encodes a string as UTF-8 bytes.
     /// </summary>
     /// <param name="payload">The payload to encode.</param>
     /// <returns>The encoded <paramref name="payload"/>.</returns>
     public ReadOnlyMemory<byte> Encode(string payload)
     {
-        return System.Text.Encoding.UTF32.GetBytes(payload);
+        return System.Text.Encoding.UTF8.GetBytes(payload);
     }
 
     /// <summary>
-    /// Decodes UTF-32 <paramref name="bytes"/> into a string.
+    /// Decodes UTF-8 <paramref name="bytes"/> into a string.
     /// </summary>
     /// <param name="bytes">The bytes to decode.</param>
     /// <returns>The decoded payload.</returns>
     public string Decode(ReadOnlySpan<byte> bytes)
     {
-        return System.Text.Encoding.UTF32.GetString(bytes);
+        return System.Text.Encoding.UTF8.GetString(bytes);
     }
 }

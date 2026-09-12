@@ -24,7 +24,7 @@ public static class EncodingConfigurationBuilderExtensions
     /// <returns>The updated <paramref name="builder"/>.</returns>
     public static EncodingConfigurationBuilder UseBigEndianUnicodePayloadEncoder(this EncodingConfigurationBuilder builder)
     {
-        return builder.UseEncoder(typeof(BigEndianUnicodePayloadEncoder));
+        return builder.UseEncoder(typeof(BigEndianUnicodeEncoder));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public static class EncodingConfigurationBuilderExtensions
     /// <returns>The updated <paramref name="builder"/>.</returns>
     public static EncodingConfigurationBuilder UseLatin1PayloadEncoder(this EncodingConfigurationBuilder builder)
     {
-        return builder.UseEncoder(typeof(Latin1PayloadEncoder));
+        return builder.UseEncoder(typeof(Latin1Encoder));
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public static class EncodingConfigurationBuilderExtensions
     /// <returns>The updated <paramref name="builder"/>.</returns>
     public static EncodingConfigurationBuilder UseUnicodePayloadEncoder(this EncodingConfigurationBuilder builder)
     {
-        return builder.UseEncoder(typeof(UnicodePayloadEncoder));
+        return builder.UseEncoder(typeof(UnicodeEncoder));
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public static class EncodingConfigurationBuilderExtensions
     /// <returns>The updated <paramref name="builder"/>.</returns>
     public static EncodingConfigurationBuilder UseUtf8PayloadEncoder(this EncodingConfigurationBuilder builder)
     {
-        return builder.UseEncoder(typeof(Utf8PayloadEncoder));
+        return builder.UseEncoder(typeof(Utf8Encoder));
     }
 
     /// <summary>
@@ -64,6 +64,6 @@ public static class EncodingConfigurationBuilderExtensions
     /// <returns>The updated <paramref name="builder"/>.</returns>
     public static EncodingConfigurationBuilder UseUtf32PayloadEncoder(this EncodingConfigurationBuilder builder)
     {
-        return builder.UseEncoder(typeof(Utf32PayloadEncoder));
+        return builder.UseEncoder(typeof(Utf32Encoder));
     }
 }

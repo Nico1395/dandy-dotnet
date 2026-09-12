@@ -3,7 +3,7 @@ namespace DandyDotnet.Encoding.Codes;
 /// <summary>
 /// Encodes payloads using big-endian UTF-16.
 /// </summary>
-public class BigEndianUnicodePayloadEncoder : IEncoder
+public sealed class BigEndianUnicodeEncoder : IEncoder
 {
     /// <summary>
     /// Encodes a string as big-endian UTF-16 bytes.
