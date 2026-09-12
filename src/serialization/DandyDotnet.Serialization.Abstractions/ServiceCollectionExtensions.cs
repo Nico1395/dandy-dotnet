@@ -13,10 +13,10 @@ public static class ServiceCollectionExtensions
         if (!configuration.IsValid())
             throw new InvalidOperationException("Serializer type is not specified.");
 
-        if (services.BuildServiceProvider().GetService(configuration.Type) != null)
+        if (services.BuildServiceProvider().GetService(configuration.SerializerType) != null)
             return services;
 
-        services.AddSingleton(typeof(ISerializer), configuration.Type);
+        services.AddSingleton(typeof(ISerializer), configuration.SerializerType);
         services.AddSingleton(configuration.Configuration.GetType(), configuration.Configuration);
 
         return services;

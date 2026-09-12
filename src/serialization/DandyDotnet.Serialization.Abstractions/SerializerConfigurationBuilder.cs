@@ -6,7 +6,7 @@ public sealed class SerializerConfigurationBuilder
 
     public SerializerConfigurationBuilder UseSerializer(Type serializerType, object configuration)
     {
-        _configuration.Type = serializerType;
+        _configuration.SerializerType = serializerType;
         _configuration.Configuration = configuration;
 
         return this;

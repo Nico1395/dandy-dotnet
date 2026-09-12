@@ -4,13 +4,13 @@ namespace DandyDotnet.Serialization.Abstractions;
 
 internal sealed class SerializerConfiguration
 {
-    public Type? Type { get; set; }
+    public Type? SerializerType { get; set; }
     public object? Configuration { get; set; }
 
-    [MemberNotNullWhen(true, nameof(Type))]
+    [MemberNotNullWhen(true, nameof(SerializerType))]
     [MemberNotNullWhen(true, nameof(Configuration))]
     public bool IsValid()
     {
-        return Type != null && Configuration != null;
+        return SerializerType != null && Configuration != null;
     }
 }
