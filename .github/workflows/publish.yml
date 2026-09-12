@@ -1,0 +1,57 @@
+name: "Release packages"
+
+on:
+  release:
+    types:
+      - published
+
+env:
+  SLN: "./src/TARGET_SOLUTION_NAME.slnx"
+  DOTNET_VERSION: "10.0.x"
+  PACK_OUTPUT_DIRECTORY: "${{ github.workspace }}/output"
+  NUGET_SOURCE_URL: "https://api.nuget.org/v3/index.json"
+  NUGET_USER_NAME: ${{ secrets.NUGET_USER_NAME }}
+
+jobs:
+  publish:
+    permissions:
+      id-token: write
+    
+    name: "Pack and publish packages"
+    runs-on: "ubuntu-latest"
+    steps:
+    - name: "Checkout"
+      uses: "actions/checkout@v4"
+      with:
+        fetch-depth: 0
+
+    - name: "Setup .NET"
+      uses: "actions/setup-dotnet@v4"
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: "Restore dependencies"
+      run: "dotnet restore ${{ env.SLN }}"
+
+    - name: "Build project"
+      run: "dotnet build ${{ env.SLN }} --no-restore --configuration Release"
+
+    - name: "Run unit tests"
+      run: "dotnet test ${{ env.SLN }} --no-restore --configuration Release"
+
+    # require full docs in the future
+    
+    - name: "Pack project"
+      run: |
+        VERSION=${{ github.ref_name }}
+        VERSION=${VERSION#v}  # Remove 'v' prefix
+        dotnet pack ${{ env.SLN }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=$VERSION --output ${{ env.PACK_OUTPUT_DIRECTORY }}
+
+    - name: NuGet login
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{ env.NUGET_USER_NAME }}
+          
+    - name: "Push package"
+      run: "dotnet nuget push '${{ env.PACK_OUTPUT_DIRECTORY }}/*.nupkg' -k ${{steps.login.outputs.NUGET_API_KEY}} -s ${{ env.NUGET_SOURCE_URL }} --skip-duplicate"
