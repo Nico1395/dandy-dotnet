@@ -1,5 +1,5 @@
 using System.Text.Json;
-using DandyEventStore.Configuration;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyEventStore.Serialization.SystemTextJson;

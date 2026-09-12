@@ -1,5 +1,5 @@
-using DandyEventStore.Persistence.Sql.Connections;
-using DandyEventStore.Persistence.Sql.Repositories;
+using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Repositories;
 
 namespace DandyEventStore.Persistence.Sql;
 

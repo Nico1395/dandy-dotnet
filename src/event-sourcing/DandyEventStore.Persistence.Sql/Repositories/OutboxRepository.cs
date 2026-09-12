@@ -1,5 +1,5 @@
-using DandyEventStore.Outbox;
-using DandyEventStore.Persistence.Entities;
+using DandyDotnet.Patterns.EventSourcing.Outbox;
+using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
 using Dapper;
 
 namespace DandyEventStore.Persistence.Sql.Repositories;

@@ -1,4 +1,4 @@
-using DandyEventStore.Configuration;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 
 namespace DandyEventStore.Serialization.SystemTextJson;
 

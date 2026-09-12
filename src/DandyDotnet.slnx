@@ -12,7 +12,7 @@
     <Project Path="event-sourcing/DandyEventStore.Serialization.NewtonsoftJson/DandyEventStore.Serialization.NewtonsoftJson.csproj" />
     <Project Path="event-sourcing/DandyEventStore.Serialization.SystemTextJson/DandyEventStore.Serialization.SystemTextJson.csproj" />
     <Project Path="event-sourcing/DandyEventStore.Tests/DandyEventStore.Tests.csproj" />
-    <Project Path="event-sourcing/DandyEventStore/DandyEventStore.csproj" />
+    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
   </Folder>
   <Folder Name="/Patterns/Mediator/">
     <Project Path="mediator/DandyDotnet.Patterns.Mediator.Abstractions/DandyDotnet.Patterns.Mediator.Abstractions.csproj" />
