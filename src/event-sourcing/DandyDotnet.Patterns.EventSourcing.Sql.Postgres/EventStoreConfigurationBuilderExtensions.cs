@@ -1,6 +1,6 @@
-using DandyEventStore.Configuration;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 
-namespace DandyEventStore.Persistence.Sql.Npgsql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Postgres;
 
 public static class EventStoreConfigurationBuilderExtensions
 {

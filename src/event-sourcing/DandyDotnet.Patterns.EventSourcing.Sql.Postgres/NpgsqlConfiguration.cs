@@ -3,7 +3,7 @@ using DandyDotnet.Patterns.EventSourcing.Sql.Connections;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyEventStore.Persistence.Sql.Npgsql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Postgres;
 
 internal sealed class NpgsqlConfiguration : PersistenceConfiguration
 {

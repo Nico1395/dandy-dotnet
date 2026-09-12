@@ -1,6 +1,6 @@
 using DandyDotnet.Patterns.EventSourcing.Sql.Constants;
 
-namespace DandyEventStore.Persistence.Sql.Npgsql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Postgres;
 
 internal sealed class NpgsqlSqlStrings : SqlStrings
 {

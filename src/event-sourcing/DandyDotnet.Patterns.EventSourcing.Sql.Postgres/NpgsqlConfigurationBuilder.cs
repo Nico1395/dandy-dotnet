@@ -1,4 +1,4 @@
-namespace DandyEventStore.Persistence.Sql.Npgsql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Postgres;
 
 public sealed class NpgsqlConfigurationBuilder
 {
