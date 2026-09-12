@@ -6,7 +6,7 @@ on:
     types: [ opened, synchronize, reopened ]
 
 env:
-  SLN: "./src/TARGERT_SOLUTION_NAME.slnx"
+  SLN: "./src/DandyDotnet.slnx"
   DOTNET_VERSION: "10.0.x"
 
 jobs:
