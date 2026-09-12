@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations;
 
 /// <summary>
 /// Declares configured exchanges, queues, and bindings.

@@ -1,3 +1,4 @@
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using RabbitMQ.Client;
 

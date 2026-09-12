@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
 /// <summary>
 /// Builds message metadata and discovery configuration.

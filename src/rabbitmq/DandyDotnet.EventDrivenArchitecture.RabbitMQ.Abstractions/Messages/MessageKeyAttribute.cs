@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages;
 
 /// <summary>
 /// Associates a message type with a message key.

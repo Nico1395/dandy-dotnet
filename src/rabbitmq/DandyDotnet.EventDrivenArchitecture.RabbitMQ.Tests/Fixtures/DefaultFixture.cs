@@ -1,5 +1,5 @@
 using DandyDotnet.Encoding.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
 using DandyDotnet.Tests.Core.Fixtures;
 using Microsoft.Extensions.DependencyInjection;

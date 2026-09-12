@@ -1,6 +1,7 @@
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 
 /// <summary>
 /// Provides dependency injection registration extensions for declarations.

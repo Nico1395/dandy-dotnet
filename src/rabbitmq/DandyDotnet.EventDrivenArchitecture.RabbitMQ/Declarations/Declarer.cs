@@ -1,5 +1,6 @@
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
 using RabbitMQ.Client;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;

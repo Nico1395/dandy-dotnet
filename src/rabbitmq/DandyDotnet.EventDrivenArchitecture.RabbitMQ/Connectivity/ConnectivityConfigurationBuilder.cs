@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 
 /// <summary>
 /// Builder for <see cref="ConnectivityConfiguration"/>.

@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity;
 
 /// <summary>
 /// Provides the connection to the RabbitMQ broker or cluster.

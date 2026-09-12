@@ -1,8 +1,9 @@
 using System.Collections.Concurrent;
 using System.Reflection;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
 /// <summary>
 /// Provides dependency injection registration extensions for message metadata.

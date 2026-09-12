@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 
 /// <summary>
 /// Configures a RabbitMQ exchange declaration.

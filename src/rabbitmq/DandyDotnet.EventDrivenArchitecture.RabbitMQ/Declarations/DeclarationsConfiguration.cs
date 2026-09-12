@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 
 /// <summary>
 /// Contains configured RabbitMQ channels.

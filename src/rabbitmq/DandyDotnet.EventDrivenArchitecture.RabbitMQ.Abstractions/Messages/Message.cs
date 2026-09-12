@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages;
 
 /// <summary>
 /// Provides default identifier and timestamp properties for messages.

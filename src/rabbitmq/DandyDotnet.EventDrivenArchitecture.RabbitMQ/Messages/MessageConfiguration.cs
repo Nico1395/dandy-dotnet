@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
 /// <summary>
 /// Stores metadata used to publish a message type.

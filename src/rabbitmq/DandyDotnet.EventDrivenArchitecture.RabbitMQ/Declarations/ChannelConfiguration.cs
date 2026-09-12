@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 
 /// <summary>
 /// Configures a RabbitMQ channel, exchange, queue, and consumer settings.

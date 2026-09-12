@@ -1,4 +1,4 @@
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
 

@@ -1,4 +1,4 @@
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages;
 
 /// <summary>
 /// Defines metadata required for a publishable message.

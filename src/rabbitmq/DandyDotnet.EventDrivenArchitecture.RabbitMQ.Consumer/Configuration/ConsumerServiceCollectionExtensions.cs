@@ -1,8 +1,8 @@
 using System.Reflection;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Worker;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Configuration;

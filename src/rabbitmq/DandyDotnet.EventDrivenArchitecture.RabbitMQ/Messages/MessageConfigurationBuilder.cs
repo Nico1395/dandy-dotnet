@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
 /// <summary>
 /// Builds configuration for one message type.
