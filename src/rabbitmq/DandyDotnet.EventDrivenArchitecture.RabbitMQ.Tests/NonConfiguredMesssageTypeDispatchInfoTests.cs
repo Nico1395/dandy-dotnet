@@ -1,8 +1,9 @@
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Tests.Fixtures;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Tests.Mocks;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Fixtures;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
 using RabbitMQ.Client;
 
-namespace DandyRabbitMQ.Producer.Tests;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests;
 
 public class NonConfiguredMesssageTypeDispatchInfoTests(DefaultFixture fixture) : IClassFixture<DefaultFixture>
 {

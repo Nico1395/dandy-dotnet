@@ -1,8 +1,8 @@
-using DandyRabbitMQ.Core.Messages.Configuration;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Tests.Mocks;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyRabbitMQ.Producer.Tests.Fixtures;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Fixtures;
 
 public sealed class DefaultFixture : IServiceProvider
 {

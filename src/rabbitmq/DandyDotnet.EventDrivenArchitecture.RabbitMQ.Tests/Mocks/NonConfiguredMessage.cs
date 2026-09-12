@@ -1,6 +1,6 @@
-using DandyRabbitMQ.Core.Messages;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
-namespace DandyRabbitMQ.Producer.Tests.Mocks;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
 
 internal sealed class NonConfiguredMessage : Message
 {
