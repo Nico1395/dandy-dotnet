@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Encoding/">
+    <Project Path="encoding/DandyDotnet.Encoding.Abstractions/DandyDotnet.Encoding.Abstractions.csproj" />
     <Project Path="encoding/DandyDotnet.Encoding.Tests/DandyDotnet.Encoding.Tests.csproj" />
     <Project Path="encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
   </Folder>

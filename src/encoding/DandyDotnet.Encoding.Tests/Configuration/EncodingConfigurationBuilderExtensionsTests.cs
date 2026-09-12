@@ -1,3 +1,4 @@
+using DandyDotnet.Encoding.Abstractions;
 using DandyDotnet.Encoding.Codes;
 using DandyDotnet.Encoding.Configuration;
 using Microsoft.Extensions.DependencyInjection;

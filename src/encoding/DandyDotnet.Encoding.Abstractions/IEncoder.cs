@@ -1,4 +1,4 @@
-namespace DandyDotnet.Encoding;
+namespace DandyDotnet.Encoding.Abstractions;
 
 public interface IEncoder
 {

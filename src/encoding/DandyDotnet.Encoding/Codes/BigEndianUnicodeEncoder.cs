@@ -1,3 +1,5 @@
+using DandyDotnet.Encoding.Abstractions;
+
 namespace DandyDotnet.Encoding.Codes;
 
 /// <summary>
