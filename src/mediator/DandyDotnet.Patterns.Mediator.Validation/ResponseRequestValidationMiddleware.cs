@@ -1,7 +1,8 @@
+using DandyMediator;
 using DandyMediator.Configuration;
 using DandyMediator.Responses;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 internal sealed class ResponseRequestValidationMiddleware<TRequest, TResponse>(
     IRequestResponseMapper requestResponseMapper,

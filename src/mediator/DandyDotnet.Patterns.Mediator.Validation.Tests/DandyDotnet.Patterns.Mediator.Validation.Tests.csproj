@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DandyMediator.Validation\DandyMediator.Validation.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Patterns.Mediator.Validation\DandyDotnet.Patterns.Mediator.Validation.csproj" />
     </ItemGroup>
 
 </Project>

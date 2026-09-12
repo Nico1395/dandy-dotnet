@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 /// <summary>
 /// Used to mark a property or parameter to be validated during request validation.

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageId>DandyMediator.Validation</PackageId>
+        <PackageId>DandyDotnet.Patterns.Mediator.Validation</PackageId>
         <Authors>Nicolai Wolf</Authors>
         <Description>Validation plugin for DandyMediator.</Description>
         <RepositoryUrl>https://github.com/Nico1395/dandy-mediator</RepositoryUrl>
@@ -13,10 +13,6 @@
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
-
-    <ItemGroup>
-        <None Include="../../README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\DandyMediator\DandyMediator.csproj" />

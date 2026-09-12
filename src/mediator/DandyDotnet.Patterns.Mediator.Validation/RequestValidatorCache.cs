@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 internal static class RequestValidatorCache
 {

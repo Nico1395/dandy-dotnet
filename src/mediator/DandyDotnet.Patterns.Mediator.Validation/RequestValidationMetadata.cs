@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 internal sealed class RequestValidationMetadata(bool hasValidationAttributes, IReadOnlyDictionary<PropertyInfo, ValidationAttribute[]> validationProperties)
 {

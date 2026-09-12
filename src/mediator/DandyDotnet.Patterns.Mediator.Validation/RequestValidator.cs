@@ -2,7 +2,7 @@ using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 internal sealed class RequestValidator(
     DandyMediatorValidationPluginConfiguration configuration,

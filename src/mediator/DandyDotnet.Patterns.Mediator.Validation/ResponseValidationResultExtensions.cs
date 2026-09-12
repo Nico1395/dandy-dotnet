@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using DandyMediator.Configuration;
 using DandyMediator.Responses;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 /// <summary>
 /// Contains extension methods related to <see cref="IResponseValidationResult"/>.

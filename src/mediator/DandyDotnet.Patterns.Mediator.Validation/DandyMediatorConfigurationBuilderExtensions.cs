@@ -1,7 +1,8 @@
-﻿using DandyMediator.Configuration;
+﻿using DandyMediator;
+using DandyMediator.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 /// <summary>
 /// Contains extensions for <see cref="DandyMediatorConfigurationBuilder"/>.

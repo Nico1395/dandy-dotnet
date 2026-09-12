@@ -1,4 +1,4 @@
-﻿namespace DandyMediator.Validation;
+﻿namespace DandyDotnet.Patterns.Mediator.Validation;
 
 /// <inheritdoc/>
 public sealed class ResponseValidationResult : IResponseValidationResult

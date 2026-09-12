@@ -1,4 +1,4 @@
-﻿namespace DandyMediator.Validation;
+﻿namespace DandyDotnet.Patterns.Mediator.Validation;
 
 /// <summary>
 /// Builder for the validation plugin configuration.

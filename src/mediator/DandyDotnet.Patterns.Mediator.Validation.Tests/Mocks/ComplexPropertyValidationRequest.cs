@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using DandyMediator;
 using DandyMediator.Responses;
-using DandyMediator.Validation;
+using DandyDotnet.Patterns.Mediator.Validation;
 
 namespace DandyDotnet.Patterns.Mediator.Validation.Tests.Mocks;
 

@@ -1,6 +1,6 @@
 ﻿using DandyMediator.Responses;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 /// <summary>
 /// Validation result of an <see cref="IRequestResponse"/>.

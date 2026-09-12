@@ -1,6 +1,6 @@
 ﻿using DandyMediator.Configuration;
 
-namespace DandyMediator.Validation;
+namespace DandyDotnet.Patterns.Mediator.Validation;
 
 internal sealed class DandyMediatorValidationPlugin : DandyMediatorPlugin
 {
