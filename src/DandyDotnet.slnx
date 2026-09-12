@@ -5,7 +5,12 @@
     <Project Path="encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
   </Folder>
   <Folder Name="/Paradigms/" />
-  <Folder Name="/Paradigms/EventDrivenArchitecture/" />
+  <Folder Name="/Paradigms/EventDrivenArchitecture/">
+    <Project Path="rabbitmq/DandyRabbitMQ.Consumer/DandyRabbitMQ.Consumer.csproj" />
+    <Project Path="rabbitmq/DandyRabbitMQ.Core/DandyRabbitMQ.Core.csproj" />
+    <Project Path="rabbitmq/DandyRabbitMQ.Producer.Tests/DandyRabbitMQ.Producer.Tests.csproj" />
+    <Project Path="rabbitmq/DandyRabbitMQ.Producer/DandyRabbitMQ.Producer.csproj" />
+  </Folder>
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
     <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
