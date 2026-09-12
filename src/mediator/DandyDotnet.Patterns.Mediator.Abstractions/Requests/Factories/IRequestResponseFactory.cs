@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Mediator.Responses;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests.Factories;
 
 /// <summary>
 /// Creates response instances.

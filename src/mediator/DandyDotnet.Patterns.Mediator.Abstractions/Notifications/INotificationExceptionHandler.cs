@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Mediator;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Notifications;
 
 /// <summary>
 /// Service for handling exceptions thrown while handling a notification of type <typeparamref name="TNotification"/>.

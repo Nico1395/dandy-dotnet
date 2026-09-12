@@ -1,10 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using System.Diagnostics.CodeAnalysis;
-using System.Net;
 
-namespace DandyDotnet.Patterns.Mediator.Responses;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 /// <summary>
 /// Contains extensions for inspecting and converting responses.

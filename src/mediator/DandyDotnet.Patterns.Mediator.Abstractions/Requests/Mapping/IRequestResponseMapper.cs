@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Mediator.Responses;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping;
 
 /// <summary>
 /// Resolves concrete response implementation types.

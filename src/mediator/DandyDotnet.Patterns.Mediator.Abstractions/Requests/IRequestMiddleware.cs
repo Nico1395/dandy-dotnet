@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Mediator;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 /// <summary>
 /// Delegate for request handlers and request middleware.

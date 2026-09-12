@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace DandyDotnet.Patterns.Mediator.Responses;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 /// <summary>
 /// Response of an <see cref="IResponseRequest{TResponse}"/>.

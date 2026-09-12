@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Mediator;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 /// <summary>
 /// Service sends <see cref="IRequest"/>/<see cref="IRequest{TResponse}"/> through the request pipeline.

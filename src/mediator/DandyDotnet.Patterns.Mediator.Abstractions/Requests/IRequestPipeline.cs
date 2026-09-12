@@ -1,6 +1,6 @@
-namespace DandyDotnet.Patterns.Mediator;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
-internal interface IRequestPipeline
+public interface IRequestPipeline
 {
     Task ExecuteAsync<TRequest>(TRequest request, CancellationToken cancellationToken) where TRequest : IRequest;
     Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken) where TRequest : IRequest<TResponse>;

@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Mediator;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 /// <summary>
 /// Service for handling exceptions thrown while handling a request of type <typeparamref name="TRequest"/>.

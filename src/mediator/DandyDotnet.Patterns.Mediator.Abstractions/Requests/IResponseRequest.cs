@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Mediator.Responses;
+namespace DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
 /// <summary>
 /// <see cref="IRequest{TResponse}"/> that returns an <see cref="IRequestResponse"/>.
