@@ -1,13 +1,10 @@
-using DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;
-using DandyDotnet.Patterns.EventSourcing.Outbox;
-
-namespace DandyDotnet.Patterns.EventSourcing.Subscribers;
+namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 public sealed class SubscriberContext
 {
     public required IEventStore EventStore { get; init; }
     public required IReadOnlyOutboxEnvelope Envelope { get; init; }
-    public required SubscriberConfiguration Configuration { get; init; }
+    public required SubscriberMode Mode { get; init; }
 
     // public required int MaxRetries { get; init; }
     // public required int RetryCount { get; init; }

@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Reflection;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Subscribers;
 
 namespace DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;

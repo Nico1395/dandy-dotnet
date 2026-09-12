@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.EventSourcing.Subscribers;
+namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 public interface ISubscriberExceptionHandler<in TEvent>
     where TEvent : class

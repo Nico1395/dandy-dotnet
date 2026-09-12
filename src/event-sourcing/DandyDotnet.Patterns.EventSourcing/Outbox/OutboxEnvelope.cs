@@ -1,3 +1,5 @@
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
+
 namespace DandyDotnet.Patterns.EventSourcing.Outbox;
 
 public sealed class OutboxEnvelope : IReadOnlyOutboxEnvelope

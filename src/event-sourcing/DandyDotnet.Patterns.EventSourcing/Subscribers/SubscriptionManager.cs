@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Outbox;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,7 @@ internal sealed class SubscriptionManager(
             {
                 EventStore = eventStore ??= serviceProvider.GetRequiredService<IEventStore>(),
                 Envelope = outboxEnvelope,
-                Configuration = configuration,
+                Mode = configuration.Mode,
             };
 
             try

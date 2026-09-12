@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Reflection;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 

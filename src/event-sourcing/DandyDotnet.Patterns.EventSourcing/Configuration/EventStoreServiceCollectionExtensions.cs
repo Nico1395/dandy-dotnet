@@ -1,4 +1,5 @@
 using System.Reflection;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Events;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;

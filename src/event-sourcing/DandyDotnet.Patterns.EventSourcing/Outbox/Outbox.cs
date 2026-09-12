@@ -1,3 +1,4 @@
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Mapping;

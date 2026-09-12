@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.EventSourcing.Outbox;
+namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 public interface IReadOnlyOutboxEnvelope
 {

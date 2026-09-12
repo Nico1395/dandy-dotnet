@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Outbox;
 using DandyDotnet.Patterns.EventSourcing.Persistence;

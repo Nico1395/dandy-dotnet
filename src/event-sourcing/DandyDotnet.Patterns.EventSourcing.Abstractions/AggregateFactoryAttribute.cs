@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.EventSourcing;
+namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor)]
 public sealed class AggregateFactoryAttribute : Attribute;

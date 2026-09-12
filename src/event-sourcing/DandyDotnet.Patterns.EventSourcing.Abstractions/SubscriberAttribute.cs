@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.EventSourcing.Subscribers;
+namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class SubscriberAttribute : Attribute

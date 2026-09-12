@@ -1,3 +1,4 @@
+using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Subscribers;
 
 namespace DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;

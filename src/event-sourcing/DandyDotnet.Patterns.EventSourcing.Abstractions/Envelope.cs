@@ -1,11 +1,11 @@
-namespace DandyDotnet.Patterns.EventSourcing;
+namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
-public sealed class Snapshot
+public sealed class Envelope
 {
     public required string StreamId { get; init; }
-    public required object Aggregate { get; init; }
+    public required object Event { get; init; }
     public required long Version { get; init; }
     public required DateTime Timestamp { get; init; }
-    public required string AggregateKey { get; init; }
+    public required string EventKey { get; init; }
     public required Type RuntimeType { get; init; }
 }

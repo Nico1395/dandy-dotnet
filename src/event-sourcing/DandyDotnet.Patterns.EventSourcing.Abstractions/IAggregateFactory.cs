@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.EventSourcing;
+namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 public interface IAggregateFactory<TAggregate>
     where TAggregate : class
