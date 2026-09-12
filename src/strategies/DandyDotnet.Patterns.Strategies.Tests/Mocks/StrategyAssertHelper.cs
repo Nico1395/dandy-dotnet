@@ -1,4 +1,4 @@
-namespace DandyStrategies.Tests.Mocks;
+namespace DandyDotnet.Patterns.Strategies.Tests.Mocks;
 
 internal sealed class StrategyAssertHelper
 {

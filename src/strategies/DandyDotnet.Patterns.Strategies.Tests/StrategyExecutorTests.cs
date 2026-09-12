@@ -1,7 +1,7 @@
-using DandyStrategies.Tests.Mocks;
-using DandyStrategies.Tests.Setups;
+using DandyDotnet.Patterns.Strategies.Tests.Mocks;
+using DandyDotnet.Patterns.Strategies.Tests.Setups;
 
-namespace DandyStrategies.Tests;
+namespace DandyDotnet.Patterns.Strategies.Tests;
 
 public class StrategyExecutorTests(StrategyMediatorSetup _setup) : IClassFixture<StrategyMediatorSetup>
 {

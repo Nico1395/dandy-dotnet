@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyStrategies.Tests.Setups;
+namespace DandyDotnet.Patterns.Strategies.Tests.Setups;
 
 public class StrategyMediatorSetup
 {

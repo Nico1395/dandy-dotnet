@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyStrategies.Tests;
+namespace DandyDotnet.Patterns.Strategies.Tests;
 
 public class StrategyRegistrarTests
 {
