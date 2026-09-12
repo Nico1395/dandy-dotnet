@@ -6,6 +6,7 @@
   </Folder>
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/Strategies/">
+    <Project Path="strategies/DandyDotnet.Patterns.Strategies.Abstractions/DandyDotnet.Patterns.Strategies.Abstractions.csproj" />
     <Project Path="strategies\DandyDotnet.Patterns.Strategies.Tests\DandyDotnet.Patterns.Strategies.Tests.csproj" />
     <Project Path="strategies\DandyDotnet.Patterns.Strategies\DandyDotnet.Patterns.Strategies.csproj" />
   </Folder>

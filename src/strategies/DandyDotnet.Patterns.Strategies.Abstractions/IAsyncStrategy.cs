@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Strategies;
+namespace DandyDotnet.Patterns.Strategies.Abstractions;
 
 public interface IAsyncStrategy<in TDefinition>
     where TDefinition : IAsyncStrategyDefinition

@@ -1,4 +1,4 @@
-namespace DandyDotnet.Patterns.Strategies;
+namespace DandyDotnet.Patterns.Strategies.Abstractions;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class StrategyKeyAttribute(object key) : Attribute
