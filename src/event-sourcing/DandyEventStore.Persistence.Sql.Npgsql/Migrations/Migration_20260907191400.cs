@@ -1,4 +1,4 @@
-using DandyEventStore.Persistence.Sql.Constants;
+using DandyDotnet.Patterns.EventSourcing.Sql.Constants;
 using FluentMigrator;
 
 namespace DandyEventStore.Persistence.Sql.Npgsql.Migrations;
@@ -8,7 +8,7 @@ public class Migration_20260907191400 : Migration
 {
     public override void Up()
     {
-        Create.Schema(Sql.Constants.Schema.Name);
+        Create.Schema(DandyDotnet.Patterns.EventSourcing.Sql.Constants.Schema.Name);
 
         Create.Table(Tables.Envelopes.Table)
             .WithColumn(Tables.Envelopes.StreamId).AsString(255).NotNullable()
@@ -63,6 +63,6 @@ public class Migration_20260907191400 : Migration
         Delete.Table(Tables.OutboxEnvelopes.Table);
         Delete.Table(Tables.Snapshots.Table);
         Delete.Table(Tables.Envelopes.Table);
-        Delete.Schema(Sql.Constants.Schema.Name);
+        Delete.Schema(DandyDotnet.Patterns.EventSourcing.Sql.Constants.Schema.Name);
     }
 }

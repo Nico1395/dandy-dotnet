@@ -1,5 +1,5 @@
 using System.Reflection;
-using DandyEventStore.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Sql.Connections;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 

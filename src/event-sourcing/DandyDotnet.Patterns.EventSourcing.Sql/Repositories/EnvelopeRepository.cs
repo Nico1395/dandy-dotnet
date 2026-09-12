@@ -2,7 +2,7 @@ using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
 using Dapper;
 
-namespace DandyEventStore.Persistence.Sql.Repositories;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Repositories;
 
 internal sealed class EnvelopeRepository(
     SqlStrings sqlStrings,

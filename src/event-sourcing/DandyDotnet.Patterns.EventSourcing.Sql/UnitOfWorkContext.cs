@@ -1,7 +1,7 @@
 using System.Data;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Sql.Connections;
 
-namespace DandyEventStore.Persistence.Sql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql;
 
 internal sealed class UnitOfWorkContext : IReadOnlyUnitOfWorkContext, IDisposable
 {

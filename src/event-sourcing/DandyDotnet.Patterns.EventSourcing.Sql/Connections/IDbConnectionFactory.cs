@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace DandyEventStore.Persistence.Sql.Connections;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Connections;
 
 public interface IDbConnectionFactory
 {

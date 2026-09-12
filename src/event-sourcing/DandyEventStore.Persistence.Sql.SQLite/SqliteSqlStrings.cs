@@ -1,4 +1,4 @@
-using DandyEventStore.Persistence.Sql.Constants;
+using DandyDotnet.Patterns.EventSourcing.Sql.Constants;
 
 namespace DandyEventStore.Persistence.Sql.SQLite;
 

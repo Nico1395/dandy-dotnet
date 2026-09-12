@@ -1,4 +1,4 @@
-using DandyEventStore.Persistence.Sql.Constants;
+using DandyDotnet.Patterns.EventSourcing.Sql.Constants;
 using FluentMigrator;
 
 namespace DandyEventStore.Persistence.Sql.SQLite.Migrations;

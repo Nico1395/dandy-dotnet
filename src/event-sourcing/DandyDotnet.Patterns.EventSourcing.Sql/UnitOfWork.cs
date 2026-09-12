@@ -1,7 +1,8 @@
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Repositories;
+using DandyDotnet.Patterns.EventSourcing.Persistence;
+using DandyDotnet.Patterns.EventSourcing.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Sql.Repositories;
 
-namespace DandyEventStore.Persistence.Sql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql;
 
 internal sealed class UnitOfWork : IUnitOfWork, IDisposable
 {

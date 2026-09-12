@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace DandyEventStore.Persistence.Sql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql;
 
 public interface IReadOnlyUnitOfWorkContext
 {

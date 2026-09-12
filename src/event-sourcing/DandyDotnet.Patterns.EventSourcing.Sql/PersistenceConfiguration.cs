@@ -1,7 +1,8 @@
 using DandyDotnet.Patterns.EventSourcing.Configuration;
+using DandyDotnet.Patterns.EventSourcing.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyEventStore.Persistence.Sql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql;
 
 public abstract class PersistenceConfiguration : PluginConfiguration
 {

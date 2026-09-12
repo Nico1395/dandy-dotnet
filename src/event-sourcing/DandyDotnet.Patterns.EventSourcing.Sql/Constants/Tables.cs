@@ -1,4 +1,4 @@
-namespace DandyEventStore.Persistence.Sql.Constants;
+namespace DandyDotnet.Patterns.EventSourcing.Sql.Constants;
 
 public static class Tables
 {

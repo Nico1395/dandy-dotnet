@@ -1,4 +1,4 @@
-namespace DandyEventStore.Persistence.Sql;
+namespace DandyDotnet.Patterns.EventSourcing.Sql;
 
 public abstract class SqlStrings
 {

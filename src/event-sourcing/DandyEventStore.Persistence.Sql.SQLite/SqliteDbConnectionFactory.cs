@@ -1,5 +1,5 @@
 using System.Data;
-using DandyEventStore.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Sql.Connections;
 using Microsoft.Data.Sqlite;
 
 namespace DandyEventStore.Persistence.Sql.SQLite;

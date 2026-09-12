@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <ProjectReference Include="..\DandyEventStore.Persistence.Sql\DandyEventStore.Persistence.Sql.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Sql\DandyDotnet.Patterns.EventSourcing.Sql.csproj" />
     </ItemGroup>
 
     <ItemGroup>
