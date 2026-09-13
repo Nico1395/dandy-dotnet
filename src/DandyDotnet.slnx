@@ -46,6 +46,19 @@
     <Project Path="strategies\DandyDotnet.Patterns.Strategies.Tests\DandyDotnet.Patterns.Strategies.Tests.csproj" />
     <Project Path="strategies\DandyDotnet.Patterns.Strategies\DandyDotnet.Patterns.Strategies.csproj" />
   </Folder>
+  <Folder Name="/Persistence/">
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.Postgres/DandyDotnet.Persistence.Sql.Postgres.csproj" />
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.SqlServer/DandyDotnet.Persistence.Sql.SqlServer.csproj" />
+    <Project Path="persistence\DandyDotnet.Persistence.Sql.Abstractions\DandyDotnet.Persistence.Sql.Abstractions.csproj" />
+    <Project Path="persistence\DandyDotnet.Persistence.Sql.Sqlite\DandyDotnet.Persistence.Sql.Sqlite.csproj" />
+  </Folder>
+  <Folder Name="/Persistence/Migrations/">
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Postgres/DandyDotnet.Persistence.Sql.Migrations.Postgres.csproj" />
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Sqlite/DandyDotnet.Persistence.Sql.Migrations.Sqlite.csproj" />
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.SqlServer/DandyDotnet.Persistence.Sql.Migrations.SqlServer.csproj" />
+    <Project Path="persistence\DandyDotnet.Persistence.Sql.Migrations.Abstractions\DandyDotnet.Persistence.Sql.Migrations.Abstractions.csproj" />
+    <Project Path="persistence\DandyDotnet.Persistence.Sql.Migrations\DandyDotnet.Persistence.Sql.Migrations.csproj" />
+  </Folder>
   <Folder Name="/Serialization/">
     <Project Path="serialization/DandyDotnet.Serialization.NewtonsoftJson.Tests/DandyDotnet.Serialization.NewtonsoftJson.Tests.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization.NewtonsoftJson/DandyDotnet.Serialization.NewtonsoftJson.csproj" />
