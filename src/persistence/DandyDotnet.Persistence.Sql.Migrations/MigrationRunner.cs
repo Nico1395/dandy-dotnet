@@ -39,10 +39,10 @@ internal sealed class MigrationRunner(
 
         try
         {
-            if (!SchemaExists(connection))
+            if (!SchemaExists(connection, transaction))
                 CreateSchema(connection, transaction);
 
-            if (MigrationsTableExists(connection))
+            if (MigrationsTableExists(connection, transaction))
                 return;
 
             var sqlStrings = GetSqlStrings();
@@ -77,7 +77,7 @@ internal sealed class MigrationRunner(
 
         try
         {
-            var appliedVersions = GetAppliedVersions(connection);
+            var appliedVersions = GetAppliedVersions(connection, transaction);
             if (!HasUnappliedMigrations(appliedVersions, migrations))
                 return;
 
@@ -127,7 +127,7 @@ internal sealed class MigrationRunner(
 
         try
         {
-            var appliedVersions = GetAppliedVersions(connection);
+            var appliedVersions = GetAppliedVersions(connection, transaction);
             var downMigrations = migrations
                 .Where(m => appliedVersions.Contains(m.Version))
                 .OrderByDescending(m => m.Version)
@@ -181,10 +181,10 @@ internal sealed class MigrationRunner(
             : serviceProvider.GetRequiredKeyedService<MigrationsSqlStrings>(configuration.ServiceKey);
     }
 
-    private long[] GetAppliedVersions(IDbConnection connection)
+    private long[] GetAppliedVersions(IDbConnection connection, IDbTransaction? transaction = null)
     {
         var sqlStrings = GetSqlStrings();
-        var versions = connection.Query<long>(new CommandDefinition(sqlStrings.GetAppliedVersions));
+        var versions = connection.Query<long>(new CommandDefinition(sqlStrings.GetAppliedVersions, transaction: transaction));
         return versions.Order().ToArray();
     }
 
@@ -193,10 +193,10 @@ internal sealed class MigrationRunner(
         return migrations.Any(m => !appliedVersions.Contains(m.Version));
     }
 
-    private bool SchemaExists(IDbConnection connection)
+    private bool SchemaExists(IDbConnection connection, IDbTransaction? transaction = null)
     {
         var sqlStrings = GetSqlStrings();
-        var result = connection.ExecuteScalar<int>(new CommandDefinition(sqlStrings.SchemaExists));
+        var result = connection.ExecuteScalar<int>(new CommandDefinition(sqlStrings.SchemaExists, transaction: transaction));
 
         return result > 0;
     }
@@ -207,10 +207,10 @@ internal sealed class MigrationRunner(
         connection.Execute(new CommandDefinition(sqlStrings.CreateSchema, transaction: transaction));
     }
 
-    private bool MigrationsTableExists(IDbConnection connection)
+    private bool MigrationsTableExists(IDbConnection connection, IDbTransaction? transaction = null)
     {
         var sqlStrings = GetSqlStrings();
-        var result = connection.ExecuteScalar<int>(new CommandDefinition(sqlStrings.MigrationsTableExists));
+        var result = connection.ExecuteScalar<int>(new CommandDefinition(sqlStrings.MigrationsTableExists, transaction: transaction));
 
         return result > 0;
     }
