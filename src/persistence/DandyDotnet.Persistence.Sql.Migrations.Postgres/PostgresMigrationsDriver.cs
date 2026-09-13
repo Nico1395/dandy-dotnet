@@ -10,12 +10,12 @@ internal sealed class PostgresMigrationsDriver : MigrationsDriver
     {
         if (configuration.ServiceKey == null)
         {
-            services.AddSingleton<IDbConnectionFactory, PostgresDbConnectionFactory>();
+            services.AddSingleton<IDbConnectionFactory>(new PostgresDbConnectionFactory(ConnectionString));
             services.AddSingleton<MigrationsSqlStrings, PostgresMigrationsSqlStrings>();
         }
         else
         {
-            services.AddKeyedSingleton<IDbConnectionFactory, PostgresDbConnectionFactory>(configuration.ServiceKey);
+            services.AddKeyedSingleton<IDbConnectionFactory>(configuration.ServiceKey, new PostgresDbConnectionFactory(ConnectionString));
             services.AddKeyedSingleton<MigrationsSqlStrings, PostgresMigrationsSqlStrings>(configuration.ServiceKey);
         }
     }

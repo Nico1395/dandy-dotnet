@@ -10,12 +10,12 @@ internal sealed class SqlServerMigrationsDriver : MigrationsDriver
     {
         if (configuration.ServiceKey == null)
         {
-            services.AddSingleton<IDbConnectionFactory, SqlServerDbConnectionFactory>();
+            services.AddSingleton<IDbConnectionFactory>(new SqlServerDbConnectionFactory(ConnectionString));
             services.AddSingleton<MigrationsSqlStrings, SqlServerMigrationsSqlStrings>();
         }
         else
         {
-            services.AddKeyedSingleton<IDbConnectionFactory, SqlServerDbConnectionFactory>(configuration.ServiceKey);
+            services.AddKeyedSingleton<IDbConnectionFactory>(configuration.ServiceKey, new SqlServerDbConnectionFactory(ConnectionString));
             services.AddKeyedSingleton<MigrationsSqlStrings, SqlServerMigrationsSqlStrings>(configuration.ServiceKey);
         }
     }

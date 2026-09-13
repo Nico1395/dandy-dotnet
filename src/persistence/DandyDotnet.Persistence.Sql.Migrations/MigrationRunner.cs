@@ -87,7 +87,7 @@ internal sealed class MigrationRunner(
 
     private IDbConnection GetOpenDbConnection()
     {
-        var connection = GetDbConnectionFactory().Create(configuration.ConnectionString);
+        var connection = GetDbConnectionFactory().Create();
 
         try
         {
