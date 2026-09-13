@@ -1,3 +1,5 @@
+using DandyDotnet.Persistence.Sql.Abstractions;
+using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 using DandyDotnet.Tests.Core.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
@@ -16,6 +18,21 @@ public sealed class DefaultFixture : Fixture
 
         if (_postgres is not null)
             await _postgres.DisposeAsync();
+    }
+
+    public IMigrationRunner GetMigrationRunner()
+    {
+        return ServiceProvider.GetRequiredService<IMigrationRunner>();
+    }
+
+    public IDbConnectionFactory GetDbConnectionFactory()
+    {
+        return ServiceProvider.GetRequiredService<IDbConnectionFactory>();
+    }
+
+    public IEnumerable<IMigration> GetMigrations()
+    {
+        return ServiceProvider.GetServices<IMigration>();
     }
 
     protected override void ConfigureServices(IServiceCollection services)
