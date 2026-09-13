@@ -92,7 +92,7 @@ internal sealed class MigrationRunner(
             foreach (var migration in upMigrations)
                 migration.Up(builder);
 
-            InsertMigrations(migrations, connection, transaction);
+            InsertMigrations(upMigrations, connection, transaction);
             transaction.Commit();
         }
         catch (Exception exception)
