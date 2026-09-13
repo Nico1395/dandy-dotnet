@@ -12,4 +12,5 @@ public sealed class MigrationsConfiguration
     public Action<IServiceProvider, Exception>? OnExceptionDuringOpeningConnection { get; set; }
     public Action<IServiceProvider, Exception>? OnExceptionDuringMigrateUp { get; set; }
     public Action<IServiceProvider, Exception>? OnExceptionDuringMigrateDown { get; set; }
+    public Action<IServiceProvider, Exception>? OnExceptionDuringCreatingSchemaAndTable { get; set; }
 }

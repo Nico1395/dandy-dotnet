@@ -15,6 +15,8 @@ internal sealed class MigrationRunner(
 
     public void MigrateUp()
     {
+        EnsureMigrationsTableIsCreated();
+
         var migrations = serviceProvider
             .GetServices<IMigration>()
             .OrderBy(m => m.Version)
@@ -32,9 +34,7 @@ internal sealed class MigrationRunner(
             foreach (var migration in migrations)
                 migration.Up(builder);
 
-            EnsureMigrationsTableIsCreated(connection, transaction);
-            LogMigrations(migrations, connection, transaction);
-
+            InsertMigrations(migrations, connection, transaction);
             transaction.Commit();
         }
         catch (Exception exception)
@@ -49,9 +49,7 @@ internal sealed class MigrationRunner(
 
     public void MigrateDown(long? toVersion)
     {
-        var connection = GetOpenDbConnection();
-        if (!MigrationsTableExists(connection))
-            return;
+        EnsureMigrationsTableIsCreated();
 
         var migrations = serviceProvider
             .GetServices<IMigration>()
@@ -62,6 +60,7 @@ internal sealed class MigrationRunner(
         if (migrations.Length == 0)
             return;
 
+        var connection = GetOpenDbConnection();
         using var transaction = connection.BeginTransaction();
 
         try
@@ -70,9 +69,7 @@ internal sealed class MigrationRunner(
             foreach (var migration in migrations)
                 migration.Down(builder);
 
-            EnsureMigrationsTableIsCreated(connection, transaction);
             DeleteMigrations(migrations, connection, transaction);
-
             transaction.Commit();
         }
         catch (Exception exception)
@@ -80,6 +77,34 @@ internal sealed class MigrationRunner(
             transaction.Rollback();
             configuration.OnExceptionDuringMigrateDown?.Invoke(serviceProvider, exception);
             Console.WriteLine(exception);
+
+            throw;
+        }
+    }
+
+    private void EnsureMigrationsTableIsCreated()
+    {
+        var connection = GetOpenDbConnection();
+        using var transaction = connection.BeginTransaction();
+
+        try
+        {
+            if (!SchemaExists(connection))
+                CreateSchema(connection, transaction);
+
+            if (MigrationsTableExists(connection))
+                return;
+
+            var sqlStrings = GetSqlStrings();
+            connection.Execute(new CommandDefinition(sqlStrings.CreateMigrationsTable, transaction: transaction));
+
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            configuration.OnExceptionDuringCreatingSchemaAndTable?.Invoke(serviceProvider, ex);
+            Console.WriteLine(ex);
 
             throw;
         }
@@ -101,7 +126,7 @@ internal sealed class MigrationRunner(
 
         return connection;
     }
-    
+
     private IDbConnectionFactory GetDbConnectionFactory()
     {
         return _dbConnectionFactory ??= configuration.ServiceKey == null
@@ -114,18 +139,6 @@ internal sealed class MigrationRunner(
         return _sqlStrings ??= configuration.ServiceKey == null
             ? serviceProvider.GetRequiredService<MigrationsSqlStrings>()
             : serviceProvider.GetRequiredKeyedService<MigrationsSqlStrings>(configuration.ServiceKey);
-    }
-
-    private void EnsureMigrationsTableIsCreated(IDbConnection connection, IDbTransaction transaction)
-    {
-        if (!SchemaExists(connection))
-            CreateSchema(connection, transaction);
-
-        if (MigrationsTableExists(connection))
-            return;
-
-        var sqlStrings = GetSqlStrings();
-        connection.Execute(new CommandDefinition(sqlStrings.CreateMigrationsTable, transaction: transaction));
     }
 
     private bool SchemaExists(IDbConnection connection)
@@ -150,7 +163,7 @@ internal sealed class MigrationRunner(
         return result > 0;
     }
 
-    private void LogMigrations(IMigration[] migrations, IDbConnection connection, IDbTransaction transaction)
+    private void InsertMigrations(IMigration[] migrations, IDbConnection connection, IDbTransaction transaction)
     {
         var sqlStrings = GetSqlStrings();
         var parameters = migrations.Select(m => new { m.Version }).ToArray();
