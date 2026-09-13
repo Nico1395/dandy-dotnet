@@ -37,19 +37,11 @@ public sealed class DefaultFixture : Fixture
         return ServiceProvider.GetRequiredService<IEventStore>();
     }
 
-    public override Task InitializeAsync()
+    protected override async Task OnInitializeAsync()
     {
-        try
-        {
-            var migrationRunner = ServiceProvider.GetRequiredService<IMigrationRunner>();
-            migrationRunner.MigrateUp();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            throw;
-        }
-
-        return Task.CompletedTask;
+        await base.OnInitializeAsync();
+        
+        var migrationRunner = ServiceProvider.GetRequiredService<IMigrationRunner>();
+        migrationRunner.MigrateUp();
     }
 }

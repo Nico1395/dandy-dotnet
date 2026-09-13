@@ -10,39 +10,41 @@ public sealed class DefaultFixture : Fixture
 
     public string ConnectionString => _postgres?.GetConnectionString() ?? throw new InvalidOperationException("The PostgreSQL container has not been started.");
 
-    protected override void ConfigureServices(IServiceCollection services)
-    {
-        try
-        {
-            var assemblies = new[] { typeof(DefaultFixture).Assembly };
-            
-            _postgres = new PostgreSqlBuilder()
-                .WithImage("postgres:16-alpine")
-                .WithDatabase("tests")
-                .WithUsername("dev")
-                .WithPassword("dev")
-                .Build();
-
-            _postgres.StartAsync().GetAwaiter().GetResult();
-
-            services.AddDandyMigrations(configuration =>
-            {
-                configuration.UsePostgres(ConnectionString);
-                configuration.ScanInAssemblies(assemblies);
-            });
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            throw;
-        }
-    }
-
     public override async Task DisposeAsync()
     {
-        ServiceProvider.Dispose();
+        await base.DisposeAsync();
 
         if (_postgres is not null)
             await _postgres.DisposeAsync();
+    }
+
+    protected override void ConfigureServices(IServiceCollection services)
+    {
+        var assemblies = new[] { typeof(DefaultFixture).Assembly };
+
+        _postgres = new PostgreSqlBuilder()
+            .WithImage("postgres:16-alpine")
+            .WithDatabase("tests")
+            .WithUsername("dev")
+            .WithPassword("dev")
+            .Build();
+
+        _postgres.StartAsync().GetAwaiter().GetResult();
+
+        services.AddDandyMigrations(configuration =>
+        {
+            configuration.UsePostgres(ConnectionString);
+            configuration.ScanInAssemblies(assemblies);
+        });
+    }
+
+    protected override async Task OnInitializeAsync()
+    {
+        await base.OnInitializeAsync();
+
+        if (_postgres == null)
+            return;
+
+        await _postgres.StartAsync();
     }
 }
