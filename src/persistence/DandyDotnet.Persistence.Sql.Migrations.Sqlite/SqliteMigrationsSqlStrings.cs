@@ -2,8 +2,37 @@ namespace DandyDotnet.Persistence.Sql.Migrations.Sqlite;
 
 public sealed class SqliteMigrationsSqlStrings : MigrationsSqlStrings
 {
-    public override string MigrationsTableExists { get; }
-    public override string CreateMigrationsTable { get; }
-    public override string InsertMigrations { get; }
-    public override string DeleteMigrations { get; }
+    private readonly MigrationsConfiguration _configuration;
+    private readonly string _qualifiedTable;
+
+    public SqliteMigrationsSqlStrings(MigrationsConfiguration configuration)
+    {
+        _configuration = configuration;
+        _qualifiedTable = QuoteIdentifier(configuration.Table);
+    }
+
+    public override string SchemaExists => "SELECT 1;";
+
+    public override string CreateSchema => "SELECT 1;";
+
+    public override string MigrationsTableExists =>
+        $"SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = '{EscapeLiteral(_configuration.Table)}';";
+
+    public override string CreateMigrationsTable =>
+        $"""
+        CREATE TABLE {_qualifiedTable} (
+            {QuoteIdentifier(MigrationsConstants.Tables.Migrations.Version)} INTEGER NOT NULL PRIMARY KEY,
+            {QuoteIdentifier(MigrationsConstants.Tables.Migrations.AppliedAt)} DATETIME NOT NULL
+        );
+        """;
+
+    public override string InsertMigrations =>
+        $"INSERT INTO {_qualifiedTable} ({QuoteIdentifier(MigrationsConstants.Tables.Migrations.Version)}, {QuoteIdentifier(MigrationsConstants.Tables.Migrations.AppliedAt)}) VALUES (@Version, CURRENT_TIMESTAMP);";
+
+    public override string DeleteMigrations =>
+        $"DELETE FROM {_qualifiedTable} WHERE {QuoteIdentifier(MigrationsConstants.Tables.Migrations.Version)} = @Version;";
+
+    private static string QuoteIdentifier(string identifier) => $"\"{identifier.Replace("\"", "\"\"")}\"";
+
+    private static string EscapeLiteral(string value) => value.Replace("'", "''");
 }

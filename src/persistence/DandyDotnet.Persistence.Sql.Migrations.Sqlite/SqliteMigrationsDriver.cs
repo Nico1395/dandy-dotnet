@@ -11,12 +11,12 @@ internal sealed class SqliteMigrationsDriver : MigrationsDriver
         if (configuration.ServiceKey == null)
         {
             services.AddSingleton<IDbConnectionFactory>(new SqliteDbConnectionFactory(ConnectionString));
-            services.AddSingleton<MigrationsSqlStrings, SqliteMigrationsSqlStrings>();
+            services.AddSingleton<MigrationsSqlStrings>(new SqliteMigrationsSqlStrings(configuration));
         }
         else
         {
             services.AddKeyedSingleton<IDbConnectionFactory>(configuration.ServiceKey, new SqliteDbConnectionFactory(ConnectionString));
-            services.AddKeyedSingleton<MigrationsSqlStrings, SqliteMigrationsSqlStrings>(configuration.ServiceKey);
+            services.AddKeyedSingleton<MigrationsSqlStrings>(configuration.ServiceKey, new SqliteMigrationsSqlStrings(configuration));
         }
     }
 }
