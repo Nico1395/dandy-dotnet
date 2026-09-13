@@ -1,5 +1,4 @@
 using DandyDotnet.Persistence.Sql.Abstractions;
-using DandyDotnet.Persistence.Sql.Migrations;
 using DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +21,7 @@ public sealed class PostgresMigrationsDriverTests(DefaultFixture fixture) : ICla
 
         var database = command.ExecuteScalar();
 
-        Assert.Equal("dandy_dotnet_tests", database);
+        Assert.Equal("tests", database);
     }
 
     [Fact]

@@ -37,14 +37,4 @@ public sealed class DefaultFixture : Fixture
             configuration.ScanInAssemblies(assemblies);
         });
     }
-
-    protected override async Task OnInitializeAsync()
-    {
-        await base.OnInitializeAsync();
-
-        if (_postgres == null)
-            return;
-
-        await _postgres.StartAsync();
-    }
 }
