@@ -20,6 +20,9 @@ jobs:
     name: "Pack and publish packages"
     runs-on: "ubuntu-latest"
     steps:
+    - name: "Docker info"
+      run: "docker info"
+    
     - name: "Checkout"
       uses: "actions/checkout@v4"
       with:
