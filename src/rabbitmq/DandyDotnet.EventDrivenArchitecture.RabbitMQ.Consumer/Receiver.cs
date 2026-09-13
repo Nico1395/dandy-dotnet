@@ -63,6 +63,7 @@ public class Receiver(
         catch (Exception ex)
         {
             consumerConfiguration.OnExceptionWhenReceivingMessage?.Invoke(serviceProvider, ex);
+            Console.WriteLine(ex);
         }
 
         await AckOrNackAsync(args, ackLock, channel, result, cancellationToken);
@@ -109,6 +110,7 @@ public class Receiver(
         catch (Exception ex)
         {
             consumerConfiguration.OnExceptionWhenAckOrNack?.Invoke(serviceProvider, ex);
+            Console.WriteLine(ex);
         }
         finally
         {
@@ -135,6 +137,7 @@ public class Receiver(
         catch (Exception ex)
         {
             consumerConfiguration.OnExceptionWhenIntercepting?.Invoke(serviceProvider, ex);
+            Console.WriteLine(ex);
         }
     }
 }

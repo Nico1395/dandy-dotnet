@@ -33,6 +33,7 @@ internal sealed class ConsumerWorker(
         catch (Exception ex)
         {
             consumerConfiguration.OnExceptionWhenInitializingWorker?.Invoke(serviceProvider, ex);
+            Console.WriteLine(ex);
             throw;
         }
     }

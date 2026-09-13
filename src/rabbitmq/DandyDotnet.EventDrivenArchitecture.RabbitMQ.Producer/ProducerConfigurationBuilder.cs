@@ -1,3 +1,4 @@
+using System.Reflection;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
@@ -25,6 +26,17 @@ public sealed class ProducerConfigurationBuilder
     /// Gets or sets the exchange, queue, and binding declaration configuration.
     /// </summary>
     public DeclarationsConfigurationBuilder Declarations { get; set; } = new();
+
+    /// <summary>
+    /// Sets <paramref name="assemblies"/> scanned for messages.
+    /// </summary>
+    /// <param name="assemblies">The assemblies to scan.</param>
+    /// <returns>This builder.</returns>
+    public ProducerConfigurationBuilder ScanInAssemblies(params Assembly[] assemblies)
+    {
+        Messages.ScanInAssemblies(assemblies);
+        return this;
+    }
 
     internal ProducerConfiguration Build()
     {

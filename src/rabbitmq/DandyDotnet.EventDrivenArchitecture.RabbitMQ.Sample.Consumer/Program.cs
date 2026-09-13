@@ -30,7 +30,7 @@ builder.Services.AddDandyRabbitMQConsumer(cfg =>
     {
         channel.Queue.RoutingKeys = ["all"];
     });
-    cfg.Messages.ScanInAssemblies(assemblies);
+    cfg.ScanInAssemblies(assemblies);
 });
 
 Console.WriteLine("...done!");

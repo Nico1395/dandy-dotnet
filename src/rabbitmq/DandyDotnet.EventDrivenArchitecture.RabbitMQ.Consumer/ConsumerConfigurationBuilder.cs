@@ -45,7 +45,9 @@ public sealed class ConsumerConfigurationBuilder
     /// <returns>This builder.</returns>
     public ConsumerConfigurationBuilder ScanInAssemblies(params Assembly[] assemblies)
     {
-        Messages.ScanInAssemblies(_configuration.Assemblies = assemblies);
+        _configuration.Assemblies = assemblies;
+        Messages.ScanInAssemblies(_configuration.Assemblies);
+
         return this;
     }
 
