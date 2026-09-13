@@ -118,11 +118,28 @@ internal sealed class MigrationRunner(
 
     private void EnsureMigrationsTableIsCreated(IDbConnection connection, IDbTransaction transaction)
     {
+        if (!SchemaExists(connection))
+            CreateSchema(connection, transaction);
+
         if (MigrationsTableExists(connection))
             return;
 
         var sqlStrings = GetSqlStrings();
-        connection.Execute(new CommandDefinition(sqlStrings.CreateMigrationsTable, transaction));
+        connection.Execute(new CommandDefinition(sqlStrings.CreateMigrationsTable, transaction: transaction));
+    }
+
+    private bool SchemaExists(IDbConnection connection)
+    {
+        var sqlStrings = GetSqlStrings();
+        var result = connection.ExecuteScalar<int>(new CommandDefinition(sqlStrings.SchemaExists));
+
+        return result > 0;
+    }
+
+    private void CreateSchema(IDbConnection connection, IDbTransaction transaction)
+    {
+        var sqlStrings = GetSqlStrings();
+        connection.ExecuteScalar<int>(new CommandDefinition(sqlStrings.CreateSchema, transaction: transaction));
     }
 
     private bool MigrationsTableExists(IDbConnection connection)
@@ -138,7 +155,7 @@ internal sealed class MigrationRunner(
         var sqlStrings = GetSqlStrings();
         var parameters = migrations.Select(m => new { m.Version }).ToArray();
 
-        connection.Execute(new CommandDefinition(sqlStrings.InsertMigrations, parameters, transaction));
+        connection.Execute(new CommandDefinition(sqlStrings.InsertMigrations, parameters, transaction: transaction));
     }
 
     private void DeleteMigrations(IMigration[] migrations, IDbConnection connection, IDbTransaction transaction)
@@ -146,6 +163,6 @@ internal sealed class MigrationRunner(
         var sqlStrings = GetSqlStrings();
         var parameters = migrations.Select(m => new { m.Version }).ToArray();
 
-        connection.Execute(new CommandDefinition(sqlStrings.DeleteMigrations, parameters, transaction));
+        connection.Execute(new CommandDefinition(sqlStrings.DeleteMigrations, parameters, transaction: transaction));
     }
 }
