@@ -6,7 +6,7 @@ on:
     types: [ opened, synchronize, reopened ]
 
 env:
-  SLN: "./src/TARGERT_SOLUTION_NAME.slnx"
+  SLN: "./src/DandyDotnet.slnx"
   DOTNET_VERSION: "10.0.x"
 
 jobs:
@@ -14,6 +14,9 @@ jobs:
     name: "Run unit tests"
     runs-on: "ubuntu-latest"
     steps:
+    - name: "Docker info"
+      run: "docker info"
+    
     - name: "Checkout"
       uses: "actions/checkout@v4"
       with:

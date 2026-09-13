@@ -6,7 +6,7 @@ on:
       - published
 
 env:
-  SLN: "./src/TARGET_SOLUTION_NAME.slnx"
+  SLN: "./src/DandyDotnet.slnx"
   DOTNET_VERSION: "10.0.x"
   PACK_OUTPUT_DIRECTORY: "${{ github.workspace }}/output"
   NUGET_SOURCE_URL: "https://api.nuget.org/v3/index.json"
@@ -20,6 +20,9 @@ jobs:
     name: "Pack and publish packages"
     runs-on: "ubuntu-latest"
     steps:
+    - name: "Docker info"
+      run: "docker info"
+    
     - name: "Checkout"
       uses: "actions/checkout@v4"
       with:

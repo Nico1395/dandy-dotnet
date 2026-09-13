@@ -1,29 +1,18 @@
-using DandyDotnet.Patterns.Mediator;
 using DandyDotnet.Patterns.Mediator.Abstractions;
+using DandyDotnet.Tests.Core.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.Mediator.Tests.Fixtures;
 
-public sealed class DefaultFixture : IServiceProvider
+public sealed class DefaultFixture : Fixture
 {
-    private readonly IServiceProvider _serviceProvider;
-    
-    public DefaultFixture()
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        var services = new ServiceCollection();
-
         services.AddDandyMediator(config => config.ScanInAssemblies(typeof(DefaultFixture).Assembly));
-
-        _serviceProvider = services.BuildServiceProvider();
     }
 
-    public object? GetService(Type serviceType)
-    {
-        return _serviceProvider.GetService(serviceType);
-    }
-    
     public IMediator GetMediator()
     {
-        return _serviceProvider.GetRequiredService<IMediator>();
+        return ServiceProvider.GetRequiredService<IMediator>();
     }
 }
