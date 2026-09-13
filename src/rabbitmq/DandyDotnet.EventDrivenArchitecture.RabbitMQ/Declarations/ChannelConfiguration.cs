@@ -16,12 +16,14 @@ public sealed class ChannelConfiguration(string exchangeName, string queueName) 
     /// <summary>
     /// Gets or sets the exchange declaration.
     /// </summary>
-    public IReadOnlyExchangeConfiguration Exchange { get; set; } = new ExchangeConfiguration(exchangeName);
+    public ExchangeConfiguration Exchange { get; set; } = new(exchangeName);
+    IReadOnlyExchangeConfiguration IReadOnlyChannelConfiguration.Exchange => Exchange;
 
     /// <summary>
     /// Gets or sets the queue declaration.
     /// </summary>
-    public IReadOnlyQueueConfiguration Queue { get; set; } = new QueueConfiguration(queueName);
+    public QueueConfiguration Queue { get; set; } = new(queueName);
+    IReadOnlyQueueConfiguration IReadOnlyChannelConfiguration.Queue => Queue;
 
     /// <summary>
     /// Gets or sets the channel prefetch size.
