@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.csproj" />
-      <ProjectReference Include="..\DandyRabbitMQ.Core\DandyRabbitMQ.Core.csproj" />
     </ItemGroup>
 
 </Project>

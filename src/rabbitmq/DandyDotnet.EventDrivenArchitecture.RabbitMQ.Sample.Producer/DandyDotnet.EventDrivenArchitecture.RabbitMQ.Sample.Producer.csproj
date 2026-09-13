@@ -12,9 +12,7 @@
         <ProjectReference Include="..\..\encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
         <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.SystemTextJson\DandyDotnet.Serialization.SystemTextJson.csproj" />
         <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.csproj" />
-        <ProjectReference Include="..\DandyRabbitMQ.Producer\DandyRabbitMQ.Producer.csproj" />
         <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared.csproj" />
-        <ProjectReference Include="..\DandyRabbitMQ.Serialization.SystemTextJson\DandyRabbitMQ.Serialization.SystemTextJson.csproj" />
     </ItemGroup>
 
     <ItemGroup>
