@@ -15,16 +15,10 @@ internal sealed class MigrationRunner(
 
     public long[] GetAppliedVersions()
     {
-        using var connection = GetOpenDbConnection();
+        InitializeDatabase();
 
-        try
-        {
-            return GetAppliedVersions(connection);
-        }
-        catch
-        {
-            return [];
-        }
+        using var connection = GetOpenDbConnection();
+        return GetAppliedVersions(connection);
     }
 
     public bool HasUnappliedMigrations()
@@ -163,14 +157,14 @@ internal sealed class MigrationRunner(
         try
         {
             connection.Open();
+            return connection;
         }
         catch (Exception exception)
         {
             configuration.OnExceptionDuringOpeningConnection?.Invoke(serviceProvider, exception);
             Console.WriteLine(exception);
+            throw;
         }
-
-        return connection;
     }
 
     private IDbConnectionFactory GetDbConnectionFactory()
