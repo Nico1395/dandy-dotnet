@@ -1,0 +1,15 @@
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
+
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
+
+/// <summary>
+/// Stores the configuration used to register producer services.
+/// </summary>
+public sealed class ProducerConfiguration
+{
+    internal ConnectivityConfigurationBuilder ConnectivityConfigurationBuilder { get; set; } = new();
+    internal MessagesConfigurationBuilder MessagesConfigurationBuilder { get; set; } = new();
+    internal DeclarationsConfigurationBuilder DeclarationsConfiguration { get; set; } = new();
+}
