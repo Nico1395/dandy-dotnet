@@ -1,0 +1,22 @@
+using DandyDotnet.Persistence.Sql.Abstractions;
+using DandyDotnet.Persistence.Sql.SqlServer;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace DandyDotnet.Persistence.Sql.Migrations.SqlServer;
+
+internal sealed class SqlServerMigrationsDriver : MigrationsDriver
+{
+    public override void ConfigureServices(IServiceCollection services, MigrationsConfiguration configuration)
+    {
+        if (configuration.ServiceKey == null)
+        {
+            services.AddSingleton<IDbConnectionFactory, SqlServerDbConnectionFactory>();
+            services.AddSingleton<MigrationsSqlStrings, SqlServerMigrationsSqlStrings>();
+        }
+        else
+        {
+            services.AddKeyedSingleton<IDbConnectionFactory, SqlServerDbConnectionFactory>(configuration.ServiceKey);
+            services.AddKeyedSingleton<MigrationsSqlStrings, SqlServerMigrationsSqlStrings>(configuration.ServiceKey);
+        }
+    }
+}

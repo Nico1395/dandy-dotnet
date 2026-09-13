@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Migrations\DandyDotnet.Persistence.Sql.Migrations.csproj" />
+        <ProjectReference Include="..\DandyDotnet.Persistence.Sql.SqlServer\DandyDotnet.Persistence.Sql.SqlServer.csproj" />
     </ItemGroup>
 
 </Project>
