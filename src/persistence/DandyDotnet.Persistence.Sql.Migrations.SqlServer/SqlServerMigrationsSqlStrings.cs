@@ -13,6 +13,9 @@ public sealed class SqlServerMigrationsSqlStrings : MigrationsSqlStrings
         _qualifiedTable = $"{QuoteIdentifier(_schema)}.{QuoteIdentifier(configuration.Table)}";
     }
 
+    public override string GetAppliedVersions =>
+        $"SELECT {QuoteIdentifier(MigrationsConstants.Tables.Migrations.Version)} FROM {_qualifiedTable} ORDER BY {QuoteIdentifier(MigrationsConstants.Tables.Migrations.Version)};";
+
     public override string SchemaExists =>
         $"SELECT COUNT(*) FROM sys.schemas WHERE name = N'{EscapeLiteral(_schema)}';";
 

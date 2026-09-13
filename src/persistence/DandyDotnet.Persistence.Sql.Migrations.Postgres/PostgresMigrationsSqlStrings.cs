@@ -13,6 +13,9 @@ public sealed class PostgresMigrationsSqlStrings : MigrationsSqlStrings
         _qualifiedTable = $"{QuoteIdentifier(_schema)}.{QuoteIdentifier(configuration.Table)}";
     }
 
+    public override string GetAppliedVersions =>
+        $"SELECT {QuoteIdentifier(MigrationsConstants.Tables.Migrations.Version)} FROM {_qualifiedTable} ORDER BY {QuoteIdentifier(MigrationsConstants.Tables.Migrations.Version)};";
+
     public override string SchemaExists =>
         $"SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '{EscapeLiteral(_schema)}';";
 
