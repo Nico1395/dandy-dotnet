@@ -1,9 +1,9 @@
 # DandyDotnet
-- What is DandyDotnet?
-- Feature packages
-- Package overview
-- How can I use packages?
-- Is AI being used and if yes, how?
+- [What is DandyDotnet?](https://github.com/Nico1395/dandy-dotnet/tree/dev#what-is-dandydotnet)
+- [Packages](https://github.com/Nico1395/dandy-dotnet/tree/dev#packages)
+- [Package overview](https://github.com/Nico1395/dandy-dotnet/tree/dev#package-overview)
+- [How can I use packages?](https://github.com/Nico1395/dandy-dotnet/tree/dev#how-can-i-use-packages)
+- [Is AI being used and if yes, how?](https://github.com/Nico1395/dandy-dotnet/tree/dev#how-can-i-use-packages)
 
 ## What is DandyDotnet?
 DandyDotnet is a family of opinionated packages that build on top of [.NET Core](https://github.com/dotnet/runtime) and [ASP.NET Core](https://github.com/dotnet/aspnetcore). Their goal is to implement design patterns or architectural paradigms and make the use of tech such as RabbitMQ easier. Some packages are more opinionated than others. The individual goals of each package differ. Consult their documentation for further information.
@@ -68,6 +68,8 @@ This section offers a brief overview of all packages available on [nuget.org](ht
 
 ## How can I use packages? 
 Packages are added to your projects via NuGet. You can either use the NuGet-Manager of your IDE of choice or use the `dotnet`-CLI like so (see [here](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-add)).
+
+For detailed documentations for packages consult the list of pacakges and linked docs above.
 
 ## Is AI being used and if yes, how?
 Yes, AI is being used. I am not a very heavy AI-user. However there are tasks that I use and consult AI for. This section briefly summarizes how AI is used and why.
