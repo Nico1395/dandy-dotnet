@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Testcontainers.PostgreSql"/>
         <PackageReference Include="coverlet.collector"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk"/>
         <PackageReference Include="xunit"/>
@@ -17,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\DandyDotnet.Tests.Core\DandyDotnet.Tests.Core.csproj" />
-      <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Migrations.Postgres\DandyDotnet.Persistence.Sql.Migrations.Postgres.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Tests.Core\DandyDotnet.Tests.Core.csproj" />
+      <ProjectReference Include="..\persistence\DandyDotnet.Persistence.Sql.Migrations.SqlServer\DandyDotnet.Persistence.Sql.Migrations.SqlServer.csproj" />
     </ItemGroup>
 
 </Project>

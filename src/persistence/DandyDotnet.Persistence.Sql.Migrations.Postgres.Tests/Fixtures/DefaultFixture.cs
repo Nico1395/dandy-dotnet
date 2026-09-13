@@ -14,19 +14,21 @@ public sealed class DefaultFixture : Fixture
     {
         try
         {
+            var assemblies = new[] { typeof(DefaultFixture).Assembly };
+            
             _postgres = new PostgreSqlBuilder()
                 .WithImage("postgres:16-alpine")
-                .WithDatabase("dandy_dotnet_tests")
-                .WithUsername("postgres")
-                .WithPassword("postgres")
+                .WithDatabase("tests")
+                .WithUsername("dev")
+                .WithPassword("dev")
                 .Build();
 
             _postgres.StartAsync().GetAwaiter().GetResult();
 
             services.AddDandyMigrations(configuration =>
             {
-                configuration.UsePostgres();
-                configuration.Driver!.ConnectionString = ConnectionString;
+                configuration.UsePostgres(ConnectionString);
+                configuration.ScanInAssemblies(assemblies);
             });
         }
         catch (Exception ex)

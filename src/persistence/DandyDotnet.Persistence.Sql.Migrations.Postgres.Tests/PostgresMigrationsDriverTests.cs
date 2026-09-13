@@ -45,8 +45,7 @@ public sealed class PostgresMigrationsDriverTests(DefaultFixture fixture) : ICla
         services.AddDandyMigrations(configuration =>
         {
             configuration.ServiceKey = serviceKey;
-            configuration.UsePostgres();
-            configuration.Driver!.ConnectionString = fixture.ConnectionString;
+            configuration.UsePostgres(fixture.ConnectionString);
         });
 
         using var provider = services.BuildServiceProvider();
