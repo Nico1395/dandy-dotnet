@@ -4,9 +4,9 @@ using Npgsql;
 
 namespace DandyDotnet.Persistence.Sql.Postgres;
 
-public sealed class PostgresDbConnectionFactory : IDbConnectionFactory
+public sealed class PostgresDbConnectionFactory(string? connectionString) : IDbConnectionFactory
 {
-    public IDbConnection Create(string? connectionString)
+    public IDbConnection Create()
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
         return new NpgsqlConnection(connectionString);

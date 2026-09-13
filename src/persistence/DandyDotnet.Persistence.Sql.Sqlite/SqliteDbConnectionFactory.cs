@@ -4,9 +4,9 @@ using Microsoft.Data.Sqlite;
 
 namespace DandyDotnet.Persistence.Sql.Sqlite;
 
-public sealed class SqliteDbConnectionFactory : IDbConnectionFactory
+public sealed class SqliteDbConnectionFactory(string? connectionString) : IDbConnectionFactory
 {
-    public IDbConnection Create(string? connectionString)
+    public IDbConnection Create()
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
         return new SqliteConnection(connectionString);

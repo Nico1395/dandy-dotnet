@@ -4,5 +4,5 @@ namespace DandyDotnet.Persistence.Sql.Abstractions;
 
 public interface IDbConnectionFactory
 {
-    IDbConnection Create(string? connectionString);
+    IDbConnection Create();
 }
