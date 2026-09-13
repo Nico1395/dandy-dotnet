@@ -48,7 +48,7 @@ internal sealed class EventStore(
             serializer,
             envelopeEntities);
 
-        return envelopes.ToArray();
+        return envelopes.ToArray<IReadOnlyEnvelope>();
     }
 
     public async Task<IReadOnlySnapshot?> GetLastSnapshotAsync(string streamId, long? version, CancellationToken cancellationToken)

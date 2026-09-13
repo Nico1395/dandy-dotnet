@@ -8,24 +8,45 @@ public abstract class Fixture : IFixture
 
     protected Fixture()
     {
-        var services = new ServiceCollection();
-        ConfigureServices(services);
-        ServiceProvider = services.BuildServiceProvider();
+        try
+        {
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            ServiceProvider = services.BuildServiceProvider();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
-    public virtual Task InitializeAsync()
+    public Task InitializeAsync()
     {
-        return Task.CompletedTask;
+        try
+        {
+            return OnInitializeAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
-    public virtual Task DisposeAsync()
+    public virtual async Task DisposeAsync()
     {
-        return Task.CompletedTask;
+        await ServiceProvider.DisposeAsync();
     }
 
     public object? GetService(Type serviceType)
     {
         return ServiceProvider.GetService(serviceType);
+    }
+
+    protected virtual Task OnInitializeAsync()
+    {
+        return Task.CompletedTask;
     }
 
     protected abstract void ConfigureServices(IServiceCollection services);
