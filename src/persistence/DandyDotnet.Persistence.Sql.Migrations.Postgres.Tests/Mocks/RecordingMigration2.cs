@@ -8,10 +8,11 @@ internal sealed class RecordingMigration2 : IMigration
 
     public void Up(IMigrationBuilder builder)
     {
-        MigrationExecutionRecorder.Record(Version);
+        MigrationExecutionRecorder.RecordUp(Version);
     }
 
     public void Down(IMigrationBuilder builder)
     {
+        MigrationExecutionRecorder.RecordDown(Version);
     }
 }

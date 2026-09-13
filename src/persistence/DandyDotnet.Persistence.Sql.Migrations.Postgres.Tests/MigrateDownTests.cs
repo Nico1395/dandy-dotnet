@@ -8,71 +8,86 @@ using Npgsql;
 
 namespace DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests;
 
-public sealed class MigrateUpTests(DefaultFixture fixture) : IClassFixture<DefaultFixture>
+public sealed class MigrateDownTests(DefaultFixture fixture) : IClassFixture<DefaultFixture>
 {
     [Fact]
-    public void MigrateUp_WithNoMigrations_InitializesDatabaseWithoutApplyingMigrations()
+    public void MigrateDown_WithNoMigrations_InitializesDatabaseWithoutApplyingMigrations()
     {
         MigrationExecutionRecorder.Reset();
         var (schema, table) = CreateUniqueIdentifiers();
         using var serviceProvider = CreateServiceProvider(schema, table);
         var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
 
-        runner.MigrateUp();
+        runner.MigrateDown(null);
 
-        Assert.Empty(MigrationExecutionRecorder.GetUpVersions());
+        Assert.Empty(MigrationExecutionRecorder.GetDownVersions());
         Assert.Empty(runner.GetAppliedVersions());
     }
 
     [Fact]
-    public void MigrateUp_WithUnappliedMigrations_ExecutesThemInVersionOrder()
+    public void MigrateDown_WithAllMigrationsApplied_ExecutesThemInReverseVersionOrder()
     {
         MigrationExecutionRecorder.Reset();
         var (schema, table) = CreateUniqueIdentifiers();
-        using var serviceProvider = CreateServiceProvider(schema, table, typeof(RecordingMigration2), typeof(RecordingMigration1));
+        using var serviceProvider = CreateServiceProvider(schema, table, typeof(RecordingMigration1), typeof(RecordingMigration2));
         var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
-
         runner.MigrateUp();
+        MigrationExecutionRecorder.Reset();
 
-        Assert.Equal([1, 2], MigrationExecutionRecorder.GetUpVersions());
-        Assert.Equal([1, 2], runner.GetAppliedVersions());
+        runner.MigrateDown(null);
+
+        Assert.Equal([2, 1], MigrationExecutionRecorder.GetDownVersions());
+        Assert.Empty(runner.GetAppliedVersions());
     }
 
     [Fact]
-    public void MigrateUp_WhenAllMigrationsAreApplied_DoesNotExecuteThemAgain()
+    public void MigrateDown_WithTargetVersion_RollsBackTargetAndHigherVersions()
+    {
+        MigrationExecutionRecorder.Reset();
+        var (schema, table) = CreateUniqueIdentifiers();
+        using var serviceProvider = CreateServiceProvider(schema, table, typeof(RecordingMigration1), typeof(RecordingMigration2));
+        var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
+        runner.MigrateUp();
+        MigrationExecutionRecorder.Reset();
+
+        runner.MigrateDown(2);
+
+        Assert.Equal([2], MigrationExecutionRecorder.GetDownVersions());
+        Assert.Equal([1], runner.GetAppliedVersions());
+    }
+
+    [Fact]
+    public void MigrateDown_WhenNoMigrationsAreApplied_DoesNotExecuteThem()
     {
         MigrationExecutionRecorder.Reset();
         var (schema, table) = CreateUniqueIdentifiers();
         using var serviceProvider = CreateServiceProvider(schema, table, typeof(RecordingMigration1), typeof(RecordingMigration2));
         var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
 
-        runner.MigrateUp();
-        MigrationExecutionRecorder.Reset();
+        runner.MigrateDown(null);
 
-        runner.MigrateUp();
-
-        Assert.Empty(MigrationExecutionRecorder.GetUpVersions());
-        Assert.Equal([1, 2], runner.GetAppliedVersions());
+        Assert.Empty(MigrationExecutionRecorder.GetDownVersions());
+        Assert.Empty(runner.GetAppliedVersions());
     }
 
     [Fact]
-    public void MigrateUp_WithPartiallyAppliedMigrations_ExecutesOnlyRemainingMigrations()
+    public void MigrateDown_WhenTargetIsAboveAllMigrations_DoesNotExecuteThem()
     {
         MigrationExecutionRecorder.Reset();
         var (schema, table) = CreateUniqueIdentifiers();
         using var serviceProvider = CreateServiceProvider(schema, table, typeof(RecordingMigration1), typeof(RecordingMigration2));
         var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
-
-        runner.InitializeDatabase();
-        InsertAppliedVersion(schema, table, 1);
         runner.MigrateUp();
+        MigrationExecutionRecorder.Reset();
 
-        Assert.Equal([2], MigrationExecutionRecorder.GetUpVersions());
+        runner.MigrateDown(3);
+
+        Assert.Empty(MigrationExecutionRecorder.GetDownVersions());
         Assert.Equal([1, 2], runner.GetAppliedVersions());
     }
 
     [Fact]
-    public void MigrateUp_WhenMigrationFails_RollsBackChangesAndInvokesCallback()
+    public void MigrateDown_WhenMigrationFails_RollsBackChangesAndInvokesCallback()
     {
         MigrationExecutionRecorder.Reset();
         var (schema, table) = CreateUniqueIdentifiers();
@@ -80,15 +95,17 @@ public sealed class MigrateUpTests(DefaultFixture fixture) : IClassFixture<Defau
         using var serviceProvider = CreateServiceProvider(
             schema,
             table,
-            configuration => configuration.OnExceptionDuringMigrateUp = (_, exception) => callbackException = exception,
+            configuration => configuration.OnExceptionDuringMigrateDown = (_, exception) => callbackException = exception,
             typeof(RecordingMigration1),
-            typeof(FailingMigration));
+            typeof(FailingDownMigration));
         var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
+        runner.MigrateUp();
+        MigrationExecutionRecorder.Reset();
 
-        Assert.Throws<InvalidOperationException>(() => runner.MigrateUp());
+        Assert.Throws<InvalidOperationException>(() => runner.MigrateDown(null));
 
-        Assert.Equal([1, 3], MigrationExecutionRecorder.GetUpVersions());
-        Assert.Empty(runner.GetAppliedVersions());
+        Assert.Equal([2], MigrationExecutionRecorder.GetDownVersions());
+        Assert.Equal([1, 2], runner.GetAppliedVersions());
         Assert.IsType<InvalidOperationException>(callbackException);
     }
 
@@ -119,15 +136,6 @@ public sealed class MigrateUpTests(DefaultFixture fixture) : IClassFixture<Defau
         });
 
         return services.BuildServiceProvider();
-    }
-
-    private void InsertAppliedVersion(string schema, string table, long version)
-    {
-        using var connection = new NpgsqlConnection(fixture.ConnectionString);
-        connection.Open();
-        connection.Execute(
-            $"INSERT INTO \"{schema}\".\"{table}\" (\"version\", \"applied_at\") VALUES (@version, CURRENT_TIMESTAMP);",
-            new { version });
     }
 
     private static (string Schema, string Table) CreateUniqueIdentifiers()

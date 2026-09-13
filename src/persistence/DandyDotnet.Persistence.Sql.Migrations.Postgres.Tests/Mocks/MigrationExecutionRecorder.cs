@@ -2,23 +2,41 @@ namespace DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests.Mocks;
 
 internal static class MigrationExecutionRecorder
 {
-    private static readonly List<long> ExecutedVersions = [];
+    private static readonly AsyncLocal<ExecutionLog?> CurrentLog = new();
 
     public static void Reset()
     {
-        lock (ExecutedVersions)
-            ExecutedVersions.Clear();
+        CurrentLog.Value = new ExecutionLog();
     }
 
-    public static long[] GetExecutedVersions()
+    public static long[] GetUpVersions()
     {
-        lock (ExecutedVersions)
-            return ExecutedVersions.ToArray();
+        return GetLog().UpVersions.ToArray();
     }
 
-    public static void Record(long version)
+    public static long[] GetDownVersions()
     {
-        lock (ExecutedVersions)
-            ExecutedVersions.Add(version);
+        return GetLog().DownVersions.ToArray();
+    }
+
+    public static void RecordUp(long version)
+    {
+        GetLog().UpVersions.Add(version);
+    }
+
+    public static void RecordDown(long version)
+    {
+        GetLog().DownVersions.Add(version);
+    }
+
+    private static ExecutionLog GetLog()
+    {
+        return CurrentLog.Value ??= new ExecutionLog();
+    }
+
+    private sealed class ExecutionLog
+    {
+        public List<long> UpVersions { get; } = [];
+        public List<long> DownVersions { get; } = [];
     }
 }

@@ -2,17 +2,18 @@ using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 
 namespace DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests.Mocks;
 
-internal sealed class FailingMigration : IMigration
+internal sealed class FailingDownMigration : IMigration
 {
-    public long Version => 3;
+    public long Version => 2;
 
     public void Up(IMigrationBuilder builder)
     {
         MigrationExecutionRecorder.RecordUp(Version);
-        throw new InvalidOperationException("Migration failed.");
     }
 
     public void Down(IMigrationBuilder builder)
     {
+        MigrationExecutionRecorder.RecordDown(Version);
+        throw new InvalidOperationException("Migration down failed.");
     }
 }
