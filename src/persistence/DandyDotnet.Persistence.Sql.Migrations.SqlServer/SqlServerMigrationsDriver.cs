@@ -11,12 +11,12 @@ internal sealed class SqlServerMigrationsDriver : MigrationsDriver
         if (configuration.ServiceKey == null)
         {
             services.AddSingleton<IDbConnectionFactory>(new SqlServerDbConnectionFactory(ConnectionString));
-            services.AddSingleton<MigrationsSqlStrings, SqlServerMigrationsSqlStrings>();
+            services.AddSingleton<MigrationsSqlStrings>(new SqlServerMigrationsSqlStrings(configuration));
         }
         else
         {
             services.AddKeyedSingleton<IDbConnectionFactory>(configuration.ServiceKey, new SqlServerDbConnectionFactory(ConnectionString));
-            services.AddKeyedSingleton<MigrationsSqlStrings, SqlServerMigrationsSqlStrings>(configuration.ServiceKey);
+            services.AddKeyedSingleton<MigrationsSqlStrings>(configuration.ServiceKey, new SqlServerMigrationsSqlStrings(configuration));
         }
     }
 }
