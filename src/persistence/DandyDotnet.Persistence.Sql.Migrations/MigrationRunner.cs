@@ -139,7 +139,7 @@ internal sealed class MigrationRunner(
     private void CreateSchema(IDbConnection connection, IDbTransaction transaction)
     {
         var sqlStrings = GetSqlStrings();
-        connection.ExecuteScalar<int>(new CommandDefinition(sqlStrings.CreateSchema, transaction: transaction));
+        connection.Execute(new CommandDefinition(sqlStrings.CreateSchema, transaction: transaction));
     }
 
     private bool MigrationsTableExists(IDbConnection connection)
