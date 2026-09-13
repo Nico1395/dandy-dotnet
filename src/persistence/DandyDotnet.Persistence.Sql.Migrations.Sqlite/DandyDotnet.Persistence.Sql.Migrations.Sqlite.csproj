@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Migrations\DandyDotnet.Persistence.Sql.Migrations.csproj" />
+    </ItemGroup>
+
+</Project>
