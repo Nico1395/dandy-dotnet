@@ -1,3 +1,4 @@
+using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Persistence.Sql.Migrations;
@@ -19,6 +20,20 @@ public static class ServiceCollectionExtensions
         else
             services.AddKeyedSingleton(configuration.ServiceKey, configuration);
 
+        AddMigrations(services, configuration);
         return services;
+    }
+
+    private static void AddMigrations(IServiceCollection services, MigrationsConfiguration configuration)
+    {
+        var migrationTypes = configuration.Assemblies
+            .SelectMany(a => a
+                .GetTypes()
+                .Where(t => t is { IsClass: true, IsAbstract: false } && t.IsAssignableTo(typeof(IMigration))))
+            .Concat(configuration.MigrationTypes)
+            .Distinct();
+
+        foreach (var migrationType in migrationTypes)
+            services.AddTransient(typeof(IMigration), migrationType);
     }
 }
