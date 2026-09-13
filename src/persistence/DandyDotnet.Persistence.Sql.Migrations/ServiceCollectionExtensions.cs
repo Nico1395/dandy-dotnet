@@ -16,9 +16,15 @@ public static class ServiceCollectionExtensions
         configuration.Driver.ConfigureServices(services, configuration);
 
         if (configuration.ServiceKey == null)
+        {
             services.AddSingleton(configuration);
+            services.AddSingleton<IMigrationRunner, MigrationRunner>();
+        }
         else
+        {
             services.AddKeyedSingleton(configuration.ServiceKey, configuration);
+            services.AddKeyedSingleton<IMigrationRunner, MigrationRunner>(configuration.ServiceKey);
+        }
 
         AddMigrations(services, configuration);
         return services;
