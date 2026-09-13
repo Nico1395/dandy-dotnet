@@ -13,76 +13,30 @@ internal sealed class MigrationRunner(
     private IDbConnectionFactory? _dbConnectionFactory;
     private MigrationsSqlStrings? _sqlStrings;
 
-    public void MigrateUp()
+    public long[] GetAppliedVersions()
     {
-        EnsureMigrationsTableIsCreated();
+        try
+        {
+            return GetAppliedVersions(GetOpenDbConnection());
+        }
+        catch
+        {
+            return [];
+        }
+    }
 
+    public bool HasUnappliedMigrations()
+    {
+        var appliedVersions = GetAppliedVersions();
         var migrations = serviceProvider
             .GetServices<IMigration>()
             .OrderBy(m => m.Version)
             .ToArray();
 
-        if (migrations.Length == 0)
-            return;
-
-        var connection = GetOpenDbConnection();
-        using var transaction = connection.BeginTransaction();
-
-        try
-        {
-            var builder = new MigrationBuilder(connection, transaction);
-            foreach (var migration in migrations)
-                migration.Up(builder);
-
-            InsertMigrations(migrations, connection, transaction);
-            transaction.Commit();
-        }
-        catch (Exception exception)
-        {
-            transaction.Rollback();
-            configuration.OnExceptionDuringMigrateUp?.Invoke(serviceProvider, exception);
-            Console.WriteLine(exception);
-
-            throw;
-        }
+        return HasUnappliedMigrations(appliedVersions, migrations);
     }
 
-    public void MigrateDown(long? toVersion)
-    {
-        EnsureMigrationsTableIsCreated();
-
-        var migrations = serviceProvider
-            .GetServices<IMigration>()
-            .OrderByDescending(m => m.Version)
-            .Where(m => toVersion == null || m.Version >= toVersion)
-            .ToArray();
-
-        if (migrations.Length == 0)
-            return;
-
-        var connection = GetOpenDbConnection();
-        using var transaction = connection.BeginTransaction();
-
-        try
-        {
-            var builder = new MigrationBuilder(connection, transaction);
-            foreach (var migration in migrations)
-                migration.Down(builder);
-
-            DeleteMigrations(migrations, connection, transaction);
-            transaction.Commit();
-        }
-        catch (Exception exception)
-        {
-            transaction.Rollback();
-            configuration.OnExceptionDuringMigrateDown?.Invoke(serviceProvider, exception);
-            Console.WriteLine(exception);
-
-            throw;
-        }
-    }
-
-    private void EnsureMigrationsTableIsCreated()
+    public void InitializeDatabase()
     {
         var connection = GetOpenDbConnection();
         using var transaction = connection.BeginTransaction();
@@ -105,6 +59,88 @@ internal sealed class MigrationRunner(
             transaction.Rollback();
             configuration.OnExceptionDuringCreatingSchemaAndTable?.Invoke(serviceProvider, ex);
             Console.WriteLine(ex);
+
+            throw;
+        }
+    }
+
+    public void MigrateUp()
+    {
+        InitializeDatabase();
+
+        var migrations = serviceProvider
+            .GetServices<IMigration>()
+            .OrderBy(m => m.Version)
+            .ToArray();
+
+        if (migrations.Length == 0)
+            return;
+
+        var connection = GetOpenDbConnection();
+        using var transaction = connection.BeginTransaction();
+
+        try
+        {
+            var appliedVersions = GetAppliedVersions(connection);
+            if (!HasUnappliedMigrations(appliedVersions, migrations))
+                return;
+
+            long? lastVersion = appliedVersions.Length != 0 ? appliedVersions.Last() : null;
+            var upMigrations = lastVersion.HasValue ? migrations.Where(m => m.Version > lastVersion.Value).ToArray() : migrations;
+
+            var builder = new MigrationBuilder(connection, transaction);
+            foreach (var migration in upMigrations)
+                migration.Up(builder);
+
+            InsertMigrations(migrations, connection, transaction);
+            transaction.Commit();
+        }
+        catch (Exception exception)
+        {
+            transaction.Rollback();
+            configuration.OnExceptionDuringMigrateUp?.Invoke(serviceProvider, exception);
+            Console.WriteLine(exception);
+
+            throw;
+        }
+    }
+
+    public void MigrateDown(long? toVersion)
+    {
+        InitializeDatabase();
+
+        var migrations = serviceProvider
+            .GetServices<IMigration>()
+            .OrderByDescending(m => m.Version)
+            .Where(m => toVersion == null || m.Version >= toVersion)
+            .ToArray();
+
+        if (migrations.Length == 0)
+            return;
+
+        var connection = GetOpenDbConnection();
+        using var transaction = connection.BeginTransaction();
+
+        try
+        {
+            var appliedVersions = GetAppliedVersions(connection);
+            var downMigrations = migrations
+                .Where(m => appliedVersions.Contains(m.Version))
+                .OrderByDescending(m => m.Version)
+                .ToArray();
+
+            var builder = new MigrationBuilder(connection, transaction);
+            foreach (var migration in downMigrations)
+                migration.Down(builder);
+
+            DeleteMigrations(migrations, connection, transaction);
+            transaction.Commit();
+        }
+        catch (Exception exception)
+        {
+            transaction.Rollback();
+            configuration.OnExceptionDuringMigrateDown?.Invoke(serviceProvider, exception);
+            Console.WriteLine(exception);
 
             throw;
         }
@@ -139,6 +175,18 @@ internal sealed class MigrationRunner(
         return _sqlStrings ??= configuration.ServiceKey == null
             ? serviceProvider.GetRequiredService<MigrationsSqlStrings>()
             : serviceProvider.GetRequiredKeyedService<MigrationsSqlStrings>(configuration.ServiceKey);
+    }
+
+    private long[] GetAppliedVersions(IDbConnection connection)
+    {
+        var sqlStrings = GetSqlStrings();
+        var versions = connection.Query<long>(new CommandDefinition(sqlStrings.GetAppliedVersions));
+        return versions.Order().ToArray();
+    }
+
+    private bool HasUnappliedMigrations(long[] appliedVersions, IMigration[] migrations)
+    {
+        return migrations.Any(m => !appliedVersions.Contains(m.Version));
     }
 
     private bool SchemaExists(IDbConnection connection)
