@@ -15,9 +15,11 @@ internal sealed class MigrationRunner(
 
     public long[] GetAppliedVersions()
     {
+        using var connection = GetOpenDbConnection();
+
         try
         {
-            return GetAppliedVersions(GetOpenDbConnection());
+            return GetAppliedVersions(connection);
         }
         catch
         {
@@ -38,7 +40,7 @@ internal sealed class MigrationRunner(
 
     public void InitializeDatabase()
     {
-        var connection = GetOpenDbConnection();
+        using var connection = GetOpenDbConnection();
         using var transaction = connection.BeginTransaction();
 
         try
@@ -76,7 +78,7 @@ internal sealed class MigrationRunner(
         if (migrations.Length == 0)
             return;
 
-        var connection = GetOpenDbConnection();
+        using var connection = GetOpenDbConnection();
         using var transaction = connection.BeginTransaction();
 
         try
@@ -86,7 +88,15 @@ internal sealed class MigrationRunner(
                 return;
 
             long? lastVersion = appliedVersions.Length != 0 ? appliedVersions.Last() : null;
-            var upMigrations = lastVersion.HasValue ? migrations.Where(m => m.Version > lastVersion.Value).ToArray() : migrations;
+            var upMigrations = migrations;
+            if (lastVersion.HasValue)
+            {
+                upMigrations = migrations
+                    .Where(m =>
+                        m.Version > lastVersion.Value ||
+                        !appliedVersions.Contains(m.Version))
+                    .ToArray();
+            }
 
             var builder = new MigrationBuilder(connection, transaction);
             foreach (var migration in upMigrations)
@@ -118,7 +128,7 @@ internal sealed class MigrationRunner(
         if (migrations.Length == 0)
             return;
 
-        var connection = GetOpenDbConnection();
+        using var connection = GetOpenDbConnection();
         using var transaction = connection.BeginTransaction();
 
         try

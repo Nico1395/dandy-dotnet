@@ -18,12 +18,12 @@ public static class ServiceCollectionExtensions
         if (configuration.ServiceKey == null)
         {
             services.AddSingleton(configuration);
-            services.AddSingleton<IMigrationRunner, MigrationRunner>();
+            services.AddSingleton<IMigrationRunner>(sp => new MigrationRunner(configuration, sp));
         }
         else
         {
             services.AddKeyedSingleton(configuration.ServiceKey, configuration);
-            services.AddKeyedSingleton<IMigrationRunner, MigrationRunner>(configuration.ServiceKey);
+            services.AddKeyedSingleton<IMigrationRunner, MigrationRunner>(configuration.ServiceKey, (sp, _) => new MigrationRunner(configuration, sp));
         }
 
         AddMigrations(services, configuration);
