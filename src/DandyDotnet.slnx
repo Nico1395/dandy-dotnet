@@ -14,6 +14,11 @@
     <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.csproj" />
     <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
   </Folder>
+  <Folder Name="/EventDrivenArchitecture/RabbitMQ/Samples/">
+    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Consumer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Consumer.csproj" />
+    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Producer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Producer.csproj" />
+    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared.csproj" />
+  </Folder>
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
     <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />

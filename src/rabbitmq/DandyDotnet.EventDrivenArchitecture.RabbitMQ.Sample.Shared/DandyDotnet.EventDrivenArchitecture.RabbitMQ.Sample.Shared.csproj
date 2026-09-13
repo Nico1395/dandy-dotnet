@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.csproj" />
+      <ProjectReference Include="..\DandyRabbitMQ.Core\DandyRabbitMQ.Core.csproj" />
+    </ItemGroup>
+
+</Project>
