@@ -1,25 +1,28 @@
 using System.Reflection;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Persistence.Sql.Abstractions;
+using DandyDotnet.Persistence.Sql.Migrations;
+using DandyDotnet.Persistence.Sql.Migrations.Postgres;
 using DandyDotnet.Persistence.Sql.Postgres;
-using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres;
 
 internal sealed class NpgsqlConfiguration : PersistenceConfiguration
 {
-    private static readonly Assembly[]? _assemblies = [typeof(NpgsqlConfiguration).Assembly];
+    private static readonly Assembly[] _assemblies = [typeof(NpgsqlConfiguration).Assembly];
 
     public override void ConfigureServices(IServiceCollection services)
     {
         base.ConfigureServices(services);
 
-        services.ConfigureRunner(runner =>
+        services.AddDandyMigrations(configuration =>
         {
-            runner.AddPostgres()
-                .WithGlobalConnectionString(ConnectionString)
-                .ScanIn(_assemblies).For.Migrations();
+            configuration
+                .UsePostgres(ConnectionString)
+                .ScanInAssemblies(_assemblies);
+            configuration.Schema = Sql.Constants.Schema.Name;
+            configuration.ServiceKey = EventSourcingConstants.ServiceKey;
         });
 
         services.AddKeyedSingleton<IDbConnectionFactory>(EventSourcingConstants.ServiceKey, new PostgresDbConnectionFactory(ConnectionString));

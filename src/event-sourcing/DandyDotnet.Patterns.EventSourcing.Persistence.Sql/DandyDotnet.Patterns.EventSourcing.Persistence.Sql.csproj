@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Migrations\DandyDotnet.Persistence.Sql.Migrations.csproj" />
       <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Abstractions\DandyDotnet.Persistence.Sql.Abstractions.csproj" />
       <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
     </ItemGroup>

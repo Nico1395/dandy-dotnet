@@ -24,8 +24,7 @@ internal sealed class MigrationRunner(
     public bool HasUnappliedMigrations()
     {
         var appliedVersions = GetAppliedVersions();
-        var migrations = serviceProvider
-            .GetServices<IMigration>()
+        var migrations = GetMigrations()
             .OrderBy(m => m.Version)
             .ToArray();
 
@@ -64,8 +63,7 @@ internal sealed class MigrationRunner(
     {
         InitializeDatabase();
 
-        var migrations = serviceProvider
-            .GetServices<IMigration>()
+        var migrations = GetMigrations()
             .OrderBy(m => m.Version)
             .ToArray();
 
@@ -113,8 +111,7 @@ internal sealed class MigrationRunner(
     {
         InitializeDatabase();
 
-        var migrations = serviceProvider
-            .GetServices<IMigration>()
+        var migrations = GetMigrations()
             .OrderByDescending(m => m.Version)
             .Where(m => toVersion == null || m.Version >= toVersion)
             .ToArray();
@@ -172,6 +169,13 @@ internal sealed class MigrationRunner(
         return _dbConnectionFactory ??= configuration.ServiceKey == null
             ? serviceProvider.GetRequiredService<IDbConnectionFactory>()
             : serviceProvider.GetRequiredKeyedService<IDbConnectionFactory>(configuration.ServiceKey);
+    }
+
+    private IEnumerable<IMigration> GetMigrations()
+    {
+        return configuration.ServiceKey == null
+            ? serviceProvider.GetServices<IMigration>()
+            : serviceProvider.GetKeyedServices<IMigration>(configuration.ServiceKey);
     }
 
     private MigrationsSqlStrings GetSqlStrings()

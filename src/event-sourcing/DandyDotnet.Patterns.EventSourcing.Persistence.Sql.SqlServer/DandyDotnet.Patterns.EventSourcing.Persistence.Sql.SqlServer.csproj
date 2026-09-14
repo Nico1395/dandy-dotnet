@@ -1,12 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Migrations.SqlServer\DandyDotnet.Persistence.Sql.Migrations.SqlServer.csproj" />
       <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.SqlServer\DandyDotnet.Persistence.Sql.SqlServer.csproj" />
       <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="FluentMigrator.Runner.SqlServer" />
     </ItemGroup>
 
 </Project>
