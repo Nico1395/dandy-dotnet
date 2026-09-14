@@ -65,6 +65,8 @@ This section offers a brief overview of all packages available on [nuget.org](ht
 |`DandyDotnet.Serialization`|Internal|Incoming|
 |`DandyDotnet.Serialization.NewtonsoftJson`|Internal|Incoming|
 |`DandyDotnet.Serialization.SystemTextJson`|Internal|Incoming|
+|`DandyDotnet.DependencyInjection.Abstractions`|Internal|Incoming|
+|`DandyDotnet.DependencyInjection`|Internal|Incoming|
 
 ## How can I use packages? 
 Packages are added to your projects via NuGet. You can either use the NuGet-Manager of your IDE of choice or use the `dotnet`-CLI like so (see [here](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-add)).
