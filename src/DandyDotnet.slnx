@@ -58,7 +58,7 @@
     <Project Path="persistence\DandyDotnet.Persistence.Sql.Sqlite\DandyDotnet.Persistence.Sql.Sqlite.csproj" />
   </Folder>
   <Folder Name="/Persistence/Migrations/">
-    <Project Path="DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests.csproj" />
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests/DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Postgres/DandyDotnet.Persistence.Sql.Migrations.Postgres.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Sqlite.Tests/DandyDotnet.Persistence.Sql.Migrations.Sqlite.Tests.csproj" />
