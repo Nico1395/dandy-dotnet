@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
         var builder = new EncodingConfigurationBuilder();
         action?.Invoke(builder);
         var configuration = builder.Build();
+
         return services.AddDandyEncoder(configuration);
     }
 
@@ -31,9 +32,9 @@ public static class ServiceCollectionExtensions
         if (!configuration.EncoderType.IsAssignableTo(payloadEncoderInterface))
             throw new InvalidOperationException($"Encoder implementation type does not implement {payloadEncoderInterface}.");
 
-        return services.AddKeyedSingletonOrDefault(
-            payloadEncoderInterface,
-            configuration.ServiceKey,
-            configuration.EncoderType);
+        services.AddKeyedSingletonOrDefault(payloadEncoderInterface, configuration.ServiceKey, configuration.EncoderType);
+        services.AddKeyedSingletonOrDefault(configuration.ServiceKey, configuration);
+
+        return services;
     }
 }

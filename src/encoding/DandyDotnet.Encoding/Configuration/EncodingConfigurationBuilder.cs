@@ -7,6 +7,11 @@ public sealed class EncodingConfigurationBuilder
 {
     private readonly EncodingConfiguration _configuration = new();
 
+    /// <summary>
+    /// Associates a service key with the encoding configuration.
+    /// </summary>
+    /// <param name="serviceKey">The service key to associate with the configuration.</param>
+    /// <returns>The encoding configuration builder.</returns>
     public EncodingConfigurationBuilder UseServiceKey(object? serviceKey)
     {
         _configuration.ServiceKey = serviceKey;
