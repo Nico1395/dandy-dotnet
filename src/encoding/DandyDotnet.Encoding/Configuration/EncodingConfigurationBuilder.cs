@@ -8,6 +8,17 @@ public sealed class EncodingConfigurationBuilder
     private readonly EncodingConfiguration _configuration = new();
 
     /// <summary>
+    /// Associates a service key with the encoding configuration.
+    /// </summary>
+    /// <param name="serviceKey">The service key to associate with the configuration.</param>
+    /// <returns>The encoding configuration builder.</returns>
+    public EncodingConfigurationBuilder UseServiceKey(object? serviceKey)
+    {
+        _configuration.ServiceKey = serviceKey;
+        return this;
+    }
+
+    /// <summary>
     /// Selects the payload encoder implementation.
     /// </summary>
     /// <param name="implementationType">The encoder implementation type.</param>

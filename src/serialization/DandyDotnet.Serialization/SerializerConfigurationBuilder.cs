@@ -4,6 +4,12 @@ public sealed class SerializerConfigurationBuilder
 {
     private readonly SerializerConfiguration _configuration = new();
 
+    public SerializerConfigurationBuilder UseServiceKey(object? serviceKey)
+    {
+        _configuration.ServiceKey = serviceKey;
+        return this;
+    }
+
     public SerializerConfigurationBuilder UseSerializer(Type serializerType, object configuration)
     {
         _configuration.SerializerType = serializerType;
@@ -12,7 +18,7 @@ public sealed class SerializerConfigurationBuilder
         return this;
     }
     
-    internal SerializerConfiguration Build()
+    public SerializerConfiguration Build()
     {
         return _configuration;
     }

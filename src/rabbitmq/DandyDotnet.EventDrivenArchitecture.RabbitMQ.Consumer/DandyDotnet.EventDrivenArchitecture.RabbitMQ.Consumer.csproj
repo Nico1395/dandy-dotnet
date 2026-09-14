@@ -2,8 +2,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
-      <ProjectReference Include="..\..\encoding\DandyDotnet.Encoding.Abstractions\DandyDotnet.Encoding.Abstractions.csproj" />
-      <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.Abstractions\DandyDotnet.Serialization.Abstractions.csproj" />
+      <ProjectReference Include="..\..\encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
+      <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization\DandyDotnet.Serialization.csproj" />
       <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.csproj" />
       <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
     </ItemGroup>
