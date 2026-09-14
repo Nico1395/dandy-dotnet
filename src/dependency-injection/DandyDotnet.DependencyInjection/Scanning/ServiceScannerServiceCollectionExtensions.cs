@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DandyDotnet.DependencyInjection.Scanning;
 
-public static class ServiceCollectionExtensions
+public static class ServiceScannerServiceCollectionExtensions
 {
     public static IServiceCollection ScanAndAdd(this IServiceCollection services, Action<ServiceScannerBuilder> scannerAction)
     {
