@@ -1,4 +1,4 @@
-using System.Reflection;
+using DandyDotnet.DependencyInjection.Scanning;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
@@ -12,13 +12,6 @@ namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 /// </summary>
 public static class ConsumerServiceCollectionExtensions
 {
-    private static readonly IReadOnlyList<Type> _typesToRegister =
-    [
-        typeof(IConsumer<>),
-        typeof(IConsumerMiddleware<>),
-        typeof(IConsumerExceptionHandler<>),
-    ];
-
     /// <summary>
     /// Adds and configures DandyRabbitMQ consumer <paramref name="services"/>.
     /// </summary>
@@ -37,30 +30,26 @@ public static class ConsumerServiceCollectionExtensions
         services.AddSingleton<IReceiver, Receiver>();
 
         if (configuration.Assemblies != null)
-            AddServicesFromAssemblies(services, configuration.Assemblies);
+        {
+            services.ScanAndAdd(scanner =>
+            {
+                scanner.ScanIn(configuration.Assemblies);
+                scanner.ScanFor(typeof(IConsumer<>));
+                scanner.ScanFor(typeof(IConsumerMiddleware<>), middleware =>
+                {
+                    middleware.AllowOpenGeneric();
+                });
+                scanner.ScanFor(typeof(IConsumerExceptionHandler<>), exceptionHandler =>
+                {
+                    exceptionHandler.AllowOpenGeneric();
+                });
+            });
+        }
 
         services.AddDandyRabbitMQConnectivity(configuration.ConnectivityConfigurationBuilder.Build());
         services.AddDandyRabbitMQMessages(configuration.MessagesConfigurationBuilder.Build());
         services.AddDandyRabbitMQDeclarations(configuration.DeclarationsConfigurationBuilder.Build());
 
         return services;
-    }
-
-    private static void AddServicesFromAssemblies(IServiceCollection services, IReadOnlyList<Assembly> assemblies)
-    {
-        var implementationTypes = assemblies.SelectMany(a => a.DefinedTypes).Where(t => t is { IsClass: true, IsAbstract: false, IsGenericTypeDefinition: false });
-        foreach (var implementationType in implementationTypes)
-        {
-            var interfaces = implementationType.ImplementedInterfaces;
-            foreach (var @interface in interfaces)
-            {
-                if (!@interface.IsGenericType)
-                    continue;
-
-                var genericDefinition = @interface.GetGenericTypeDefinition();
-                if (_typesToRegister.Contains(genericDefinition))
-                    services.AddTransient(@interface, implementationType);
-            }
-        }
     }
 }
