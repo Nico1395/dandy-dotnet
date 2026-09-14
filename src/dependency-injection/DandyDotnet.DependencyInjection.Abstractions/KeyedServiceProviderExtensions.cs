@@ -37,13 +37,13 @@ public static class KeyedServiceProviderExtensions
     {
         return serviceKey == null
             ? serviceProvider.GetServices(serviceType)
-            : serviceProvider.GetKeyedServices(serviceType, serviceKey);
+            : ServiceProviderKeyedServiceExtensions.GetKeyedServices(serviceProvider, serviceType, serviceKey);
     }
 
     public static IEnumerable<TService?> GetKeyedServices<TService>(this IServiceProvider serviceProvider, object? serviceKey)
     {
         return serviceKey == null
             ? serviceProvider.GetServices<TService>()
-            : serviceProvider.GetKeyedServices<TService>(serviceKey);
+            : ServiceProviderKeyedServiceExtensions.GetKeyedServices<TService>(serviceProvider, serviceKey);
     }
 }
