@@ -1,5 +1,5 @@
 using System.Data;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
+using DandyDotnet.Persistence.Sql.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql;
 

@@ -1,5 +1,7 @@
 using System.Reflection;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
+using DandyDotnet.Persistence.Sql.Abstractions;
+using DandyDotnet.Persistence.Sql.Sqlite;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +24,7 @@ internal sealed class SqliteConfiguration : PersistenceConfiguration
                 .ScanIn(_assemblies).For.Migrations();
         });
 
-        services.AddSingleton<IDbConnectionFactory, SqliteDbConnectionFactory>();
+        services.AddKeyedSingleton<IDbConnectionFactory>(EventSourcingConstants.ServiceKey, new SqliteDbConnectionFactory(ConnectionString));
         services.AddSingleton<SqlStrings, SqliteSqlStrings>();
         services.AddSingleton(this);
     }

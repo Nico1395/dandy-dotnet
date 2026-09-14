@@ -1,6 +1,7 @@
 using System.Reflection;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
+using DandyDotnet.Persistence.Sql.Abstractions;
+using DandyDotnet.Persistence.Sql.Postgres;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +24,7 @@ internal sealed class NpgsqlConfiguration : PersistenceConfiguration
                 .ScanIn(_assemblies).For.Migrations();
         });
 
-        services.AddSingleton<IDbConnectionFactory, NpgsqlDbConnectionFactory>();
+        services.AddKeyedSingleton<IDbConnectionFactory>(EventSourcingConstants.ServiceKey, new PostgresDbConnectionFactory(ConnectionString));
         services.AddSingleton<SqlStrings, NpgsqlSqlStrings>();
         services.AddSingleton(this);
     }
