@@ -1,4 +1,4 @@
-name: Serve DocFX
+name: DocFX (manual)
 
 on:
   workflow_dispatch:
