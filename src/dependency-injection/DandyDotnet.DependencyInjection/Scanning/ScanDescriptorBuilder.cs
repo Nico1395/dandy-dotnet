@@ -6,7 +6,7 @@ public sealed class ScanDescriptorBuilder(Type abstractType)
 {
     private ServiceLifetime _lifetime = ServiceLifetime.Transient;
     private Func<Type, bool>? _predicate;
-    private object? _key;
+    private object? _serviceKey;
     private Func<IServiceProvider, object?, object>? _keyedFactory;
     private Func<IServiceProvider, object>? _factory;
     private bool _isOpenGeneric;
@@ -23,9 +23,9 @@ public sealed class ScanDescriptorBuilder(Type abstractType)
         return this;
     }
 
-    public ScanDescriptorBuilder WithKey(object key)
+    public ScanDescriptorBuilder WithKey(object? serviceKey)
     {
-        _key = key;
+        _serviceKey = serviceKey;
         return this;
     }
 
@@ -54,7 +54,7 @@ public sealed class ScanDescriptorBuilder(Type abstractType)
             AbstractType = abstractType,
             Lifetime = _lifetime,
             Predicate = _predicate,
-            Key = _key,
+            ServiceKey = _serviceKey,
             KeyedFactory = _keyedFactory,
             Factory = _factory,
             IsOpenGeneric = _isOpenGeneric,
