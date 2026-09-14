@@ -9,25 +9,25 @@ public class Migration_20260907205400 : Migration
     public override void Up()
     {
         Create.Table(Tables.Envelopes.Table)
-            .WithColumn(Tables.Envelopes.StreamId).AsString(255).NotNullable().PrimaryKey()
+            .WithColumn(Tables.Envelopes.StreamId).AsString(Tables.Envelopes.StreamIdLength).NotNullable().PrimaryKey()
             .WithColumn(Tables.Envelopes.Version).AsInt64().NotNullable().PrimaryKey()
-            .WithColumn(Tables.Envelopes.Payload).AsString(int.MaxValue).NotNullable()
+            .WithColumn(Tables.Envelopes.Payload).AsString(Tables.Envelopes.PayloadLength).NotNullable()
             .WithColumn(Tables.Envelopes.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.Envelopes.EventKey).AsString(255).NotNullable();
+            .WithColumn(Tables.Envelopes.EventKey).AsString(Tables.Envelopes.EventKeyLength).NotNullable();
 
         Create.Table(Tables.Snapshots.Table)
-            .WithColumn(Tables.Snapshots.StreamId).AsString(255).NotNullable().PrimaryKey()
+            .WithColumn(Tables.Snapshots.StreamId).AsString(Tables.Snapshots.StreamIdLength).NotNullable().PrimaryKey()
             .WithColumn(Tables.Snapshots.Version).AsInt64().NotNullable().PrimaryKey()
-            .WithColumn(Tables.Snapshots.Payload).AsString(int.MaxValue).NotNullable()
+            .WithColumn(Tables.Snapshots.Payload).AsString(Tables.Snapshots.PayloadLength).NotNullable()
             .WithColumn(Tables.Snapshots.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.Snapshots.AggregateKey).AsString(255).NotNullable();
+            .WithColumn(Tables.Snapshots.AggregateKey).AsString(Tables.Snapshots.AggregateKeyLength).NotNullable();
 
         Create.Table(Tables.OutboxEnvelopes.Table)
-            .WithColumn(Tables.OutboxEnvelopes.StreamId).AsString(255).NotNullable().PrimaryKey()
+            .WithColumn(Tables.OutboxEnvelopes.StreamId).AsString(Tables.OutboxEnvelopes.StreamIdLength).NotNullable().PrimaryKey()
             .WithColumn(Tables.OutboxEnvelopes.Version).AsInt64().NotNullable().PrimaryKey()
-            .WithColumn(Tables.OutboxEnvelopes.Payload).AsString(int.MaxValue).NotNullable()
+            .WithColumn(Tables.OutboxEnvelopes.Payload).AsString(Tables.OutboxEnvelopes.PayloadLength).NotNullable()
             .WithColumn(Tables.OutboxEnvelopes.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopes.EventKey).AsString(255).NotNullable();
+            .WithColumn(Tables.OutboxEnvelopes.EventKey).AsString(Tables.OutboxEnvelopes.EventKeyLength).NotNullable();
 
         // SQLite doesnt support the foreign key syntax of FluentMigrator
         Execute.Sql($"""

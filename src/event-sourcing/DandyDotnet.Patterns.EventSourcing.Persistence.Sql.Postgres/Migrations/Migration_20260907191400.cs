@@ -11,39 +11,39 @@ public class Migration_20260907191400 : Migration
         Create.Schema(Sql.Constants.Schema.Name);
 
         Create.Table(Tables.Envelopes.Table)
-            .WithColumn(Tables.Envelopes.StreamId).AsString(255).NotNullable()
-            .WithColumn(Tables.Envelopes.Payload).AsString(int.MaxValue).NotNullable()
+            .WithColumn(Tables.Envelopes.StreamId).AsString(Tables.Envelopes.StreamIdLength).NotNullable()
+            .WithColumn(Tables.Envelopes.Payload).AsString(Tables.Envelopes.PayloadLength).NotNullable()
             .WithColumn(Tables.Envelopes.Version).AsInt64().NotNullable()
             .WithColumn(Tables.Envelopes.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.Envelopes.EventKey).AsString(255).NotNullable();
+            .WithColumn(Tables.Envelopes.EventKey).AsString(Tables.Envelopes.EventKeyLength).NotNullable();
         Create.PrimaryKey("pk_envelopes")
             .OnTable(Tables.Envelopes.Table)
             .Columns(Tables.Envelopes.StreamId, Tables.Envelopes.Version);
 
         Create.Table(Tables.Snapshots.Table)
-            .WithColumn(Tables.Snapshots.StreamId).AsString(255).NotNullable()
-            .WithColumn(Tables.Snapshots.Payload).AsString(int.MaxValue).NotNullable()
+            .WithColumn(Tables.Snapshots.StreamId).AsString(Tables.Snapshots.StreamIdLength).NotNullable()
+            .WithColumn(Tables.Snapshots.Payload).AsString(Tables.Snapshots.PayloadLength).NotNullable()
             .WithColumn(Tables.Snapshots.Version).AsInt64().NotNullable()
             .WithColumn(Tables.Snapshots.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.Snapshots.AggregateKey).AsString(255).NotNullable();
+            .WithColumn(Tables.Snapshots.AggregateKey).AsString(Tables.Snapshots.AggregateKeyLength).NotNullable();
         Create.PrimaryKey("pk_snapshots")
             .OnTable(Tables.Snapshots.Table)
             .Columns(Tables.Snapshots.StreamId, Tables.Snapshots.Version);
 
         Create.Table(Tables.OutboxEnvelopes.Table)
-            .WithColumn(Tables.OutboxEnvelopes.StreamId).AsString(255).NotNullable()
+            .WithColumn(Tables.OutboxEnvelopes.StreamId).AsString(Tables.OutboxEnvelopes.StreamIdLength).NotNullable()
             .WithColumn(Tables.OutboxEnvelopes.Version).AsInt64().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopes.Payload).AsString(int.MaxValue).NotNullable()
+            .WithColumn(Tables.OutboxEnvelopes.Payload).AsString(Tables.OutboxEnvelopes.PayloadLength).NotNullable()
             .WithColumn(Tables.OutboxEnvelopes.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopes.EventKey).AsString(255).NotNullable();
+            .WithColumn(Tables.OutboxEnvelopes.EventKey).AsString(Tables.OutboxEnvelopes.EventKeyLength).NotNullable();
         Create.PrimaryKey("pk_outbox_envelopes")
             .OnTable(Tables.OutboxEnvelopes.Table)
             .Columns(Tables.OutboxEnvelopes.StreamId, Tables.OutboxEnvelopes.Version);
 
         Create.Table(Tables.OutboxEnvelopeConsumers.Table)
-            .WithColumn(Tables.OutboxEnvelopeConsumers.StreamId).AsString(255).NotNullable()
+            .WithColumn(Tables.OutboxEnvelopeConsumers.StreamId).AsString(Tables.OutboxEnvelopeConsumers.StreamIdLength).NotNullable()
             .WithColumn(Tables.OutboxEnvelopeConsumers.Version).AsInt64().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopeConsumers.ConsumerKey).AsString(255).NotNullable()
+            .WithColumn(Tables.OutboxEnvelopeConsumers.ConsumerKey).AsString(Tables.OutboxEnvelopeConsumers.ConsumerKeyLength).NotNullable()
             .WithColumn(Tables.OutboxEnvelopeConsumers.Type).AsInt16().NotNullable()
             .WithColumn(Tables.OutboxEnvelopeConsumers.ConsumedAt).AsDateTime().Nullable()
             .WithColumn(Tables.OutboxEnvelopeConsumers.FailedAt).AsDateTime().Nullable();
