@@ -18,7 +18,7 @@ public sealed class ScanDescriptorBuilderTests
         Assert.Equal(typeof(IHandler<Request, string>), descriptor.AbstractType);
         Assert.Equal(ServiceLifetime.Transient, descriptor.Lifetime);
         Assert.Null(descriptor.Predicate);
-        Assert.Null(descriptor.Key);
+        Assert.Null(descriptor.ServiceKey);
         Assert.Null(descriptor.KeyedFactory);
         Assert.Null(descriptor.Factory);
         Assert.False(descriptor.IsOpenGeneric);
@@ -45,7 +45,7 @@ public sealed class ScanDescriptorBuilderTests
 
         Assert.Same(predicate, descriptor.Predicate);
         Assert.Equal(ServiceLifetime.Singleton, descriptor.Lifetime);
-        Assert.Equal("handler", descriptor.Key);
+        Assert.Equal("handler", descriptor.ServiceKey);
         Assert.Same(factory, descriptor.Factory);
         Assert.Same(keyedFactory, descriptor.KeyedFactory);
         Assert.True(descriptor.IsOpenGeneric);

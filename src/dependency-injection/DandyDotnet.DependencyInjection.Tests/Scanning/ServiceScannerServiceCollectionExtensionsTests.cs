@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.DependencyInjection.Tests.Scanning;
 
-public sealed class ServiceCollectionScanningTests
+public sealed class ServiceScannerServiceCollectionExtensionsTests
 {
     [Fact]
     public void ScanAndAdd_WithBuilderAction_RegistersImplementationForResolution()
