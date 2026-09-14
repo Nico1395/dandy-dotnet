@@ -1,10 +1,10 @@
 # DandyDotnet
 - [API reference](https://nico1395.github.io/dandy-dotnet/)
-- [What is currently being worked on?](https://github.com/Nico1395/dandy-dotnet/tree/dev#what-is-currently-being-worked-on)
-- [What is DandyDotnet?](https://github.com/Nico1395/dandy-dotnet/tree/dev#what-is-dandydotnet)
-- [Packages](https://github.com/Nico1395/dandy-dotnet/tree/dev#packages)
-- [Package overview](https://github.com/Nico1395/dandy-dotnet/tree/dev#package-overview)
-- [Is AI being used and if yes, how?](https://github.com/Nico1395/dandy-dotnet/tree/dev#how-can-i-use-packages)
+- [What is currently being worked on?](https://github.com/Nico1395/dandy-dotnet/tree/main#what-is-currently-being-worked-on)
+- [What is DandyDotnet?](https://github.com/Nico1395/dandy-dotnet/tree/main#what-is-dandydotnet)
+- [Packages](https://github.com/Nico1395/dandy-dotnet/tree/main#packages)
+- [Package overview](https://github.com/Nico1395/dandy-dotnet/tree/main#package-overview)
+- [Is AI being used and if yes, how?](https://github.com/Nico1395/dandy-dotnet/tree/main#how-can-i-use-packages)
 
 ## What is currently being worked on?
 For an overview over the current work and state of releases, issues, features and bugs see:
