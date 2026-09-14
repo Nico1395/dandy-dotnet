@@ -1,0 +1,25 @@
+items:
+- name: DandyDotnet.DependencyInjection
+  href: DandyDotnet.DependencyInjection/
+- name: DandyDotnet.Encoding
+  href: DandyDotnet.Encoding/
+- name: DandyDotnet.EventDrivenArchitecture
+  items:
+  - name: DandyDotnet.EventDrivenArchitecture.RabbitMQ
+    href: DandyDotnet.EventDrivenArchitecture.RabbitMQ/
+- name: DandyDotnet.Patterns
+  items:
+  - name: DandyDotnet.Patterns.EventSourcing
+    href: DandyDotnet.Patterns.EventSourcing/
+  - name: DandyDotnet.Patterns.Mediator
+    href: DandyDotnet.Patterns.Mediator
+  - name: DandyDotnet.Patterns.Strategies
+    href: DandyDotnet.Patterns.Strategies
+- name: DandyDotnet.Persistence
+  items: 
+  - name: DandyDotnet.Persistence.Sql
+    items:
+    - name: DandyDotnet.Persistence.Sql
+      href: DandyDotnet.Persistence.Sql/
+- name: DandyDotnet.Serialization
+  href: DandyDotnet.Serialization/

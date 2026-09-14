@@ -7,7 +7,10 @@
           "src": "../src/",
           "files": [
             "**/*.csproj"
-          ]
+          ],
+		  "exclude": [
+			"**/*.Tests.csproj"
+		  ]
         }
       ],
       "dest": "api"
