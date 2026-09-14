@@ -26,7 +26,17 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
             {
                 var serviceTypes = GetServiceTypes(descriptor.AbstractType, filteredType, descriptor.IsOpenGeneric);
                 foreach (var serviceType in serviceTypes)
-                    yield return CreateServiceDescriptor(descriptor, serviceType, filteredType);
+                {
+                    var serviceKey = descriptor.ServiceKeyFactory is null
+                        ? descriptor.ServiceKey
+                        : descriptor.ServiceKeyFactory(filteredType);
+
+                    yield return CreateServiceDescriptor(
+                        descriptor,
+                        serviceType,
+                        filteredType,
+                        serviceKey);
+                }
             }
         }
     }
@@ -73,7 +83,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
             yield return baseType;
     }
 
-    private static ServiceDescriptor CreateServiceDescriptor(ScanDescriptor descriptor, Type serviceType, Type implementationType)
+    private static ServiceDescriptor CreateServiceDescriptor(ScanDescriptor descriptor, Type serviceType, Type implementationType, object? serviceKey)
     {
         // Non-keyed descriptor
         if (!descriptor.IsKeyed())
@@ -99,7 +109,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         {
             return ServiceDescriptor.DescribeKeyed(
                 serviceType,
-                descriptor.ServiceKey,
+                serviceKey,
                 descriptor.KeyedFactory,
                 descriptor.Lifetime);
         }
@@ -109,7 +119,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         {
             return ServiceDescriptor.DescribeKeyed(
                 serviceType,
-                descriptor.ServiceKey,
+                serviceKey,
                 (serviceProvider, _) => descriptor.Factory(serviceProvider),
                 descriptor.Lifetime);
         }
@@ -117,7 +127,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         // Implementation type rather than a factory
         return ServiceDescriptor.DescribeKeyed(
             serviceType,
-            descriptor.ServiceKey,
+            serviceKey,
             implementationType,
             descriptor.Lifetime);
     }

@@ -1,4 +1,5 @@
 using System.Reflection;
+using DandyDotnet.DependencyInjection.Scanning;
 using DandyDotnet.Patterns.Strategies.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,31 +22,22 @@ public static class ServiceCollectionExtensions
         var cfg = builder.Build();
 
         services.AddTransient<IStrategyExecutor, StrategyExecutor>();
-        AddStrategiesByKeyAttributeFromAssemblies(services, cfg.Assemblies);
+        services.ScanAndAdd(scanner =>
+        {
+            scanner.ScanIn(cfg.Assemblies);
+
+            foreach (var serviceType in _serviceTypes)
+            {
+                scanner.ScanFor(serviceType, type =>
+                {
+                    type.When(t => t.GetCustomAttribute<StrategyKeyAttribute>() != null);
+                    type.WithKey(t => t.GetCustomAttribute<StrategyKeyAttribute>()?.Key);
+                    type.AsTransient();
+                });
+            }
+        });
 
         return services;
-    }
-
-    private static void AddStrategiesByKeyAttributeFromAssemblies(IServiceCollection services, IReadOnlyList<Assembly> assemblies)
-    {
-        var handlerTypes = assemblies.SelectMany(a => a.DefinedTypes).Where(t => t.IsClass && !t.IsAbstract && !t.IsGenericTypeDefinition && t.GetCustomAttribute<StrategyKeyAttribute>() != null);
-        foreach (var implementationType in handlerTypes)
-        {
-            var interfaces = implementationType.ImplementedInterfaces;
-            var keyAttribute = implementationType.GetCustomAttribute<StrategyKeyAttribute>();
-            if (keyAttribute == null)
-                continue;
-            
-            foreach (var @interface in interfaces)
-            {
-                if (!@interface.IsGenericType)
-                    continue;
-
-                var genericDefinition = @interface.GetGenericTypeDefinition();
-                if (_serviceTypes.Contains(genericDefinition))
-                    services.AddKeyedTransient(@interface, keyAttribute.Key, implementationType);
-            }
-        }
     }
 
     public static IServiceCollection AddStrategyDefinition<TDefinition>(this IServiceCollection services, Action<IStrategyRegistrar<TDefinition>> definition)
