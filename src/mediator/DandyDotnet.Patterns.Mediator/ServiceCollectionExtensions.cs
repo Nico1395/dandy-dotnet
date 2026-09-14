@@ -1,3 +1,4 @@
+using DandyDotnet.DependencyInjection.Scanning;
 using Microsoft.Extensions.DependencyInjection;
 using DandyDotnet.Patterns.Mediator.Abstractions;
 using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
@@ -38,7 +39,12 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IRequestResponseMap>(_ => new RequestResponseMap(typeof(IRequestResponse), typeof(RequestResponse)));
         services.AddSingleton<IRequestResponseMap>(_ => new RequestResponseMap(typeof(IRequestResponse<>), typeof(RequestResponse<>)));
 
-        AddServiceTypes(services, configuration);
+        var scanner = new ServiceScannerBuilder()
+            .ScanIn(configuration.Assemblies)
+            .ScanFor(configuration.ServiceTypes)
+            .Build();
+        services.ScanAndAdd(scanner);
+
         AddPlugins(services, configuration);   // Runs through plugins after the base services have been registered, so a plugin could theoretically overwrite base registrations.
 
         return services;
