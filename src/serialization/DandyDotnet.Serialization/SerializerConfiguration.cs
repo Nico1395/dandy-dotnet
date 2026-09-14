@@ -2,8 +2,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace DandyDotnet.Serialization;
 
-internal sealed class SerializerConfiguration
+public sealed class SerializerConfiguration
 {
+    public object? ServiceKey { get; set; }
     public Type? SerializerType { get; set; }
     public object? Configuration { get; set; }
 

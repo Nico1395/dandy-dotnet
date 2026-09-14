@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection.Abstractions\DandyDotnet.DependencyInjection.Abstractions.csproj" />
     <ProjectReference Include="..\DandyDotnet.Serialization.Abstractions\DandyDotnet.Serialization.Abstractions.csproj" />
   </ItemGroup>
 </Project>

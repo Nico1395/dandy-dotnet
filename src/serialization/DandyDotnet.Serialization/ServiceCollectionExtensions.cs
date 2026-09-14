@@ -1,3 +1,4 @@
+using DandyDotnet.DependencyInjection.Abstractions;
 using DandyDotnet.Serialization.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -5,20 +6,30 @@ namespace DandyDotnet.Serialization;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDandySerializer(this IServiceCollection services, Action<SerializerConfigurationBuilder> configure)
+    public static IServiceCollection AddDandySerializer(this IServiceCollection services, Action<SerializerConfigurationBuilder>? configure)
     {
         var builder = new SerializerConfigurationBuilder();
-        configure(builder);
+        configure?.Invoke(builder);
         var configuration = builder.Build();
 
+        return services.AddDandySerializer(configuration);
+    }
+
+    public static IServiceCollection AddDandySerializer(this IServiceCollection services)
+    {
+        return services.AddDandySerializer(configure: null);
+    }
+
+    public static IServiceCollection AddDandySerializer(this IServiceCollection services, SerializerConfiguration configuration)
+    {
         if (!configuration.IsValid())
             throw new InvalidOperationException("Serializer type is not specified.");
 
-        if (services.BuildServiceProvider().GetService(configuration.SerializerType) != null)
+        if (services.BuildServiceProvider().GetKeyedOrDefaultService(typeof(ISerializer), configuration.ServiceKey) != null)
             return services;
 
-        services.AddSingleton(typeof(ISerializer), configuration.SerializerType);
-        services.AddSingleton(configuration.Configuration.GetType(), configuration.Configuration);
+        services.AddKeyedSingletonOrDefault(typeof(ISerializer), configuration.ServiceKey, configuration.SerializerType);
+        services.AddKeyedSingletonOrDefault(configuration.Configuration.GetType(), configuration.ServiceKey, configuration.Configuration);
 
         return services;
     }
