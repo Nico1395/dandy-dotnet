@@ -74,6 +74,23 @@ public sealed class ServiceScannerTests
     }
 
     [Fact]
+    public void GetServiceDescriptors_CreatesAKeyedDescriptorForEachImplementationKey()
+    {
+        var descriptors = new ServiceScannerBuilder()
+            .ScanIn(TestAssembly)
+            .ScanFor<IHandler<Request, string>>(builder => builder
+                .When(type => type == typeof(RequestHandler))
+                .WithKey(type => type.Name))
+            .Build()
+            .GetServiceDescriptors()
+            .ToArray();
+
+        var descriptor = Assert.Single(descriptors);
+        Assert.True(descriptor.IsKeyedService);
+        Assert.Equal(nameof(RequestHandler), descriptor.ServiceKey);
+    }
+
+    [Fact]
     public void GetServiceDescriptors_CreatesKeyedFactoryDescriptor()
     {
         Func<IServiceProvider, object?, object> factory = (_, key) => new RequestHandler();
