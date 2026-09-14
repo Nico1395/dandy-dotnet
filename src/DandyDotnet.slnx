@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/DependencyInjection/">
+    <Project Path="dependency-injection/DandyDotnet.DependencyInjection.Abstractions/DandyDotnet.DependencyInjection.Abstractions.csproj" />
+    <Project Path="dependency-injection/DandyDotnet.DependencyInjection.Tests/DandyDotnet.DependencyInjection.Tests.csproj" />
+    <Project Path="dependency-injection/DandyDotnet.DependencyInjection/DandyDotnet.DependencyInjection.csproj" />
+  </Folder>
   <Folder Name="/Encoding/">
     <Project Path="encoding/DandyDotnet.Encoding.Abstractions/DandyDotnet.Encoding.Abstractions.csproj" />
     <Project Path="encoding/DandyDotnet.Encoding.Tests/DandyDotnet.Encoding.Tests.csproj" />
