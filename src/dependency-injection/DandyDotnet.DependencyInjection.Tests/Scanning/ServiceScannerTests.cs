@@ -1,6 +1,7 @@
 using System.Reflection;
 using DandyDotnet.DependencyInjection.Scanning;
 using DandyDotnet.DependencyInjection.Tests.Scanning.Mocks.AccessModifiers;
+using DandyDotnet.DependencyInjection.Tests.Scanning.Mocks.OpenGeneric;
 using DandyDotnet.DependencyInjection.Tests.Scanning.Mocks.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
