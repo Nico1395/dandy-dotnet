@@ -11,8 +11,6 @@ internal sealed class NpgsqlConfiguration : PersistenceConfiguration
 {
     private static readonly Assembly[]? _assemblies = [typeof(NpgsqlConfiguration).Assembly];
 
-    public override string Slot => "persistence";
-
     public override void ConfigureServices(IServiceCollection services)
     {
         base.ConfigureServices(services);

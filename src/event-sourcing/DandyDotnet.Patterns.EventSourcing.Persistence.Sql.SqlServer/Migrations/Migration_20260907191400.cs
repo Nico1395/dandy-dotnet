@@ -1,7 +1,7 @@
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
 using FluentMigrator;
 
-namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Migrations;
+namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer.Migrations;
 
 [Migration(20260907191400, "Creating schema and tables")]
 public class Migration_20260907191400 : Migration

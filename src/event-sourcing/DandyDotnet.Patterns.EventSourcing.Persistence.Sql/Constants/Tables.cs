@@ -7,10 +7,13 @@ public static class Tables
         public const string Table = "envelopes";
 
         public const string StreamId = "stream_id";
+        public const int StreamIdLength = 255;
         public const string Payload = "payload";
+        public const int PayloadLength = int.MaxValue;
         public const string Version = "version";
         public const string Timestamp = "timestamp";
         public const string EventKey = "event_key";
+        public const int EventKeyLength = 255;
     }
 
     public static class Snapshots
@@ -18,10 +21,13 @@ public static class Tables
         public const string Table = "snapshots";
 
         public const string StreamId = "stream_id";
+        public const int StreamIdLength = 255;
         public const string Payload = "payload";
+        public const int PayloadLength = int.MaxValue;
         public const string Version = "version";
         public const string Timestamp = "timestamp";
         public const string AggregateKey = "aggregate_key";
+        public const int AggregateKeyLength = 255;
     }
 
     public static class OutboxEnvelopes
@@ -29,10 +35,13 @@ public static class Tables
         public const string Table = "outbox_envelopes";
         
         public const string StreamId = "stream_id";
+        public const int StreamIdLength = 255;
         public const string Payload = "payload";
+        public const int PayloadLength = int.MaxValue;
         public const string Version = "version";
         public const string Timestamp = "timestamp";
         public const string EventKey = "event_key";
+        public const int EventKeyLength = 255;
     }
 
     public static class OutboxEnvelopeConsumers
@@ -40,10 +49,12 @@ public static class Tables
         public const string Table = "outbox_envelope_consumers";
         
         public const string StreamId = "stream_id";
+        public const int StreamIdLength = 255;
         public const string Version = "version";
         public const string Type = "type";
         public const string ConsumedAt = "consumed_at";
         public const string FailedAt = "failed_at";
         public const string ConsumerKey = "ConsumerKey";
+        public const int ConsumerKeyLength = 255;
     }
 }

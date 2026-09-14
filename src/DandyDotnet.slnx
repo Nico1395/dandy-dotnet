@@ -27,6 +27,7 @@
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
     <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
+    <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
@@ -58,7 +59,7 @@
     <Project Path="persistence\DandyDotnet.Persistence.Sql.Sqlite\DandyDotnet.Persistence.Sql.Sqlite.csproj" />
   </Folder>
   <Folder Name="/Persistence/Migrations/">
-    <Project Path="DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests.csproj" />
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests/DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Postgres/DandyDotnet.Persistence.Sql.Migrations.Postgres.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Sqlite.Tests/DandyDotnet.Persistence.Sql.Migrations.Sqlite.Tests.csproj" />

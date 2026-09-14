@@ -17,8 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DandyDotnet.Tests.Core\DandyDotnet.Tests.Core.csproj" />
-      <ProjectReference Include="..\persistence\DandyDotnet.Persistence.Sql.Migrations.SqlServer\DandyDotnet.Persistence.Sql.Migrations.SqlServer.csproj" />
+      <ProjectReference Include="..\..\DandyDotnet.Tests.Core\DandyDotnet.Tests.Core.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Migrations.SqlServer\DandyDotnet.Persistence.Sql.Migrations.SqlServer.csproj" />
     </ItemGroup>
 
 </Project>
