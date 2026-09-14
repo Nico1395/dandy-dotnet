@@ -11,7 +11,7 @@ public sealed class ScanDescriptor
     public Func<Type, object?>? ServiceKeyFactory { get; init; }
     public Func<IServiceProvider, object?, object>? KeyedFactory { get; init; }
     public Func<IServiceProvider, object>? Factory { get; init; }
-    public bool IsOpenGeneric { get; init; }
+    public bool AllowOpenGeneric { get; init; }
 
     public bool IsKeyed()
     {

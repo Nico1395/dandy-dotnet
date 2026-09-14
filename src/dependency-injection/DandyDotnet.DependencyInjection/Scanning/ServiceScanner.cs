@@ -19,12 +19,12 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         foreach (var descriptor in Descriptors.Values)
         {
             var filteredTypes = implementationTypes
-                .Where(type => descriptor.IsOpenGeneric == type.IsGenericTypeDefinition) // Match open generic setting
+                .Where(type => descriptor.AllowOpenGeneric == type.IsGenericTypeDefinition) // Match open generic setting
                 .Where(type => descriptor.Predicate?.Invoke(type) ?? true); // Apply predicate
 
             foreach (var filteredType in filteredTypes)
             {
-                var serviceTypes = GetServiceTypes(descriptor.AbstractType, filteredType, descriptor.IsOpenGeneric);
+                var serviceTypes = GetServiceTypes(descriptor.AbstractType, filteredType, descriptor.AllowOpenGeneric);
                 foreach (var serviceType in serviceTypes)
                 {
                     var serviceKey = descriptor.ServiceKeyFactory is null

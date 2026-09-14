@@ -148,7 +148,7 @@ public sealed class ServiceScannerTests
     {
         var descriptor = Assert.Single(CreateScanner(typeof(IOpenGenericHandler<>), builder => builder
                 .When(_ => true)
-                .AsOpenGeneric())
+                .AllowOpenGeneric())
             .GetServiceDescriptors());
 
         Assert.Equal(typeof(IOpenGenericHandler<>), descriptor.ServiceType);
@@ -160,7 +160,7 @@ public sealed class ServiceScannerTests
     {
         var descriptors = CreateScanner(typeof(IOpenGenericHandler<>), builder => builder
                 .When(_ => true)
-                .AsOpenGeneric()
+                .AllowOpenGeneric()
                 .When(type => type == typeof(ClosedGenericHandler)))
             .GetServiceDescriptors();
 
