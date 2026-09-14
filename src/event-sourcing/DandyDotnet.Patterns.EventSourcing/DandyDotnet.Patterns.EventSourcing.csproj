@@ -8,6 +8,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
       <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.Abstractions\DandyDotnet.Serialization.Abstractions.csproj" />
       <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Abstractions\DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
     </ItemGroup>
