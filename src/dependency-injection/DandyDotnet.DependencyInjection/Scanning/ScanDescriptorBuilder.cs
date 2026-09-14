@@ -10,7 +10,7 @@ public sealed class ScanDescriptorBuilder(Type abstractType)
     private Func<Type, object?>? _serviceKeyFactory;
     private Func<IServiceProvider, object?, object>? _keyedFactory;
     private Func<IServiceProvider, object>? _factory;
-    private bool _isOpenGeneric;
+    private bool _allowOpenGeneric;
 
     public ScanDescriptorBuilder When(Func<Type, bool> predicate)
     {
@@ -48,9 +48,9 @@ public sealed class ScanDescriptorBuilder(Type abstractType)
         return this;
     }
 
-    public ScanDescriptorBuilder AsOpenGeneric()
+    public ScanDescriptorBuilder AllowOpenGeneric()
     {
-        _isOpenGeneric = true;
+        _allowOpenGeneric = true;
         return this;
     }
 
@@ -65,7 +65,7 @@ public sealed class ScanDescriptorBuilder(Type abstractType)
             ServiceKeyFactory = _serviceKeyFactory,
             KeyedFactory = _keyedFactory,
             Factory = _factory,
-            IsOpenGeneric = _isOpenGeneric,
+            AllowOpenGeneric = _allowOpenGeneric,
         };
     }
 }

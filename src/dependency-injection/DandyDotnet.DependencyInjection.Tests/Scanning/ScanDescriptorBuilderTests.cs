@@ -21,7 +21,7 @@ public sealed class ScanDescriptorBuilderTests
         Assert.Null(descriptor.ServiceKey);
         Assert.Null(descriptor.KeyedFactory);
         Assert.Null(descriptor.Factory);
-        Assert.False(descriptor.IsOpenGeneric);
+        Assert.False(descriptor.AllowOpenGeneric);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public sealed class ScanDescriptorBuilderTests
                 .WithKey("handler")
                 .WithFactory(factory)
                 .WithKeyedFactory(keyedFactory)
-                .AsOpenGeneric())
+                .AllowOpenGeneric())
             .Build();
 
         var descriptor = Assert.Single(scanner.Descriptors).Value;
@@ -48,7 +48,7 @@ public sealed class ScanDescriptorBuilderTests
         Assert.Equal("handler", descriptor.ServiceKey);
         Assert.Same(factory, descriptor.Factory);
         Assert.Same(keyedFactory, descriptor.KeyedFactory);
-        Assert.True(descriptor.IsOpenGeneric);
+        Assert.True(descriptor.AllowOpenGeneric);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public sealed class ScanDescriptorBuilderTests
             Assert.Same(configured, configured.WithKey("key"));
             Assert.Same(configured, configured.WithFactory(_ => new RequestHandler()));
             Assert.Same(configured, configured.WithKeyedFactory((_, _) => new RequestHandler()));
-            Assert.Same(configured, configured.AsOpenGeneric());
+            Assert.Same(configured, configured.AllowOpenGeneric());
         });
 
         Assert.NotNull(descriptorBuilder);

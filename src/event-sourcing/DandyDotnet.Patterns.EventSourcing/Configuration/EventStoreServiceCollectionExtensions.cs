@@ -1,4 +1,5 @@
 using System.Reflection;
+using DandyDotnet.DependencyInjection.Scanning;
 using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Events;
@@ -11,13 +12,6 @@ namespace DandyDotnet.Patterns.EventSourcing.Configuration;
 
 public static class EventStoreServiceCollectionExtensions
 {
-    private static readonly IReadOnlyList<Type> _serviceTypes =
-    [
-        typeof(ISubscriber<>),
-        typeof(ISubscriberExceptionHandler<>),
-        typeof(IAggregateFactory<>),
-    ];
-
     public static IServiceCollection AddDandyEventSourcing(this IServiceCollection services, Action<EventStoreConfigurationBuilder> builderAction)
     {
         var builder = new EventStoreConfigurationBuilder();
@@ -38,7 +32,18 @@ public static class EventStoreServiceCollectionExtensions
             AddAggregatesFromAssemblies(configuration.Assemblies, configuration.Aggregates);
             AddEventsFromAssemblies(configuration.Assemblies, configuration.Events);
             AddSubscribersFromAssemblies(configuration.Assemblies, configuration.Subscribers);
-            AddServicesFromAssemblies(services, configuration.Assemblies);
+
+            services.ScanAndAdd(scanner =>
+            {
+                scanner.ScanIn(configuration.Assemblies);
+                scanner.ScanFor(typeof(ISubscriber<>));
+                scanner.ScanFor(typeof(ISubscriberExceptionHandler<>), handler =>
+                {
+                    handler.AllowOpenGeneric();
+                });
+                scanner.ScanFor(typeof(IAggregateFactory<>));
+                scanner.Build();
+            });
         }
 
         foreach (var aggregateConfiguration in configuration.Aggregates.AggregatesByType.Values)
@@ -85,24 +90,6 @@ public static class EventStoreServiceCollectionExtensions
         
         foreach (var subscriberType in subscriberTypes)
             configuration.GetOrAddSubscriberConfiguration(subscriberType);
-    }
-
-    private static void AddServicesFromAssemblies(IServiceCollection services, IReadOnlyList<Assembly> assemblies)
-    {
-        var handlerTypes = assemblies.SelectMany(a => a.DefinedTypes).Where(t => t is { IsClass: true, IsAbstract: false, IsGenericTypeDefinition: false });
-        foreach (var implementationType in handlerTypes)
-        {
-            var interfaces = implementationType.ImplementedInterfaces;
-            foreach (var @interface in interfaces)
-            {
-                if (!@interface.IsGenericType)
-                    continue;
-
-                var genericDefinition = @interface.GetGenericTypeDefinition();
-                if (_serviceTypes.Contains(genericDefinition))
-                    services.AddTransient(@interface, implementationType);
-            }
-        }
     }
 
     private static void AddAggregateFactories(IServiceCollection services, AggregatesConfiguration configuration)

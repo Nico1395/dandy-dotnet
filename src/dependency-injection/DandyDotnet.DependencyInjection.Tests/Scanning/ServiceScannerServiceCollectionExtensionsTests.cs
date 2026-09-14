@@ -27,7 +27,9 @@ public sealed class ServiceScannerServiceCollectionExtensionsTests
     {
         var scanner = new ServiceScannerBuilder()
             .ScanIn(typeof(OpenGenericHandler<>).Assembly)
-            .ScanFor(typeof(IOpenGenericHandler<>), descriptor => descriptor.AsOpenGeneric())
+            .ScanFor(typeof(IOpenGenericHandler<>), descriptor => descriptor
+                .When(type => type.IsGenericTypeDefinition)
+                .AllowOpenGeneric())
             .Build();
         var services = new ServiceCollection().ScanAndAdd(scanner);
 
