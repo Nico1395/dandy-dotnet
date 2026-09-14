@@ -1,0 +1,3 @@
+﻿namespace DandyDotnet.DependencyInjection.Tests.Scanning.Mocks.AccessModifiers;
+
+public interface IAccessModifierInterface;
