@@ -4,6 +4,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
         <ProjectReference Include="..\DandyDotnet.Encoding.Abstractions\DandyDotnet.Encoding.Abstractions.csproj" />
     </ItemGroup>
 </Project>

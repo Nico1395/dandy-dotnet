@@ -1,3 +1,4 @@
+using DandyDotnet.DependencyInjection.Abstractions;
 using DandyDotnet.Encoding.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +31,9 @@ public static class ServiceCollectionExtensions
         if (!configuration.EncoderType.IsAssignableTo(payloadEncoderInterface))
             throw new InvalidOperationException($"Encoder implementation type does not implement {payloadEncoderInterface}.");
 
-        return services.AddSingleton(payloadEncoderInterface, configuration.EncoderType);
+        return services.AddKeyedSingletonOrDefault(
+            payloadEncoderInterface,
+            configuration.ServiceKey,
+            configuration.EncoderType);
     }
 }
