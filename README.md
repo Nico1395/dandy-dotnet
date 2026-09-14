@@ -6,6 +6,12 @@
 - [How can I use packages?](https://github.com/Nico1395/dandy-dotnet/tree/dev#how-can-i-use-packages)
 - [Is AI being used and if yes, how?](https://github.com/Nico1395/dandy-dotnet/tree/dev#how-can-i-use-packages)
 
+## Issues and milestones
+For a quick overview over the current state of releases, issues, features and bugs see:
+- [Current issues](https://github.com/users/Nico1395/projects/43/views/1)
+- [Priorities](https://github.com/users/Nico1395/projects/43/views/2)
+- [Releases and milestones](https://github.com/users/Nico1395/projects/43/views/6)
+
 ## What is DandyDotnet?
 DandyDotnet is a family of opinionated packages that build on top of [.NET Core](https://github.com/dotnet/runtime) and [ASP.NET Core](https://github.com/dotnet/aspnetcore). Their goal is to implement design patterns or architectural paradigms and make the use of tech such as RabbitMQ easier. Some packages are more opinionated than others. The individual goals of each package differ. Consult their documentation for further information.
 
