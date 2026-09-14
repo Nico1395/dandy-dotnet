@@ -1,4 +1,5 @@
 # DandyDotnet
+- [API reference](https://nico1395.github.io/dandy-dotnet/)
 - [What is DandyDotnet?](https://github.com/Nico1395/dandy-dotnet/tree/dev#what-is-dandydotnet)
 - [Packages](https://github.com/Nico1395/dandy-dotnet/tree/dev#packages)
 - [Package overview](https://github.com/Nico1395/dandy-dotnet/tree/dev#package-overview)
@@ -25,7 +26,7 @@ All packages are currently using .NET 10. The .NET version will be kept up to da
 Packages are always pushed to NuGet together, which is why they should be updated together. Version numbers of all packages will stay in sync.
 
 ## Package overview
-This section offers a brief overview of all packages available on [nuget.org](https://www.nuget.org/). It contains links to the detailed documentation in the repositories wiki.
+This section offers a brief overview of all packages available on [nuget.org](https://www.nuget.org/). It contains links to the detailed documentation in the repositories wiki. For a detailed API reference see [here](https://nico1395.github.io/dandy-dotnet/).
 
 |Name|Type|Docs|
 |-|-|-|
