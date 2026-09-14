@@ -1,25 +1,1018 @@
+### YamlMime:TableOfContent
 items:
-- name: DandyDotnet.DependencyInjection
-  href: DandyDotnet.DependencyInjection/
-- name: DandyDotnet.Encoding
-  href: DandyDotnet.Encoding/
-- name: DandyDotnet.EventDrivenArchitecture
+- uid: DandyDotnet.DependencyInjection.Abstractions
+  name: DandyDotnet.DependencyInjection.Abstractions
+  type: Namespace
   items:
-  - name: DandyDotnet.EventDrivenArchitecture.RabbitMQ
-    href: DandyDotnet.EventDrivenArchitecture.RabbitMQ/
-- name: DandyDotnet.Patterns
+  - uid: DandyDotnet.DependencyInjection.Abstractions.RangedRegistrationServiceCollectionExtensions
+    name: RangedRegistrationServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.DependencyInjection.Scanning
+  name: DandyDotnet.DependencyInjection.Scanning
+  type: Namespace
   items:
-  - name: DandyDotnet.Patterns.EventSourcing
-    href: DandyDotnet.Patterns.EventSourcing/
-  - name: DandyDotnet.Patterns.Mediator
-    href: DandyDotnet.Patterns.Mediator
-  - name: DandyDotnet.Patterns.Strategies
-    href: DandyDotnet.Patterns.Strategies
-- name: DandyDotnet.Persistence
-  items: 
-  - name: DandyDotnet.Persistence.Sql
-    items:
-    - name: DandyDotnet.Persistence.Sql
-      href: DandyDotnet.Persistence.Sql/
-- name: DandyDotnet.Serialization
-  href: DandyDotnet.Serialization/
+  - uid: DandyDotnet.DependencyInjection.Scanning.ScanDescriptor
+    name: ScanDescriptor
+    type: Class
+  - uid: DandyDotnet.DependencyInjection.Scanning.ScanDescriptorBuilder
+    name: ScanDescriptorBuilder
+    type: Class
+  - uid: DandyDotnet.DependencyInjection.Scanning.ServiceScanner
+    name: ServiceScanner
+    type: Class
+  - uid: DandyDotnet.DependencyInjection.Scanning.ServiceScannerBuilder
+    name: ServiceScannerBuilder
+    type: Class
+  - uid: DandyDotnet.DependencyInjection.Scanning.ServiceScannerBuilderExtensions
+    name: ServiceScannerBuilderExtensions
+    type: Class
+  - uid: DandyDotnet.DependencyInjection.Scanning.ServiceScannerServiceCollectionExtensions
+    name: ServiceScannerServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.Encoding.Abstractions
+  name: DandyDotnet.Encoding.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Encoding.Abstractions.IEncoder
+    name: IEncoder
+    type: Interface
+- uid: DandyDotnet.Encoding.Codes
+  name: DandyDotnet.Encoding.Codes
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Encoding.Codes.AsciiEncoder
+    name: AsciiEncoder
+    type: Class
+  - uid: DandyDotnet.Encoding.Codes.BigEndianUnicodeEncoder
+    name: BigEndianUnicodeEncoder
+    type: Class
+  - uid: DandyDotnet.Encoding.Codes.Latin1Encoder
+    name: Latin1Encoder
+    type: Class
+  - uid: DandyDotnet.Encoding.Codes.UnicodeEncoder
+    name: UnicodeEncoder
+    type: Class
+  - uid: DandyDotnet.Encoding.Codes.Utf32Encoder
+    name: Utf32Encoder
+    type: Class
+  - uid: DandyDotnet.Encoding.Codes.Utf8Encoder
+    name: Utf8Encoder
+    type: Class
+- uid: DandyDotnet.Encoding.Configuration
+  name: DandyDotnet.Encoding.Configuration
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Encoding.Configuration.EncodingConfiguration
+    name: EncodingConfiguration
+    type: Class
+  - uid: DandyDotnet.Encoding.Configuration.EncodingConfigurationBuilder
+    name: EncodingConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.Encoding.Configuration.EncodingConfigurationBuilderExtensions
+    name: EncodingConfigurationBuilderExtensions
+    type: Class
+  - uid: DandyDotnet.Encoding.Configuration.ServiceCollectionExtensions
+    name: ServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity.IConnectionProvider
+    name: IConnectionProvider
+    type: Interface
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations.IDeclarer
+    name: IDeclarer
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations.IReadOnlyChannelConfiguration
+    name: IReadOnlyChannelConfiguration
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations.IReadOnlyExchangeConfiguration
+    name: IReadOnlyExchangeConfiguration
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations.IReadOnlyQueueConfiguration
+    name: IReadOnlyQueueConfiguration
+    type: Interface
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages.IMessage
+    name: IMessage
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages.Message
+    name: Message
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages.MessageAttribute
+    name: MessageAttribute
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages.MessageExchangeAttribute
+    name: MessageExchangeAttribute
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages.MessageKeyAttribute
+    name: MessageKeyAttribute
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages.MessageMetadataAttribute
+    name: MessageMetadataAttribute
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Messages.MessageRoutesAttribute
+    name: MessageRoutesAttribute
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.ConnectivityConfiguration
+    name: ConnectivityConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.ConnectivityConfigurationBuilder
+    name: ConnectivityConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity.ConnectivityServiceCollectionExtensions
+    name: ConnectivityServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.ConsumerConfiguration
+    name: ConsumerConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.ConsumerConfigurationBuilder
+    name: ConsumerConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.ConsumerPipeline
+    name: ConsumerPipeline
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.ConsumerServiceCollectionExtensions
+    name: ConsumerServiceCollectionExtensions
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.IConsumerPipeline
+    name: IConsumerPipeline
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.IReceiver
+    name: IReceiver
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Receiver
+    name: Receiver
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.ConsumerContext
+    name: ConsumerContext
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.ConsumerDelegate
+    name: ConsumerDelegate
+    type: Delegate
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.ConsumerResult
+    name: ConsumerResult
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.ConsumerStatus
+    name: ConsumerStatus
+    type: Enum
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.IConsumerExceptionHandler`1
+    name: IConsumerExceptionHandler<TMessage>
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.IConsumerMiddleware`1
+    name: IConsumerMiddleware<TMessage>
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.IConsumer`1
+    name: IConsumer<TMessage>
+    type: Interface
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.Interceptors
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.Interceptors
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.Interceptors.ConsumerInterceptor
+    name: ConsumerInterceptor
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.Interceptors.IConsumerInterceptor
+    name: IConsumerInterceptor
+    type: Interface
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.ChannelConfiguration
+    name: ChannelConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.DeclarationsConfiguration
+    name: DeclarationsConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.DeclarationsConfigurationBuilder
+    name: DeclarationsConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.DeclarationsServiceCollectionExtensions
+    name: DeclarationsServiceCollectionExtensions
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.Declarer
+    name: Declarer
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.ExchangeConfiguration
+    name: ExchangeConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations.QueueConfiguration
+    name: QueueConfiguration
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.MessageConfiguration
+    name: MessageConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.MessageConfigurationBuilder
+    name: MessageConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.MessageServiceCollectionExtensions
+    name: MessageServiceCollectionExtensions
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.MessagesConfiguration
+    name: MessagesConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages.MessagesConfigurationBuilder
+    name: MessagesConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.DispatchInfo
+    name: DispatchInfo
+    type: Struct
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.ProducerConfiguration
+    name: ProducerConfiguration
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.ProducerConfigurationBuilder
+    name: ProducerConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.ProducerServiceCollectionExtensions
+    name: ProducerServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions.IProducer
+    name: IProducer
+    type: Interface
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions.ProducerExtensions
+    name: ProducerExtensions
+    type: Class
+- uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared
+  name: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared
+  type: Namespace
+  items:
+  - uid: DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared.InputMessageV1
+    name: InputMessageV1
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Abstractions
+  name: DandyDotnet.Patterns.EventSourcing.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.AggregateAttribute
+    name: AggregateAttribute
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.AggregateFactoryAttribute
+    name: AggregateFactoryAttribute
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.EventAttribute
+    name: EventAttribute
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.EventStoreExtensions
+    name: EventStoreExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.IAggregateFactory`1
+    name: IAggregateFactory<TAggregate>
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.IEventStore
+    name: IEventStore
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.IReadOnlyEnvelope
+    name: IReadOnlyEnvelope
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.IReadOnlyEventStore
+    name: IReadOnlyEventStore
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.IReadOnlyOutboxEnvelope
+    name: IReadOnlyOutboxEnvelope
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.IReadOnlySnapshot
+    name: IReadOnlySnapshot
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.ISubscriberExceptionHandler`1
+    name: ISubscriberExceptionHandler<TEvent>
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.ISubscriber`1
+    name: ISubscriber<TEvent>
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.ReadOnlyEventStoreExtensions
+    name: ReadOnlyEventStoreExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.SubscriberAttribute
+    name: SubscriberAttribute
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.SubscriberContext
+    name: SubscriberContext
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Abstractions.SubscriberMode
+    name: SubscriberMode
+    type: Enum
+- uid: DandyDotnet.Patterns.EventSourcing.Configuration
+  name: DandyDotnet.Patterns.EventSourcing.Configuration
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.EventStoreConfiguration
+    name: EventStoreConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.EventStoreConfigurationBuilder
+    name: EventStoreConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.EventStoreServiceCollectionExtensions
+    name: EventStoreServiceCollectionExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.PluginConfiguration
+    name: PluginConfiguration
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates
+  name: DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates.AggregateConfiguration
+    name: AggregateConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates.AggregateConfigurationBuilder`1
+    name: AggregateConfigurationBuilder<TAggregate>
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates.AggregatesConfiguration
+    name: AggregatesConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates.AggregatesConfigurationBuilder
+    name: AggregatesConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Configuration.Events
+  name: DandyDotnet.Patterns.EventSourcing.Configuration.Events
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Events.EventConfiguration
+    name: EventConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Events.EventConfigurationBuilder`1
+    name: EventConfigurationBuilder<TEvent>
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Events.EventsConfiguration
+    name: EventsConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Events.EventsConfigurationBuilder
+    name: EventsConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Configuration.Outbox
+  name: DandyDotnet.Patterns.EventSourcing.Configuration.Outbox
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Outbox.OutboxConfiguration
+    name: OutboxConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Outbox.OutboxConfigurationBuilder
+    name: OutboxConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers
+  name: DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers.SubscriberConfiguration
+    name: SubscriberConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers.SubscriberConfigurationBuilder
+    name: SubscriberConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers.SubscribersConfiguration
+    name: SubscribersConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers.SubscribersConfigurationBuilder
+    name: SubscribersConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Outbox
+  name: DandyDotnet.Patterns.EventSourcing.Outbox
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Outbox.IOutbox
+    name: IOutbox
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Outbox.OutboxEnvelope
+    name: OutboxEnvelope
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Outbox.OutboxEnvelopeConsumer
+    name: OutboxEnvelopeConsumer
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Outbox.OutboxEventConsumerType
+    name: OutboxEventConsumerType
+    type: Enum
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence
+  name: DandyDotnet.Patterns.EventSourcing.Persistence
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.IEnvelopeRepository
+    name: IEnvelopeRepository
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.IOutboxRepository
+    name: IOutboxRepository
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.ISnapshotRepository
+    name: ISnapshotRepository
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.IUnitOfWork
+    name: IUnitOfWork
+    type: Interface
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Entities
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Entities
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Entities.EnvelopeEntity
+    name: EnvelopeEntity
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Entities.OutboxEnvelopeConsumerEntity
+    name: OutboxEnvelopeConsumerEntity
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Entities.OutboxEnvelopeEntity
+    name: OutboxEnvelopeEntity
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Entities.SnapshotEntity
+    name: SnapshotEntity
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Sql
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.IReadOnlyUnitOfWorkContext
+    name: IReadOnlyUnitOfWorkContext
+    type: Interface
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.PersistenceConfiguration
+    name: PersistenceConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlStrings
+    name: SqlStrings
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections.DbConnectionFactoryExtensions
+    name: DbConnectionFactoryExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections.IDbConnectionFactory
+    name: IDbConnectionFactory
+    type: Interface
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants.Schema
+    name: Schema
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants.Tables
+    name: Tables
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants.Tables.Envelopes
+    name: Tables.Envelopes
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants.Tables.OutboxEnvelopeConsumers
+    name: Tables.OutboxEnvelopeConsumers
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants.Tables.OutboxEnvelopes
+    name: Tables.OutboxEnvelopes
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants.Tables.Snapshots
+    name: Tables.Snapshots
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.EventStoreConfigurationBuilderExtensions
+    name: EventStoreConfigurationBuilderExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.NpgsqlConfigurationBuilder
+    name: NpgsqlConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Migrations
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Migrations
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Migrations.Migration_20260907191400
+    name: Migration_20260907191400
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.EventStoreConfigurationBuilderExtensions
+    name: EventStoreConfigurationBuilderExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.SqliteConfigurationBuilder
+    name: SqliteConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Migrations
+  name: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Migrations
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Migrations.Migration_20260907205400
+    name: Migration_20260907205400
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator
+  name: DandyDotnet.Patterns.Mediator
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.ServiceCollectionExtensions
+    name: ServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Abstractions
+  name: DandyDotnet.Patterns.Mediator.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.IMediator
+    name: IMediator
+    type: Interface
+- uid: DandyDotnet.Patterns.Mediator.Abstractions.Notifications
+  name: DandyDotnet.Patterns.Mediator.Abstractions.Notifications
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Notifications.INotification
+    name: INotification
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Notifications.INotificationExceptionHandler`1
+    name: INotificationExceptionHandler<TNotification>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Notifications.INotificationHandler`1
+    name: INotificationHandler<TNotification>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Notifications.INotificationPublisher
+    name: INotificationPublisher
+    type: Interface
+- uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests
+  name: DandyDotnet.Patterns.Mediator.Abstractions.Requests
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequest
+    name: IRequest
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestExceptionHandler`1
+    name: IRequestExceptionHandler<TRequest>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestExceptionHandler`2
+    name: IRequestExceptionHandler<TRequest, TResponse>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestHandler`1
+    name: IRequestHandler<TRequest>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestHandler`2
+    name: IRequestHandler<TRequest, TResponse>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestMiddleware`1
+    name: IRequestMiddleware<TRequest>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestMiddleware`2
+    name: IRequestMiddleware<TRequest, TResponse>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestPipeline
+    name: IRequestPipeline
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestResponse
+    name: IRequestResponse
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestResponse`1
+    name: IRequestResponse<TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequestSender
+    name: IRequestSender
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IRequest`1
+    name: IRequest<TResponse>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.IResponseRequest`1
+    name: IResponseRequest<TResponse>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.RequestHandlerDelegate
+    name: RequestHandlerDelegate
+    type: Delegate
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.RequestHandlerDelegate`1
+    name: RequestHandlerDelegate<TResponse>
+    type: Delegate
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.RequestResponseExtensions
+    name: RequestResponseExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.RequestResponseStatus
+    name: RequestResponseStatus
+    type: Enum
+- uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Factories
+  name: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Factories
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Factories.IRequestResponseFactory
+    name: IRequestResponseFactory
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Factories.RequestResponseFactoryExtensions
+    name: RequestResponseFactoryExtensions
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping
+  name: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping.IRequestResponseMap
+    name: IRequestResponseMap
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Abstractions.Requests.Mapping.IRequestResponseMapper
+    name: IRequestResponseMapper
+    type: Interface
+- uid: DandyDotnet.Patterns.Mediator.Commands
+  name: DandyDotnet.Patterns.Mediator.Commands
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Commands.CommandResponse
+    name: CommandResponse
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Commands.CommandResponseExtensions
+    name: CommandResponseExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Commands.CommandResponse`1
+    name: CommandResponse<TData>
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Commands.MediatorConfigurationBuilderExtensions
+    name: MediatorConfigurationBuilderExtensions
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions
+  name: DandyDotnet.Patterns.Mediator.Commands.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.CommandRequestSenderExtensions
+    name: CommandRequestSenderExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommand
+    name: ICommand
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommandHandler`1
+    name: ICommandHandler<TCommand>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommandHandler`2
+    name: ICommandHandler<TCommand, TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommandResponse
+    name: ICommandResponse
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommandResponseBuilder
+    name: ICommandResponseBuilder
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommandResponseBuilder`1
+    name: ICommandResponseBuilder<TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommandResponse`1
+    name: ICommandResponse<TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Commands.Abstractions.ICommand`1
+    name: ICommand<TData>
+    type: Interface
+- uid: DandyDotnet.Patterns.Mediator.Configuration
+  name: DandyDotnet.Patterns.Mediator.Configuration
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MediatorConfigurationBuilder
+    name: MediatorConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MediatorConstants
+    name: MediatorConstants
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MediatorConstants.Plugins
+    name: MediatorConstants.Plugins
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MediatorConstants.Plugins.Commands
+    name: MediatorConstants.Plugins.Commands
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MediatorConstants.Plugins.Queries
+    name: MediatorConstants.Plugins.Queries
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MediatorConstants.Plugins.Validation
+    name: MediatorConstants.Plugins.Validation
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MediatorPluginConfiguration
+    name: MediatorPluginConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Configuration.MeditatorConfiguration
+    name: MeditatorConfiguration
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Queries
+  name: DandyDotnet.Patterns.Mediator.Queries
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Queries.MediatorConfigurationBuilderExtensions
+    name: MediatorConfigurationBuilderExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Queries.QueryResponse
+    name: QueryResponse
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Queries.QueryResponseExtensions
+    name: QueryResponseExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Queries.QueryResponse`1
+    name: QueryResponse<TData>
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Queries.Abstractions
+  name: DandyDotnet.Patterns.Mediator.Queries.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Queries.Abstractions.IQueryHandler`2
+    name: IQueryHandler<TQuery, TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Queries.Abstractions.IQueryResponseBuilder`1
+    name: IQueryResponseBuilder<TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Queries.Abstractions.IQueryResponse`1
+    name: IQueryResponse<TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Queries.Abstractions.IQuery`1
+    name: IQuery<TData>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Queries.Abstractions.QueryRequestSenderExtensions
+    name: QueryRequestSenderExtensions
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Requests
+  name: DandyDotnet.Patterns.Mediator.Requests
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Requests.RequestResponse
+    name: RequestResponse
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Requests.RequestResponse`1
+    name: RequestResponse<TData>
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Requests.Factories
+  name: DandyDotnet.Patterns.Mediator.Requests.Factories
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Requests.Factories.RequestResponseFactory
+    name: RequestResponseFactory
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Requests.Mapping
+  name: DandyDotnet.Patterns.Mediator.Requests.Mapping
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Requests.Mapping.RequestResponseMap
+    name: RequestResponseMap
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Requests.Mapping.RequestResponseMapper
+    name: RequestResponseMapper
+    type: Class
+- uid: DandyDotnet.Patterns.Mediator.Validation
+  name: DandyDotnet.Patterns.Mediator.Validation
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Mediator.Validation.IRequestValidator
+    name: IRequestValidator
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Validation.IResponseValidationResult
+    name: IResponseValidationResult
+    type: Interface
+  - uid: DandyDotnet.Patterns.Mediator.Validation.MediatorConfigurationBuilderExtensions
+    name: MediatorConfigurationBuilderExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Validation.ResponseValidationResult
+    name: ResponseValidationResult
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Validation.ResponseValidationResultExtensions
+    name: ResponseValidationResultExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Validation.ValidateAttribute
+    name: ValidateAttribute
+    type: Class
+  - uid: DandyDotnet.Patterns.Mediator.Validation.ValidationConfigurationBuilder
+    name: ValidationConfigurationBuilder
+    type: Class
+- uid: DandyDotnet.Patterns.Strategies
+  name: DandyDotnet.Patterns.Strategies
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Strategies.AsyncStrategyRegistrar`1
+    name: AsyncStrategyRegistrar<TDefinition>
+    type: Class
+  - uid: DandyDotnet.Patterns.Strategies.AsyncStrategyRegistrar`2
+    name: AsyncStrategyRegistrar<TDefinition, TReturn>
+    type: Class
+  - uid: DandyDotnet.Patterns.Strategies.ServiceCollectionExtensions
+    name: ServiceCollectionExtensions
+    type: Class
+  - uid: DandyDotnet.Patterns.Strategies.StrategiesConfiguration
+    name: StrategiesConfiguration
+    type: Class
+  - uid: DandyDotnet.Patterns.Strategies.StrategiesConfigurationBuilder
+    name: StrategiesConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.Patterns.Strategies.StrategyRegistrar`1
+    name: StrategyRegistrar<TDefinition>
+    type: Class
+  - uid: DandyDotnet.Patterns.Strategies.StrategyRegistrar`2
+    name: StrategyRegistrar<TDefinition, TReturn>
+    type: Class
+- uid: DandyDotnet.Patterns.Strategies.Abstractions
+  name: DandyDotnet.Patterns.Strategies.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IAsyncStrategyDefinition
+    name: IAsyncStrategyDefinition
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IAsyncStrategyDefinition`1
+    name: IAsyncStrategyDefinition<TReturn>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IAsyncStrategyRegistrar`1
+    name: IAsyncStrategyRegistrar<TDefinition>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IAsyncStrategyRegistrar`2
+    name: IAsyncStrategyRegistrar<TDefinition, TReturn>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IAsyncStrategy`1
+    name: IAsyncStrategy<TDefinition>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IAsyncStrategy`2
+    name: IAsyncStrategy<TDefinition, TReturn>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IStrategyDefinition
+    name: IStrategyDefinition
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IStrategyDefinition`1
+    name: IStrategyDefinition<TReturn>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IStrategyExecutor
+    name: IStrategyExecutor
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IStrategyRegistrar`1
+    name: IStrategyRegistrar<TDefinition>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IStrategyRegistrar`2
+    name: IStrategyRegistrar<TDefinition, TReturn>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IStrategy`1
+    name: IStrategy<TDefinition>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.IStrategy`2
+    name: IStrategy<TDefinition, TReturn>
+    type: Interface
+  - uid: DandyDotnet.Patterns.Strategies.Abstractions.StrategyKeyAttribute
+    name: StrategyKeyAttribute
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.Abstractions
+  name: DandyDotnet.Persistence.Sql.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Abstractions.DbConnectionFactoryExtensions
+    name: DbConnectionFactoryExtensions
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Abstractions.IDbConnectionFactory
+    name: IDbConnectionFactory
+    type: Interface
+- uid: DandyDotnet.Persistence.Sql.Migrations
+  name: DandyDotnet.Persistence.Sql.Migrations
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Migrations.MigrationsConfiguration
+    name: MigrationsConfiguration
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.MigrationsConstants
+    name: MigrationsConstants
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.MigrationsConstants.Tables
+    name: MigrationsConstants.Tables
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.MigrationsConstants.Tables.Migrations
+    name: MigrationsConstants.Tables.Migrations
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.MigrationsDriver
+    name: MigrationsDriver
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.MigrationsSqlStrings
+    name: MigrationsSqlStrings
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.ServiceCollectionExtensions
+    name: ServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.Migrations.Abstractions
+  name: DandyDotnet.Persistence.Sql.Migrations.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Abstractions.IMigration
+    name: IMigration
+    type: Interface
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Abstractions.IMigrationBuilder
+    name: IMigrationBuilder
+    type: Interface
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Abstractions.IMigrationRunner
+    name: IMigrationRunner
+    type: Interface
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Abstractions.MigrationBuilderExtensions
+    name: MigrationBuilderExtensions
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.Migrations.Postgres
+  name: DandyDotnet.Persistence.Sql.Migrations.Postgres
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Postgres.MigrationsConfigurationExtensions
+    name: MigrationsConfigurationExtensions
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Postgres.PostgresMigrationsSqlStrings
+    name: PostgresMigrationsSqlStrings
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.Migrations.SqlServer
+  name: DandyDotnet.Persistence.Sql.Migrations.SqlServer
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Migrations.SqlServer.MigrationsConfigurationExtensions
+    name: MigrationsConfigurationExtensions
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.SqlServer.SqlServerMigrationsSqlStrings
+    name: SqlServerMigrationsSqlStrings
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.Migrations.Sqlite
+  name: DandyDotnet.Persistence.Sql.Migrations.Sqlite
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Sqlite.MigrationsConfigurationExtensions
+    name: MigrationsConfigurationExtensions
+    type: Class
+  - uid: DandyDotnet.Persistence.Sql.Migrations.Sqlite.SqliteMigrationsSqlStrings
+    name: SqliteMigrationsSqlStrings
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.Postgres
+  name: DandyDotnet.Persistence.Sql.Postgres
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Postgres.PostgresDbConnectionFactory
+    name: PostgresDbConnectionFactory
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.SqlServer
+  name: DandyDotnet.Persistence.Sql.SqlServer
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.SqlServer.SqlServerDbConnectionFactory
+    name: SqlServerDbConnectionFactory
+    type: Class
+- uid: DandyDotnet.Persistence.Sql.Sqlite
+  name: DandyDotnet.Persistence.Sql.Sqlite
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Persistence.Sql.Sqlite.SqliteDbConnectionFactory
+    name: SqliteDbConnectionFactory
+    type: Class
+- uid: DandyDotnet.Serialization
+  name: DandyDotnet.Serialization
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Serialization.SerializerConfigurationBuilder
+    name: SerializerConfigurationBuilder
+    type: Class
+  - uid: DandyDotnet.Serialization.ServiceCollectionExtensions
+    name: ServiceCollectionExtensions
+    type: Class
+- uid: DandyDotnet.Serialization.Abstractions
+  name: DandyDotnet.Serialization.Abstractions
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Serialization.Abstractions.ISerializer
+    name: ISerializer
+    type: Interface
+  - uid: DandyDotnet.Serialization.Abstractions.SerializerExtensions
+    name: SerializerExtensions
+    type: Class
+- uid: DandyDotnet.Serialization.NewtonsoftJson
+  name: DandyDotnet.Serialization.NewtonsoftJson
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Serialization.NewtonsoftJson.NewtonsoftJsonConfiguration
+    name: NewtonsoftJsonConfiguration
+    type: Class
+  - uid: DandyDotnet.Serialization.NewtonsoftJson.SerializerConfigurationBuilderExtensions
+    name: SerializerConfigurationBuilderExtensions
+    type: Class
+- uid: DandyDotnet.Serialization.SystemTextJson
+  name: DandyDotnet.Serialization.SystemTextJson
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Serialization.SystemTextJson.SerializerConfigurationBuilderExtensions
+    name: SerializerConfigurationBuilderExtensions
+    type: Class
+  - uid: DandyDotnet.Serialization.SystemTextJson.SystemTextJsonConfiguration
+    name: SystemTextJsonConfiguration
+    type: Class
+- uid: DandyDotnet.Tests.Core.Fixtures
+  name: DandyDotnet.Tests.Core.Fixtures
+  type: Namespace
+  items:
+  - uid: DandyDotnet.Tests.Core.Fixtures.Fixture
+    name: Fixture
+    type: Class
+  - uid: DandyDotnet.Tests.Core.Fixtures.IFixture
+    name: IFixture
+    type: Interface
+memberLayout: SamePage
