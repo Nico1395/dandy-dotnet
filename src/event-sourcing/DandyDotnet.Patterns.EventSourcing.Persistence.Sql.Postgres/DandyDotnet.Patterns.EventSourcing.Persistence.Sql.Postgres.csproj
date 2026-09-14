@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Postgres\DandyDotnet.Persistence.Sql.Postgres.csproj" />
       <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
     </ItemGroup>
 

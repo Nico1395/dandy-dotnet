@@ -1,19 +1,18 @@
-using DandyDotnet.Patterns.EventSourcing.Persistence;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Repositories;
+using DandyDotnet.Persistence.Sql.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql;
 
 internal sealed class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly UnitOfWorkContext _context;
 
     public UnitOfWork(
-        SqlStrings sqlStrings,
-        IDbConnectionFactory dbConnectionFactory)
+        [FromKeyedServices(EventSourcingConstants.ServiceKey)] IDbConnectionFactory dbConnectionFactory,
+        SqlStrings sqlStrings)
     {
-        _dbConnectionFactory = dbConnectionFactory;
         _context = new UnitOfWorkContext(dbConnectionFactory);
 
         Envelopes = new EnvelopeRepository(sqlStrings, _context);
