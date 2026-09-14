@@ -129,7 +129,9 @@ public sealed class ServiceScannerTests
     [Fact]
     public void GetServiceDescriptors_FindsOpenGenericImplementation()
     {
-        var descriptor = Assert.Single(CreateScanner(typeof(IOpenGenericHandler<>), builder => builder.AsOpenGeneric())
+        var descriptor = Assert.Single(CreateScanner(typeof(IOpenGenericHandler<>), builder => builder
+                .When(_ => true)
+                .AsOpenGeneric())
             .GetServiceDescriptors());
 
         Assert.Equal(typeof(IOpenGenericHandler<>), descriptor.ServiceType);
@@ -140,6 +142,7 @@ public sealed class ServiceScannerTests
     public void GetServiceDescriptors_OpenGenericScanIgnoresClosedImplementations()
     {
         var descriptors = CreateScanner(typeof(IOpenGenericHandler<>), builder => builder
+                .When(_ => true)
                 .AsOpenGeneric()
                 .When(type => type == typeof(ClosedGenericHandler)))
             .GetServiceDescriptors();
@@ -150,7 +153,7 @@ public sealed class ServiceScannerTests
     [Fact]
     public void GetServiceDescriptors_ClosedScanFindsClosedImplementationsOnly()
     {
-        var descriptors = CreateScanner<IOpenGenericHandler<Request>>()
+        var descriptors = CreateScanner<IOpenGenericHandler<Request>>(builder => builder.When(_ => true))
             .GetServiceDescriptors();
 
         var descriptor = Assert.Single(descriptors);
