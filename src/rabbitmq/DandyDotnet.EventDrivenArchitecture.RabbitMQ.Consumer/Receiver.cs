@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
+using DandyDotnet.DependencyInjection.Abstractions;
 using DandyDotnet.Encoding.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions.Interceptors;
@@ -20,11 +21,12 @@ public class Receiver(
     ConsumerConfiguration consumerConfiguration,
     MessagesConfiguration messagesConfiguration,
     IServiceProvider serviceProvider,
-    IConsumerPipeline consumerPipeline,
-    IEncoder encoder,
-    ISerializer serializer) : IReceiver
+    IConsumerPipeline consumerPipeline) : IReceiver
 {
     private static readonly ConcurrentDictionary<Type, MethodInfo> _executeAsync = [];
+
+    private IEncoder? _encoder;
+    private ISerializer? _serializer;
 
     /// <inheritdoc/>
     /// <param name="args">The delivery event arguments.</param>
@@ -47,11 +49,11 @@ public class Receiver(
             if (!messagesConfiguration.MessagesByKey.TryGetValue(args.BasicProperties.Type, out var messageConfiguration))
                 throw new InvalidOperationException("Failed to resolve message type.");
 
-            var serialized = encoder.Decode(args.Body.Span);
+            var serialized = GetEncoder().Decode(args.Body.Span);
             if (string.IsNullOrWhiteSpace(serialized))
                 throw new InvalidOperationException("Failed to deserialize message.");
 
-            message = serializer.Deserialize(serialized, messageConfiguration.RuntimeType);
+            message = GetSerializer().Deserialize(serialized, messageConfiguration.RuntimeType);
             using var scope = serviceProvider.CreateScope();
 
             var executeAsync = GetExecuteAsync(messageConfiguration.RuntimeType);
@@ -139,5 +141,15 @@ public class Receiver(
             consumerConfiguration.OnExceptionWhenIntercepting?.Invoke(serviceProvider, ex);
             Console.WriteLine(ex);
         }
+    }
+
+    private IEncoder GetEncoder()
+    {
+        return _encoder ??= serviceProvider.GetRequiredKeyedOrDefaultService<IEncoder>(consumerConfiguration.EncodingConfiguration?.ServiceKey);
+    }
+
+    private ISerializer GetSerializer()
+    {
+        return _serializer ??= serviceProvider.GetRequiredKeyedOrDefaultService<ISerializer>(consumerConfiguration.SerializerConfiguration?.ServiceKey);
     }
 }
