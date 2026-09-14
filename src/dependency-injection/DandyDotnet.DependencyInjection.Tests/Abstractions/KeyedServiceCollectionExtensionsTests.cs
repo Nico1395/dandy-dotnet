@@ -148,6 +148,96 @@ public sealed class KeyedServiceCollectionExtensionsTests
         AssertDescriptor(services, services, ServiceLifetime.Transient, null, typeof(FirstRangedService));
     }
 
+    [Fact]
+    public void AddKeyedSingletonOrDefault_Type_RegistersInstance()
+    {
+        var services = new ServiceCollection();
+        var instance = new FirstRangedService();
+
+        var result = services.AddKeyedSingletonOrDefault(typeof(IRangedService), "key", instance);
+
+        Assert.Same(services, result);
+        var descriptor = Assert.Single(result);
+        Assert.Equal(typeof(IRangedService), descriptor.ServiceType);
+        Assert.Equal(ServiceLifetime.Singleton, descriptor.Lifetime);
+        Assert.True(descriptor.IsKeyedService);
+        Assert.Equal("key", descriptor.ServiceKey);
+        Assert.Same(instance, descriptor.KeyedImplementationInstance);
+    }
+
+    [Fact]
+    public void AddKeyedSingletonOrDefault_Generic_RegistersInstance()
+    {
+        var services = new ServiceCollection();
+        var instance = new FirstRangedService();
+
+        services.AddKeyedSingletonOrDefault<IRangedService>("key", instance);
+
+        var descriptor = Assert.Single(services);
+        Assert.Same(instance, descriptor.KeyedImplementationInstance);
+    }
+
+    [Fact]
+    public void AddKeyedTransientOrDefault_Type_RegistersFactory()
+    {
+        var services = new ServiceCollection();
+        var factory = (IServiceProvider _, object? key) =>
+            (object)new FirstRangedService();
+
+        var result = services.AddKeyedTransientOrDefault(typeof(IRangedService), "key", factory);
+
+        Assert.Same(services, result);
+        var descriptor = Assert.Single(result);
+        Assert.Equal(ServiceLifetime.Transient, descriptor.Lifetime);
+        Assert.True(descriptor.IsKeyedService);
+        Assert.Equal("key", descriptor.ServiceKey);
+        Assert.NotNull(descriptor.KeyedImplementationFactory);
+    }
+
+    [Fact]
+    public void AddKeyedScopedOrDefault_Generic_RegistersFactory()
+    {
+        var services = new ServiceCollection();
+
+        services.AddKeyedScopedOrDefault<IRangedService>(
+            "key",
+            (_, key) => new FirstRangedService());
+
+        var descriptor = Assert.Single(services);
+        Assert.Equal(ServiceLifetime.Scoped, descriptor.Lifetime);
+        Assert.True(descriptor.IsKeyedService);
+        Assert.NotNull(descriptor.KeyedImplementationFactory);
+    }
+
+    [Fact]
+    public void AddKeyedSingletonOrDefault_GenericImplementation_RegistersFactory()
+    {
+        var services = new ServiceCollection();
+
+        services.AddKeyedSingletonOrDefault<IRangedService, FirstRangedService>(
+            "key",
+            (_, key) => new FirstRangedService());
+
+        var descriptor = Assert.Single(services);
+        Assert.Equal(ServiceLifetime.Singleton, descriptor.Lifetime);
+        Assert.True(descriptor.IsKeyedService);
+        Assert.NotNull(descriptor.KeyedImplementationFactory);
+    }
+
+    [Fact]
+    public void AddKeyedTransientOrDefault_Factory_AllowsNullServiceKey()
+    {
+        var services = new ServiceCollection();
+
+        services.AddKeyedTransientOrDefault<IRangedService>(
+            null,
+            (_, key) => new FirstRangedService());
+
+        var descriptor = Assert.Single(services);
+        Assert.False(descriptor.IsKeyedService);
+        Assert.NotNull(descriptor.ImplementationFactory);
+    }
+
     private static void AssertDescriptor(
         IServiceCollection expected,
         IServiceCollection result,
