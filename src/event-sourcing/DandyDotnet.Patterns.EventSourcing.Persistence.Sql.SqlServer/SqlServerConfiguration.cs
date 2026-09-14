@@ -1,15 +1,15 @@
 using System.Reflection;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Persistence.Sql.Abstractions;
-using DandyDotnet.Persistence.Sql.Sqlite;
+using DandyDotnet.Persistence.Sql.SqlServer;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite;
+namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer;
 
-internal sealed class SqliteConfiguration : PersistenceConfiguration
+public sealed class SqlServerConfiguration : PersistenceConfiguration
 {
-    private static readonly Assembly[]? _assemblies = [typeof(SqliteConfiguration).Assembly];
+    private static readonly Assembly[]? _assemblies = [typeof(SqlServerConfiguration).Assembly];
 
     public override void ConfigureServices(IServiceCollection services)
     {
@@ -17,13 +17,13 @@ internal sealed class SqliteConfiguration : PersistenceConfiguration
 
         services.ConfigureRunner(runner =>
         {
-            runner.AddSQLite()
+            runner.AddSqlServer()
                 .WithGlobalConnectionString(ConnectionString)
                 .ScanIn(_assemblies).For.Migrations();
         });
 
-        services.AddKeyedSingleton<IDbConnectionFactory>(EventSourcingConstants.ServiceKey, new SqliteDbConnectionFactory(ConnectionString));
-        services.AddSingleton<SqlStrings, SqliteSqlStrings>();
+        services.AddKeyedSingleton<IDbConnectionFactory>(EventSourcingConstants.ServiceKey, new SqlServerDbConnectionFactory(ConnectionString));
+        services.AddSingleton<SqlStrings, SqlServerSqlStrings>();
         services.AddSingleton(this);
     }
 }

@@ -8,6 +8,8 @@ public abstract class PersistenceConfiguration : PluginConfiguration
 {
     public string? ConnectionString { get; set; }
 
+    public override string Slot => "persistence";
+
     public override void ConfigureServices(IServiceCollection services)
     {
         services.AddFluentMigratorCore();
