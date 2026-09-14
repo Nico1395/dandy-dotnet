@@ -3,6 +3,7 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
       <ProjectReference Include="..\DandyDotnet.Patterns.Strategies.Abstractions\DandyDotnet.Patterns.Strategies.Abstractions.csproj" />
     </ItemGroup>
 </Project>
