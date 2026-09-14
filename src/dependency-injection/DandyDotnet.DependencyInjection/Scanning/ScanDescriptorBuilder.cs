@@ -29,6 +29,12 @@ public sealed class ScanDescriptorBuilder(Type abstractType)
         return this;
     }
 
+    public ScanDescriptorBuilder WithKey(Func<Type, object?> keyFactory)
+    {
+        _serviceKey = keyFactory(abstractType);
+        return this;
+    }
+
     public ScanDescriptorBuilder WithKeyedFactory(Func<IServiceProvider, object?, object> keyedFactory)
     {
         _keyedFactory = keyedFactory;
