@@ -1,3 +1,5 @@
+using DandyDotnet.DependencyInjection.Abstractions;
+using DandyDotnet.DependencyInjection.Scanning;
 using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,20 +28,17 @@ public static class ServiceCollectionExtensions
             services.AddKeyedSingleton<IMigrationRunner, MigrationRunner>(configuration.ServiceKey, (sp, _) => new MigrationRunner(configuration, sp));
         }
 
-        AddMigrations(services, configuration);
+        services.ScanAndAdd(scanner =>
+        {
+            scanner.ScanIn(configuration.Assemblies);
+            scanner.ScanFor<IMigration>(migration => migration.WithKey(configuration.ServiceKey));
+        });
+
+        if (configuration.ServiceKey == null)
+            services.AddTransientRange<IMigration>(configuration.MigrationTypes);
+        else
+            services.AddKeyedTransientRange<IMigration>(configuration.ServiceKey, configuration.MigrationTypes);
+
         return services;
-    }
-
-    private static void AddMigrations(IServiceCollection services, MigrationsConfiguration configuration)
-    {
-        var migrationTypes = configuration.Assemblies
-            .SelectMany(a => a
-                .GetTypes()
-                .Where(t => t is { IsClass: true, IsAbstract: false } && t.IsAssignableTo(typeof(IMigration))))
-            .Concat(configuration.MigrationTypes)
-            .Distinct();
-
-        foreach (var migrationType in migrationTypes)
-            services.AddTransient(typeof(IMigration), migrationType);
     }
 }

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
       <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Abstractions\DandyDotnet.Persistence.Sql.Abstractions.csproj" />
       <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Migrations.Abstractions\DandyDotnet.Persistence.Sql.Migrations.Abstractions.csproj" />
     </ItemGroup>
