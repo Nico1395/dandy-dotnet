@@ -7,7 +7,7 @@ public static class ServiceScannerBuilderExtensions
         return builder.ScanFor(abstractType, builderAction: null);
     }
 
-    public static ServiceScannerBuilder ScanFor(this ServiceScannerBuilder builder, IEnumerable<Type> abstractTypes)
+    public static ServiceScannerBuilder ScanFor(this ServiceScannerBuilder builder, params IEnumerable<Type> abstractTypes)
     {
         foreach (var abstractType in abstractTypes)
             builder.ScanFor(abstractType);

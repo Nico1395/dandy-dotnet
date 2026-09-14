@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
 	  <ProjectReference Include="..\DandyDotnet.Patterns.Mediator.Abstractions\DandyDotnet.Patterns.Mediator.Abstractions.csproj" />
 	</ItemGroup>
 

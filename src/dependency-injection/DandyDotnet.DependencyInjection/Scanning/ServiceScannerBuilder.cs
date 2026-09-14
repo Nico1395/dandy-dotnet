@@ -17,9 +17,9 @@ public sealed class ServiceScannerBuilder
         return this;
     }
 
-    public ServiceScannerBuilder ScanIn(params Assembly[] assemblies)
+    public ServiceScannerBuilder ScanIn(params IEnumerable<Assembly> assemblies)
     {
-        _assemblies = assemblies;
+        _assemblies = assemblies.ToArray();
         return this;
     }
 
