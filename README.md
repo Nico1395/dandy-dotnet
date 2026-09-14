@@ -1,16 +1,19 @@
 # DandyDotnet
 - [API reference](https://nico1395.github.io/dandy-dotnet/)
+- [What is currently being worked on?](https://github.com/Nico1395/dandy-dotnet/tree/dev#what-is-currently-being-worked-on)
 - [What is DandyDotnet?](https://github.com/Nico1395/dandy-dotnet/tree/dev#what-is-dandydotnet)
 - [Packages](https://github.com/Nico1395/dandy-dotnet/tree/dev#packages)
 - [Package overview](https://github.com/Nico1395/dandy-dotnet/tree/dev#package-overview)
-- [How can I use packages?](https://github.com/Nico1395/dandy-dotnet/tree/dev#how-can-i-use-packages)
 - [Is AI being used and if yes, how?](https://github.com/Nico1395/dandy-dotnet/tree/dev#how-can-i-use-packages)
 
-## Issues and milestones
-For a quick overview over the current state of releases, issues, features and bugs see:
-- [Current issues](https://github.com/users/Nico1395/projects/43/views/1)
-- [Priorities](https://github.com/users/Nico1395/projects/43/views/2)
-- [Releases and milestones](https://github.com/users/Nico1395/projects/43/views/6)
+## What is currently being worked on?
+For an overview over the current work and state of releases, issues, features and bugs see:
+- [Releases and milestone progress](https://github.com/users/Nico1395/projects/43/views/6)
+- [Release and milestone priorities](https://github.com/users/Nico1395/projects/43/views/2)
+- [Current work](https://github.com/users/Nico1395/projects/43/views/1)
+- [Label/category overview](https://github.com/users/Nico1395/projects/43/views/7)
+
+---
 
 ## What is DandyDotnet?
 DandyDotnet is a family of opinionated packages that build on top of [.NET Core](https://github.com/dotnet/runtime) and [ASP.NET Core](https://github.com/dotnet/aspnetcore). Their goal is to implement design patterns or architectural paradigms and make the use of tech such as RabbitMQ easier. Some packages are more opinionated than others. The individual goals of each package differ. Consult their documentation for further information.
@@ -74,11 +77,6 @@ This section offers a brief overview of all packages available on [nuget.org](ht
 |`DandyDotnet.Serialization.SystemTextJson`|Internal|Incoming|
 |`DandyDotnet.DependencyInjection.Abstractions`|Internal|Incoming|
 |`DandyDotnet.DependencyInjection`|Internal|Incoming|
-
-## How can I use packages? 
-Packages are added to your projects via NuGet. You can either use the NuGet-Manager of your IDE of choice or use the `dotnet`-CLI like so (see [here](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-add)).
-
-For detailed documentations for packages consult the list of pacakges and linked docs above.
 
 ## Is AI being used and if yes, how?
 Yes, AI is being used. I am not a very heavy AI-user. However there are tasks that I use and consult AI for. This section briefly summarizes how AI is used and why.
