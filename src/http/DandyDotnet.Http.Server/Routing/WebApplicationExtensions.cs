@@ -22,13 +22,11 @@ public static class WebApplicationExtensions
             .Where(t => t is
             {
                 IsClass: true,
-                IsAbstract: false,
                 IsGenericTypeDefinition: false,
             })
             .SelectMany(t => t
-                .GetMethods()
+                .GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(m =>
-                    m.IsStatic &&
                     m.GetCustomAttribute<HttpMethodAttribute>() != null))
             .ToArray();
         
