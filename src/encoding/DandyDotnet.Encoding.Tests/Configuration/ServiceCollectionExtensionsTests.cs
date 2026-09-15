@@ -12,7 +12,7 @@ public class ServiceCollectionExtensionsTests
     {
         var services = new ServiceCollection();
 
-        services.AddDandyEncoder(cfg => cfg.UseUtf8PayloadEncoder());
+        services.AddEncoder(cfg => cfg.UseUtf8PayloadEncoder());
 
         using var serviceProvider = services.BuildServiceProvider();
         var encoder = serviceProvider.GetRequiredService<IEncoder>();
@@ -26,7 +26,7 @@ public class ServiceCollectionExtensionsTests
         var services = new ServiceCollection();
         services.AddSingleton<IEncoder, AsciiEncoder>();
 
-        services.AddDandyEncoder(cfg => cfg.UseUtf8PayloadEncoder());
+        services.AddEncoder(cfg => cfg.UseUtf8PayloadEncoder());
 
         using var serviceProvider = services.BuildServiceProvider();
         var encoders = serviceProvider.GetServices<IEncoder>().ToArray();

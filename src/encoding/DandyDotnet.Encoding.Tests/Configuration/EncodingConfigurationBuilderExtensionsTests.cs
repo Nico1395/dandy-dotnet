@@ -47,7 +47,7 @@ public class EncodingConfigurationBuilderExtensionsTests
         where TEncoder : IEncoder
     {
         var services = new ServiceCollection();
-        services.AddDandyEncoder(configure);
+        services.AddEncoder(configure);
 
         using var serviceProvider = services.BuildServiceProvider();
         var encoder = serviceProvider.GetRequiredService<IEncoder>();

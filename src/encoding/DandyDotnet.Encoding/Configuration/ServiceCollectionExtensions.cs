@@ -6,21 +6,21 @@ namespace DandyDotnet.Encoding.Configuration;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDandyEncoder(this IServiceCollection services, Action<EncodingConfigurationBuilder>? action)
+    public static IServiceCollection AddEncoder(this IServiceCollection services, Action<EncodingConfigurationBuilder>? action)
     {
         var builder = new EncodingConfigurationBuilder();
         action?.Invoke(builder);
         var configuration = builder.Build();
 
-        return services.AddDandyEncoder(configuration);
+        return services.AddEncoder(configuration);
     }
 
-    public static IServiceCollection AddDandyEncoder(this IServiceCollection services)
+    public static IServiceCollection AddEncoder(this IServiceCollection services)
     {
-        return services.AddDandyEncoder(action: null);
+        return services.AddEncoder(action: null);
     }
 
-    public static IServiceCollection AddDandyEncoder(this IServiceCollection services, EncodingConfiguration configuration)
+    public static IServiceCollection AddEncoder(this IServiceCollection services, EncodingConfiguration configuration)
     {
         if (services.BuildServiceProvider().GetService(typeof(IEncoder)) != null)
             return services;
