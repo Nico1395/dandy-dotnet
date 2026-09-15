@@ -8,7 +8,7 @@ public sealed class DefaultFixture : Fixture
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddDandyMediator(config => config.ScanInAssemblies(typeof(DefaultFixture).Assembly));
+        services.AddMediator(config => config.ScanInAssemblies(typeof(DefaultFixture).Assembly));
     }
 
     public IMediator GetMediator()
