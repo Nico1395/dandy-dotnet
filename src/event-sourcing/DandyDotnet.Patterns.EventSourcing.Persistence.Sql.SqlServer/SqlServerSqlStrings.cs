@@ -5,24 +5,24 @@ namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer;
 internal sealed class SqlServerSqlStrings : SqlStrings
 {
     public override string GetStreamVersion => $"""
-                                                    SELECT MAX(Version)
+                                                    SELECT COALESCE(MAX(Version) + 1, 0)
                                                     FROM {Schema.Name}.{Tables.Envelopes.Table}
                                                     WHERE {Tables.Envelopes.StreamId} = @StreamId
                                                 """;
 
     public override string GetStream => $"""
                                               SELECT
-                                                  {Tables.Envelopes.StreamId},
-                                                  {Tables.Envelopes.Payload},
-                                                  {Tables.Envelopes.Version},
-                                                  {Tables.Envelopes.Timestamp},
-                                                  {Tables.Envelopes.EventKey}
+                                                  {Tables.Envelopes.StreamId} AS StreamId,
+                                                  {Tables.Envelopes.Payload} AS Payload,
+                                                  {Tables.Envelopes.Version} AS Version,
+                                                  {Tables.Envelopes.Timestamp} AS Timestamp,
+                                                  {Tables.Envelopes.EventKey} AS EventKey
                                               FROM {Schema.Name}.{Tables.Envelopes.Table}
                                               WHERE {Tables.Envelopes.StreamId} = @StreamId
-                                              AND (@FromVersion IS NULL OR {Tables.Envelopes.Version} >= @FromVersion)
-                                              AND (@ToVersion IS NULL OR {Tables.Envelopes.Version} <= @ToVersion)
-                                              AND (@FromTimestamp IS NULL OR {Tables.Envelopes.Timestamp} >= @FromTimestamp)
-                                              AND (@ToTimestamp IS NULL OR {Tables.Envelopes.Timestamp} <= @ToTimestamp)
+                                              AND (CAST(@FromVersion AS BIGINT) IS NULL OR {Tables.Envelopes.Version} >= CAST(@FromVersion AS BIGINT))
+                                              AND (CAST(@ToVersion AS BIGINT) IS NULL OR {Tables.Envelopes.Version} <= CAST(@ToVersion AS BIGINT))
+                                              AND (CAST(@FromTimestamp AS DATETIME2) IS NULL OR {Tables.Envelopes.Timestamp} >= CAST(@FromTimestamp AS DATETIME2))
+                                              AND (CAST(@ToTimestamp AS DATETIME2) IS NULL OR {Tables.Envelopes.Timestamp} <= CAST(@ToTimestamp AS DATETIME2))
                                           """;
 
     public override string InsertEnvelope => $"""
@@ -42,13 +42,13 @@ internal sealed class SqlServerSqlStrings : SqlStrings
 
     public override string GetLastSnapshot => $"""
                                                    SELECT TOP (1)
-                                                       {Tables.Snapshots.StreamId},
-                                                       {Tables.Snapshots.Payload},
-                                                       {Tables.Snapshots.Version},
-                                                       {Tables.Snapshots.Timestamp},
-                                                       {Tables.Snapshots.AggregateKey}
+                                                       {Tables.Snapshots.StreamId} AS StreamId,
+                                                       {Tables.Snapshots.Payload} AS Payload,
+                                                       {Tables.Snapshots.Version} AS Version,
+                                                       {Tables.Snapshots.Timestamp} AS Timestamp,
+                                                       {Tables.Snapshots.AggregateKey} AS AggregateKey
                                                    FROM {Schema.Name}.{Tables.Snapshots.Table}
-                                                   WHERE {Tables.Snapshots.StreamId} = @StreamId AND (@ToVersion IS NULL OR {Tables.Snapshots.Version} <= @ToVersion)
+                                                   WHERE {Tables.Snapshots.StreamId} = @StreamId AND (CAST(@ToVersion AS BIGINT) IS NULL OR {Tables.Snapshots.Version} <= CAST(@ToVersion AS BIGINT))
                                                    ORDER BY {Tables.Snapshots.Version} DESC
                                                """;
 
