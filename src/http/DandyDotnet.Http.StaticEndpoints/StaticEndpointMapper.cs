@@ -2,36 +2,28 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.Http.Server.Endpoints;
+namespace DandyDotnet.Http.StaticEndpoints;
 
-public static class WebApplicationExtensions
+internal sealed class StaticEndpointMapper(StaticEndpointsConfiguration configuration) : IStaticEndpointMapper
 {
-    public static void MapDandyEndpoints(this WebApplication app)
+    public void MapStaticEndpoints(WebApplication app)
     {
-        var configuration = app.Services.GetRequiredService<EndpointsConfiguration>();
-        if (configuration.Assemblies != null)
-            ScanEndpoints(app, configuration.Assemblies);
-    }
-
-    private static void ScanEndpoints(WebApplication app, Assembly[] assemblies)
-    {
-        var endpointMethods = assemblies
+        var endpointMethods = configuration.Assemblies
+            .Distinct()
             .SelectMany(a => a.DefinedTypes)
             .Where(t => t is
             {
+                // Excluding abstract types would exclude static classes, so don't filter them out
                 IsClass: true,
-                IsGenericTypeDefinition: false,
             })
             .SelectMany(t => t
                 .GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(m =>
-                    m.GetCustomAttribute<HttpMethodAttribute>() != null))
-            .ToArray();
-        
-        if (endpointMethods.Length == 0)
-            return;
+                    !m.IsGenericMethod &&   // Exclude generic methods
+                    m.GetCustomAttribute<HttpMethodAttribute>() != null))   // Has to have an HttpMethodAttribute
+            .Concat(configuration.Methods)
+            .DistinctBy(m => m.MethodHandle);
 
         foreach (var endpointMethod in endpointMethods)
         {
@@ -40,7 +32,10 @@ public static class WebApplicationExtensions
                 continue;
 
             var @delegate = CreateDelegate(endpointMethod);
+
             app.MapMethods(attribute.Template, attribute.HttpMethods, @delegate);
+
+            // TODO -> Add support for endpoint metadata and authentication
         }
     }
 
