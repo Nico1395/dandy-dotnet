@@ -77,6 +77,7 @@ This section offers a brief overview of all packages available on [nuget.org](ht
 |`DandyDotnet.Serialization.SystemTextJson`|Internal|Incoming|
 |`DandyDotnet.DependencyInjection.Abstractions`|Internal|Incoming|
 |`DandyDotnet.DependencyInjection`|Internal|Incoming|
+|`DandyDotnet.Http.StaticEndpoints`|Internal|Incoming|
 
 ## Is AI being used and if yes, how?
 Yes, AI is being used. I am not a very heavy AI-user. However there are tasks that I use and consult AI for. This section briefly summarizes how AI is used and why.
