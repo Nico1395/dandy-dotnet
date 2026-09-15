@@ -8,7 +8,7 @@ public sealed class DefaultFixture : Fixture
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddDandySerializer(cfg => cfg.UseSystemTextJson());
+        services.AddSerializer(cfg => cfg.UseSystemTextJson());
     }
 
     public ISerializer GetSerializer()

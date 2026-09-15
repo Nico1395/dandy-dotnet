@@ -6,21 +6,21 @@ namespace DandyDotnet.Serialization;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDandySerializer(this IServiceCollection services, Action<SerializerConfigurationBuilder>? configure)
+    public static IServiceCollection AddSerializer(this IServiceCollection services, Action<SerializerConfigurationBuilder>? configure)
     {
         var builder = new SerializerConfigurationBuilder();
         configure?.Invoke(builder);
         var configuration = builder.Build();
 
-        return services.AddDandySerializer(configuration);
+        return services.AddSerializer(configuration);
     }
 
-    public static IServiceCollection AddDandySerializer(this IServiceCollection services)
+    public static IServiceCollection AddSerializer(this IServiceCollection services)
     {
-        return services.AddDandySerializer(configure: null);
+        return services.AddSerializer(configure: null);
     }
 
-    public static IServiceCollection AddDandySerializer(this IServiceCollection services, SerializerConfiguration configuration)
+    public static IServiceCollection AddSerializer(this IServiceCollection services, SerializerConfiguration configuration)
     {
         if (!configuration.IsValid())
             throw new InvalidOperationException("Serializer type is not specified.");
