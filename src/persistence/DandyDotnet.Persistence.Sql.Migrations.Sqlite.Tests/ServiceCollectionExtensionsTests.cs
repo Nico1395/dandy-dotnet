@@ -11,7 +11,7 @@ public sealed class ServiceCollectionExtensionsTests
     [Fact]
     public void AddDandyMigrations_WithoutDriver_Throws()
     {
-        Assert.Throws<InvalidOperationException>(() => new ServiceCollection().AddDandyMigrations(cfg =>
+        Assert.Throws<InvalidOperationException>(() => new ServiceCollection().AddMigrations(cfg =>
         {
             cfg.AddMigration<Migration1>();
         }));
@@ -23,7 +23,7 @@ public sealed class ServiceCollectionExtensionsTests
         const string connectionString = "Data Source=migrations";
         var services = new ServiceCollection();
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.UseSqlite(connectionString);
             configuration.AddMigration<Migration1>();
@@ -48,7 +48,7 @@ public sealed class ServiceCollectionExtensionsTests
         const string serviceKey = "sqlite-migrations";
         var services = new ServiceCollection();
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.ServiceKey = serviceKey;
             configuration.UseSqlite(connectionString);

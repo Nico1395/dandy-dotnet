@@ -107,7 +107,7 @@ public sealed class MigrateUpTests(DefaultFixture fixture) : IClassFixture<Defau
         params Type[] migrationTypes)
     {
         var services = new ServiceCollection();
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.Schema = schema;
             configuration.Table = table;

@@ -43,7 +43,7 @@ public sealed class DefaultFixture : Fixture
         _keepAliveConnection = new SqliteConnection(ConnectionString);
         _keepAliveConnection.Open();
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.UseSqlite(ConnectionString);
             configuration.ScanInAssemblies(assemblies);

@@ -48,7 +48,7 @@ public sealed class DefaultFixture : Fixture
 
         _postgres.StartAsync().GetAwaiter().GetResult();
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.UsePostgres(ConnectionString);
             configuration.ScanInAssemblies(assemblies);
