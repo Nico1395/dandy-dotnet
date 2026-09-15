@@ -1,13 +1,8 @@
 using DandyDotnet.Patterns.EventSourcing.Configuration;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql;
-using DandyDotnet.Patterns.EventSourcing.Persistence;
-using DandyDotnet.Patterns.EventSourcing.Outbox;
+using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 using DandyDotnet.Serialization;
 using DandyDotnet.Serialization.SystemTextJson;
 using DandyDotnet.Tests.Core.Fixtures;
-using FluentMigrator.Runner;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,8 +15,8 @@ public sealed class DefaultFixture : Fixture
 
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddDandySerializer(cfg => cfg.UseSystemTextJson());
-        services.AddDandyEventSourcing(cfg =>
+        services.AddSerializer(cfg => cfg.UseSystemTextJson());
+        services.AddEventSourcing(cfg =>
         {
             cfg.ScanInAssemblies(typeof(DefaultFixture).Assembly);
             cfg.Outbox.DisableDaemon();
