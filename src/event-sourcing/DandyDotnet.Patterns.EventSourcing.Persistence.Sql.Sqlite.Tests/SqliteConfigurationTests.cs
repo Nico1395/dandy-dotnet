@@ -1,4 +1,5 @@
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql;
+using DandyDotnet.DependencyInjection.Abstractions;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests.Fixtures;
 using DandyDotnet.Persistence.Sql.Abstractions;
@@ -20,7 +21,7 @@ public sealed class SqliteConfigurationTests : IClassFixture<DefaultFixture>
     public void UseSqlite_ShouldRegisterSqliteConnectionAndSqlStrings()
     {
         using var scope = fixture.CreateScope();
-        var factory = scope.ServiceProvider.GetRequiredService<IDbConnectionFactory>();
+        var factory = scope.ServiceProvider.GetRequiredKeyedOrDefaultService<IDbConnectionFactory>(EventSourcingConstants.ServiceKey);
         using var connection = factory.Create();
         Assert.IsType<SqliteConnection>(connection);
         Assert.NotNull(scope.ServiceProvider.GetRequiredService<SqlStrings>());

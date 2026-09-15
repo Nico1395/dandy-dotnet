@@ -1,3 +1,4 @@
+using DandyDotnet.DependencyInjection.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 using DandyDotnet.Serialization;
@@ -20,7 +21,7 @@ public sealed class DefaultFixture : Fixture
         {
             cfg.ScanInAssemblies(typeof(DefaultFixture).Assembly);
             cfg.Outbox.DisableDaemon();
-            cfg.Events.AddEvent<DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests.Mocks.ExpiringEvent>(eventConfiguration => eventConfiguration.WithLifetime(TimeSpan.Zero));
+            cfg.Events.AddEvent<Mocks.ExpiringEvent>(eventConfiguration => eventConfiguration.WithLifetime(TimeSpan.Zero));
             cfg.UseSqlite(sqlite => sqlite.WithConnectionString(ConnectionString));
         });
 
@@ -47,7 +48,9 @@ public sealed class DefaultFixture : Fixture
 
     protected override Task OnInitializeAsync()
     {
-        ServiceProvider.GetRequiredService<IMigrationRunner>().MigrateUp();
+        var migrationRunner = ServiceProvider.GetRequiredKeyedOrDefaultService<IMigrationRunner>(EventSourcingConstants.ServiceKey);
+        migrationRunner.MigrateUp();
+        
         return Task.CompletedTask;
     }
 
