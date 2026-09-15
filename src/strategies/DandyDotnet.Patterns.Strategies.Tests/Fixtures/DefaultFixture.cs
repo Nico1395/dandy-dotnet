@@ -8,7 +8,7 @@ public sealed class DefaultFixture : Fixture
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddDandyStrategies(cfg => cfg.ScanInAssemblies(GetType().Assembly));
+        services.AddStrategies(cfg => cfg.ScanInAssemblies(GetType().Assembly));
     }
 
     public IStrategyExecutor GetStrategyExecutor()

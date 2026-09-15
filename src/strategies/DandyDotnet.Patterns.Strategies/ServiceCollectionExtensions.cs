@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
         typeof(IAsyncStrategy<,>),
     ];
 
-    public static IServiceCollection AddDandyStrategies(this IServiceCollection services, Action<StrategiesConfigurationBuilder>? configuration = null)
+    public static IServiceCollection AddStrategies(this IServiceCollection services, Action<StrategiesConfigurationBuilder>? configuration = null)
     {
         var builder = new StrategiesConfigurationBuilder(services);
         configuration?.Invoke(builder);
