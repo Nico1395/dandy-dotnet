@@ -139,7 +139,8 @@ public sealed class EventStoreTests : IClassFixture<DefaultFixture>
             Assert.NotEmpty(timestampFiltered);
             Assert.All(timestampFiltered, envelope => Assert.True(envelope.Timestamp >= middle));
             Assert.Empty(await eventStore.GetStreamAsync(streamId, 3, null, null, null, CancellationToken.None));
-            Assert.Empty(await eventStore.GetStreamAsync(streamId, null, 0, middle.AddTicks(1), null, CancellationToken.None));
+            var afterFirstEvent = all[0].Timestamp.AddMicroseconds(1);
+            Assert.Empty(await eventStore.GetStreamAsync(streamId, null, 0, afterFirstEvent, null, CancellationToken.None));
         }
     }
 
