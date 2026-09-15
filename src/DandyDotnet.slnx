@@ -27,6 +27,7 @@
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
     <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
+    <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
