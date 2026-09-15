@@ -2,7 +2,7 @@ using DandyDotnet.Http.StaticEndpoints.Tests.Fixtures;
 
 namespace DandyDotnet.Http.StaticEndpoints.Tests;
 
-public sealed class AccessModifierTests
+public sealed class AccessModifierTests(StaticEndpointsFixture fixture) : IClassFixture<StaticEndpointsFixture>
 {
     public static IEnumerable<object[]> AccessModifiers()
     {
@@ -17,7 +17,6 @@ public sealed class AccessModifierTests
     [MemberData(nameof(AccessModifiers))]
     public async Task MapStaticEndpoints_ClassAndMethodAccessModifiers_MapsExecutableEndpoint(string route)
     {
-        await using var fixture = new StaticEndpointsFixture();
         var context = await fixture.ExecuteAsync(route);
         Assert.Equal(200, context.Response.StatusCode);
         Assert.Equal(route, await StaticEndpointsFixture.ReadBodyAsync(context));
@@ -36,7 +35,6 @@ public sealed class AccessModifierTests
     [MemberData(nameof(StaticClassAccessModifiers))]
     public async Task MapStaticEndpoints_StaticClassAndMethodAccessModifiers_MapsExecutableEndpoint(string route)
     {
-        await using var fixture = new StaticEndpointsFixture();
         var context = await fixture.ExecuteAsync(route);
         Assert.Equal(200, context.Response.StatusCode);
         Assert.Equal(route, await StaticEndpointsFixture.ReadBodyAsync(context));
@@ -55,7 +53,6 @@ public sealed class AccessModifierTests
     public async Task MapStaticEndpoints_FileLocalClassAndMethodAccessModifiers_MapsExecutableEndpoint(string kind, string modifier)
     {
         var route = $"/file-access/{kind}/{modifier}";
-        await using var fixture = new StaticEndpointsFixture();
         var context = await fixture.ExecuteAsync(route);
         Assert.Equal(route, await StaticEndpointsFixture.ReadBodyAsync(context));
     }
@@ -63,7 +60,6 @@ public sealed class AccessModifierTests
     [Fact]
     public async Task MapStaticEndpoints_FileLocalClass_MapsExecutableEndpoint()
     {
-        await using var fixture = new StaticEndpointsFixture();
         var context = await fixture.ExecuteAsync("/access/file");
         Assert.Equal("file", await StaticEndpointsFixture.ReadBodyAsync(context));
     }

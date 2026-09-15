@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http.Metadata;
 
 namespace DandyDotnet.Http.StaticEndpoints.Tests;
 
-public sealed class ReturnTypeTests
+public sealed class ReturnTypeTests(ReturnTypeFixture fixture) : IClassFixture<ReturnTypeFixture>
 {
     [Theory]
     [InlineData("string", "hello", "text/plain", 200)]
@@ -27,7 +27,6 @@ public sealed class ReturnTypeTests
     [InlineData("value-task-result", "{\"name\":\"sample\",\"count\":12}", "application/json", 202)]
     public async Task MapStaticEndpoints_ReturnType_WritesExpectedResponse(string endpoint, string body, string contentType, int status)
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ReturnTypeEndpoints));
         var context = await fixture.ExecuteAsync($"/returns/{endpoint}");
         Assert.Equal(status, context.Response.StatusCode);
         Assert.StartsWith(contentType, context.Response.ContentType);
@@ -40,7 +39,6 @@ public sealed class ReturnTypeTests
     [InlineData("value-task")]
     public async Task MapStaticEndpoints_NoReturnValue_CompletesHandlerWithoutBody(string endpoint)
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ReturnTypeEndpoints));
         var context = await fixture.ExecuteAsync($"/returns/{endpoint}");
         Assert.Equal(true, context.Items["completed"]);
         Assert.Equal(200, context.Response.StatusCode);
@@ -50,7 +48,6 @@ public sealed class ReturnTypeTests
     [Fact]
     public async Task MapStaticEndpoints_NoContentResult_PreservesStatusAndEmptyBody()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ReturnTypeEndpoints));
         var context = await fixture.ExecuteAsync("/returns/no-content");
         Assert.Equal(204, context.Response.StatusCode);
         Assert.Equal("", await StaticEndpointsFixture.ReadBodyAsync(context));
@@ -59,7 +56,6 @@ public sealed class ReturnTypeTests
     [Fact]
     public async Task MapStaticEndpoints_RedirectResult_PreservesLocationHeader()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ReturnTypeEndpoints));
         var context = await fixture.ExecuteAsync("/returns/redirect");
         Assert.Equal(302, context.Response.StatusCode);
         Assert.Equal("/destination", context.Response.Headers.Location.ToString());
@@ -68,7 +64,6 @@ public sealed class ReturnTypeTests
     [Fact]
     public async Task MapStaticEndpoints_TaskProblemResult_PreservesProblemDetails()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ReturnTypeEndpoints));
         var context = await fixture.ExecuteAsync("/returns/problem");
         Assert.Equal(409, context.Response.StatusCode);
         Assert.StartsWith("application/problem+json", context.Response.ContentType);
@@ -82,7 +77,6 @@ public sealed class ReturnTypeTests
     [InlineData("task-typed-result")]
     public async Task MapStaticEndpoints_TypedResult_InfersResponseMetadata(string endpoint)
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ReturnTypeEndpoints));
         var metadata = fixture.GetEndpoint($"/returns/{endpoint}").Metadata.GetMetadata<IProducesResponseTypeMetadata>();
         Assert.NotNull(metadata);
         Assert.Equal(typeof(MockBody), metadata.Type);

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace DandyDotnet.Http.StaticEndpoints.Tests;
 
-public sealed class ParameterBindingTests
+public sealed class ParameterBindingTests(ParameterBindingFixture fixture) : IClassFixture<ParameterBindingFixture>
 {
     [Theory]
     [InlineData("query", "?value=hello%20world", "hello world")]
@@ -18,7 +18,6 @@ public sealed class ParameterBindingTests
     [InlineData("query-inferred", "?value=23", "23")]
     public async Task MapStaticEndpoints_QueryParameter_BindsValue(string endpoint, string query, string expected)
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync($"/parameters/{endpoint}", c => c.Request.QueryString = new QueryString(query));
         Assert.Equal(200, context.Response.StatusCode);
         Assert.Equal(expected, await StaticEndpointsFixture.ReadBodyAsync(context));
@@ -30,7 +29,6 @@ public sealed class ParameterBindingTests
     [InlineData("route-name/{id}", "id", "b31d21a7-8f3f-4eac-bb1b-7462f68d8dc1", "\"b31d21a7-8f3f-4eac-bb1b-7462f68d8dc1\"")]
     public async Task MapStaticEndpoints_RouteParameter_BindsValue(string endpoint, string key, string value, string expected)
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync($"/parameters/{endpoint}", c =>
         {
             c.Request.RouteValues[key] = value;
@@ -43,7 +41,6 @@ public sealed class ParameterBindingTests
     [Fact]
     public async Task MapStaticEndpoints_FromHeader_BindsNamedHeader()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/header", c => c.Request.Headers["X-Value"] = "header-value");
         Assert.Equal("header-value", await StaticEndpointsFixture.ReadBodyAsync(context));
     }
@@ -53,7 +50,6 @@ public sealed class ParameterBindingTests
     [InlineData("body-inferred")]
     public async Task MapStaticEndpoints_JsonBody_BindsComplexObject(string endpoint)
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync($"/parameters/{endpoint}", c => SetBody(c, "{\"name\":\"sample\",\"count\":12}"));
         Assert.Equal(200, context.Response.StatusCode);
         Assert.Equal(new MockBody("sample", 12), JsonSerializer.Deserialize<MockBody>(await StaticEndpointsFixture.ReadBodyAsync(context), new JsonSerializerOptions(JsonSerializerDefaults.Web)));
@@ -62,7 +58,6 @@ public sealed class ParameterBindingTests
     [Fact]
     public async Task MapStaticEndpoints_OptionalBody_AllowsEmptyBody()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/body-optional");
         Assert.Equal("missing", await StaticEndpointsFixture.ReadBodyAsync(context));
     }
@@ -70,7 +65,6 @@ public sealed class ParameterBindingTests
     [Fact]
     public async Task MapStaticEndpoints_FromForm_BindsNamedFormField()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/form", c => SetBody(c, "title=form+value", "application/x-www-form-urlencoded"));
         Assert.Equal(200, context.Response.StatusCode);
         Assert.Equal("form value", await StaticEndpointsFixture.ReadBodyAsync(context));
@@ -82,7 +76,6 @@ public sealed class ParameterBindingTests
     [InlineData("keyed-service", "keyed-service")]
     public async Task MapStaticEndpoints_ServiceParameter_ResolvesRegisteredInstance(string endpoint, string expected)
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync($"/parameters/{endpoint}");
         Assert.Equal(expected, await StaticEndpointsFixture.ReadBodyAsync(context));
     }
@@ -90,7 +83,6 @@ public sealed class ParameterBindingTests
     [Fact]
     public async Task MapStaticEndpoints_HttpContext_ReceivesRequestContext()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/context", c => c.TraceIdentifier = "request-123");
         Assert.Same(context, context.Items["received-context"]);
         Assert.Equal("request-123", await StaticEndpointsFixture.ReadBodyAsync(context));
@@ -103,7 +95,6 @@ public sealed class ParameterBindingTests
     {
         using var source = new CancellationTokenSource();
         if (cancelled) source.Cancel();
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/cancellation", c => c.RequestAborted = source.Token);
         Assert.Equal(source.Token, Assert.IsType<CancellationToken>(context.Items["received-token"]));
     }
@@ -112,7 +103,6 @@ public sealed class ParameterBindingTests
     public async Task MapStaticEndpoints_CombinedParameters_BindsEachSource()
     {
         using var source = new CancellationTokenSource();
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/combined/{id}", c =>
         {
             c.Request.RouteValues["id"] = "31";
@@ -137,7 +127,6 @@ public sealed class ParameterBindingTests
     [Fact]
     public async Task MapStaticEndpoints_AsParameters_BindsGroupedSources()
     {
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/group/{id}", c =>
         {
             c.Request.RouteValues["id"] = "11";
@@ -155,7 +144,6 @@ public sealed class ParameterBindingTests
         using var content = new MultipartFormDataContent("test-boundary");
         content.Add(new StringContent("file contents"), "file", "sample.txt");
         var bytes = await content.ReadAsByteArrayAsync();
-        await using var fixture = new StaticEndpointsFixture(typeof(ParameterEndpoints));
         var context = await fixture.ExecuteAsync("/parameters/file", c =>
         {
             c.Request.Body = new MemoryStream(bytes);

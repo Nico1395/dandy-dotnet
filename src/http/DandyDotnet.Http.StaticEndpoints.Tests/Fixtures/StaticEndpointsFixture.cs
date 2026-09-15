@@ -9,12 +9,14 @@ using DandyDotnet.Http.StaticEndpoints.Tests.Mocks;
 
 namespace DandyDotnet.Http.StaticEndpoints.Tests.Fixtures;
 
-public sealed class StaticEndpointsFixture : IAsyncDisposable
+public class StaticEndpointsFixture : IAsyncDisposable
 {
     private readonly WebApplication _app;
     public IReadOnlyList<RouteEndpoint> Endpoints { get; }
 
-    public StaticEndpointsFixture(Type? endpointType = null)
+    public StaticEndpointsFixture() : this(null) { }
+
+    protected StaticEndpointsFixture(Type? endpointType)
     {
         var builder = WebApplication.CreateBuilder();
         builder.Logging.ClearProviders();
@@ -65,4 +67,19 @@ public sealed class StaticEndpointsFixture : IAsyncDisposable
     {
         public bool CanHaveBody => true;
     }
+}
+
+public sealed class ParameterBindingFixture : StaticEndpointsFixture
+{
+    public ParameterBindingFixture() : base(typeof(ParameterEndpoints)) { }
+}
+
+public sealed class ReturnTypeFixture : StaticEndpointsFixture
+{
+    public ReturnTypeFixture() : base(typeof(ReturnTypeEndpoints)) { }
+}
+
+public sealed class MetadataInheritanceFixture : StaticEndpointsFixture
+{
+    public MetadataInheritanceFixture() : base(typeof(MetadataInheritanceEndpoints)) { }
 }
