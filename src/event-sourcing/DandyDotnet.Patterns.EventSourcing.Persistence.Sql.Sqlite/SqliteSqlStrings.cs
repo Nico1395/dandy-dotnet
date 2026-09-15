@@ -5,7 +5,7 @@ namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite;
 internal sealed class SqliteSqlStrings : SqlStrings
 {
     public override string GetStreamVersion => $"""
-                                                    SELECT MAX(Version)
+                                                    SELECT COALESCE(MAX(Version) + 1, 0)
                                                     FROM {Tables.Envelopes.Table}
                                                     WHERE {Tables.Envelopes.StreamId} = @StreamId
                                                 """;

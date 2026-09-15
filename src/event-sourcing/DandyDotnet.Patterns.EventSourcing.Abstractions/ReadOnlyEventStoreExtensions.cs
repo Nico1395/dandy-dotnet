@@ -16,6 +16,9 @@ public static class ReadOnlyEventStoreExtensions
     public static async Task<(IReadOnlySnapshot? Snapshot, IReadOnlyEnvelope[] Stream)> ReplayStreamAsync(this IReadOnlyEventStore eventStore, string streamId, long? toVersion, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
         var snapshot = await eventStore.GetLastSnapshotAsync(streamId, toVersion, cancellationToken);
+        if (snapshot != null && toTimestamp.HasValue && snapshot.Timestamp > toTimestamp.Value)
+            snapshot = null;
+
         var stream = await eventStore.GetStreamAsync(
             streamId,
             fromVersion: snapshot?.Version + 1,
