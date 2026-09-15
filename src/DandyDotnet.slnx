@@ -27,8 +27,8 @@
   <Folder Name="/Http/" />
   <Folder Name="/Http/Client/" />
   <Folder Name="/Http/Endpoints/">
-    <Project Path="http\DandyDotnet.Http.Server.Tests\DandyDotnet.Http.Server.Tests.csproj" />
-    <Project Path="http\DandyDotnet.Http.Server\DandyDotnet.Http.Server.csproj" />
+    <Project Path="http\DandyDotnet.Http.StaticEndpoints.Tests\DandyDotnet.Http.StaticEndpoints.Tests.csproj" />
+    <Project Path="http\DandyDotnet.Http.StaticEndpoints\DandyDotnet.Http.StaticEndpoints.csproj" />
   </Folder>
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
