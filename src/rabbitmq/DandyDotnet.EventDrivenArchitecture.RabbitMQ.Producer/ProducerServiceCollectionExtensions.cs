@@ -1,7 +1,9 @@
+using DandyDotnet.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions;
+using DandyDotnet.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
@@ -17,7 +19,7 @@ public static class ProducerServiceCollectionExtensions
     /// <param name="services">The service collection to update.</param>
     /// <param name="builderAction">An action that configures the producer.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddDandyRabbitMQProducer(this IServiceCollection services, Action<ProducerConfigurationBuilder> builderAction)
+    public static IServiceCollection AddRabbitMQProducer(this IServiceCollection services, Action<ProducerConfigurationBuilder> builderAction)
     {
         var builder = new ProducerConfigurationBuilder();
         builderAction.Invoke(builder);
@@ -26,9 +28,15 @@ public static class ProducerServiceCollectionExtensions
         services.AddSingleton(configuration);
         services.AddScoped<IProducer, Producer>();
 
-        services.AddDandyRabbitMQConnectivity(configuration.ConnectivityConfigurationBuilder.Build());
-        services.AddDandyRabbitMQMessages(configuration.MessagesConfigurationBuilder.Build());
-        services.AddDandyRabbitMQDeclarations(configuration.DeclarationsConfiguration.Build());
+        services.AddRabbitMQConnectivity(configuration.ConnectivityConfigurationBuilder.Build());
+        services.AddRabbitMQMessages(configuration.MessagesConfigurationBuilder.Build());
+        services.AddRabbitMQDeclarations(configuration.DeclarationsConfiguration.Build());
+
+        if (configuration.SerializerConfiguration != null)
+            services.AddSerializer(configuration.SerializerConfiguration);
+
+        if (configuration.EncodingConfiguration != null)
+            services.AddEncoder(configuration.EncodingConfiguration);
 
         return services;
     }

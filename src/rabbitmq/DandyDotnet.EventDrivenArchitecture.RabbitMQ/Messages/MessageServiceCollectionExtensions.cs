@@ -16,13 +16,13 @@ public static class MessageServiceCollectionExtensions
     /// <param name="services">The service collection to update.</param>
     /// <param name="builderAction">An action that configures message metadata.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddDandyRabbitMQMessages(this IServiceCollection services, Action<MessagesConfigurationBuilder> builderAction)
+    public static IServiceCollection AddRabbitMQMessages(this IServiceCollection services, Action<MessagesConfigurationBuilder> builderAction)
     {
         var builder = new MessagesConfigurationBuilder();
         builderAction.Invoke(builder);
         var configuration = builder.Build();
 
-        return services.AddDandyRabbitMQMessages(configuration);
+        return services.AddRabbitMQMessages(configuration);
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public static class MessageServiceCollectionExtensions
     /// <param name="services">The service collection to update.</param>
     /// <param name="configuration">The message configuration.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddDandyRabbitMQMessages(this IServiceCollection services, MessagesConfiguration configuration)
+    public static IServiceCollection AddRabbitMQMessages(this IServiceCollection services, MessagesConfiguration configuration)
     {
         var previous = services.BuildServiceProvider().GetService<MessagesConfiguration>();
         if (previous != null)

@@ -23,9 +23,9 @@ var builder = Host.CreateApplicationBuilder(settings);
 var assemblies = new [] { Assembly.Load("DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Producer"), Assembly.Load("DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared") };
 
 builder.Services.AddHostedService<ProducerMenu>();
-builder.Services.AddDandySerializer(cfg => cfg.UseSystemTextJson());
-builder.Services.AddDandyEncoder();
-builder.Services.AddDandyRabbitMQProducer(cfg =>
+builder.Services.AddSerializer(cfg => cfg.UseSystemTextJson());
+builder.Services.AddEncoder();
+builder.Services.AddRabbitMQProducer(cfg =>
 {
     cfg.Connectivity.ConnectToCluster("dev", "dev", [new Uri("localhost:5672"), new Uri("localhost:5673")], recoveryInterval: null);
     cfg.Connectivity.OnConnectionException((_, ex) => Console.WriteLine($"Exception occurred: {ex}"));
