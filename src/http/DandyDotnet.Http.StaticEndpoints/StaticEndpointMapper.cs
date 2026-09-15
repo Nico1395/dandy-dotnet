@@ -32,10 +32,15 @@ internal sealed class StaticEndpointMapper(StaticEndpointsConfiguration configur
                 continue;
 
             var @delegate = CreateDelegate(endpointMethod);
+            var endpoint = app.MapMethods(attribute.Template, attribute.HttpMethods, @delegate);
+            var metadata = endpointMethod.DeclaringType?
+                .GetCustomAttributes(inherit: true)
+                .Concat(endpointMethod.GetCustomAttributes(inherit: true))
+                .Where(a => a is not HttpMethodAttribute)
+                .ToArray();
 
-            app.MapMethods(attribute.Template, attribute.HttpMethods, @delegate);
-
-            // TODO -> Add support for endpoint metadata and authentication
+            if (metadata is { Length: > 0 })
+                endpoint.WithMetadata(metadata);
         }
     }
 
