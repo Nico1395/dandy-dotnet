@@ -8,7 +8,7 @@
 
 ## What is currently being worked on?
 For an overview over the current work and state of releases, issues, features and bugs see:
-- [Releases and milestone progress](https://github.com/users/Nico1395/projects/43/views/6)
+- [Release and milestone progress](https://github.com/users/Nico1395/projects/43/views/6)
 - [Release and milestone priorities](https://github.com/users/Nico1395/projects/43/views/2)
 - [Current work](https://github.com/users/Nico1395/projects/43/views/1)
 - [Label/category overview](https://github.com/users/Nico1395/projects/43/views/7)
