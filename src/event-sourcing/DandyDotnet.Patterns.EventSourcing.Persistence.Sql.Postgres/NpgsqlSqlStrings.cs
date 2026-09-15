@@ -6,7 +6,7 @@ namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres;
 internal sealed class NpgsqlSqlStrings : SqlStrings
 {
     public override string GetStreamVersion => $"""
-                                                    SELECT MAX(Version)
+                                                    SELECT COALESCE(MAX(Version) + 1, 0)
                                                     FROM {Schema.Name}.{Tables.Envelopes.Table}
                                                     WHERE {Tables.Envelopes.StreamId} = @StreamId
                                                 """;
