@@ -28,8 +28,8 @@ public sealed class DefaultFixture : Fixture
             _keepAliveConnection = new SqliteConnection("Data Source=Tests;Mode=Memory;Cache=Shared");
             _keepAliveConnection.Open();
 
-            services.AddDandySerializer(cfg => cfg.UseSystemTextJson());
-            services.AddDandyEventSourcing(cfg =>
+            services.AddSerializer(cfg => cfg.UseSystemTextJson());
+            services.AddEventSourcing(cfg =>
             {
                 cfg.ScanInAssemblies(typeof(DefaultFixture).Assembly);
                 cfg.UseSqlite(sqlite =>
