@@ -10,8 +10,8 @@ public sealed class DefaultFixture : Fixture
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddDandyEncoder();
-        services.AddDandyRabbitMQMessages(config =>
+        services.AddEncoder();
+        services.AddRabbitMQMessages(config =>
         {
             config.AddMessage(typeof(ConfiguredMessage), msg =>
             {

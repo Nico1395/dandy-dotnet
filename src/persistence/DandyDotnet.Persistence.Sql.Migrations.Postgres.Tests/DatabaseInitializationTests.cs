@@ -59,7 +59,7 @@ public sealed class DatabaseInitializationTests(DefaultFixture fixture) : IClass
     private ServiceProvider CreateServiceProvider(string schema, string table, bool includeMigration = false)
     {
         var services = new ServiceCollection();
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.Schema = schema;
             configuration.Table = table;

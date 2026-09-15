@@ -1,8 +1,10 @@
 using DandyDotnet.DependencyInjection.Scanning;
+using DandyDotnet.Encoding.Configuration;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
+using DandyDotnet.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
@@ -18,7 +20,7 @@ public static class ConsumerServiceCollectionExtensions
     /// <param name="services">The service collection to update.</param>
     /// <param name="builderAction">An action that configures the consumer.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddDandyRabbitMQConsumer(this IServiceCollection services, Action<ConsumerConfigurationBuilder> builderAction)
+    public static IServiceCollection AddRabbitMQConsumer(this IServiceCollection services, Action<ConsumerConfigurationBuilder> builderAction)
     {
         var builder = new ConsumerConfigurationBuilder();
         builderAction.Invoke(builder);
@@ -46,9 +48,15 @@ public static class ConsumerServiceCollectionExtensions
             });
         }
 
-        services.AddDandyRabbitMQConnectivity(configuration.ConnectivityConfigurationBuilder.Build());
-        services.AddDandyRabbitMQMessages(configuration.MessagesConfigurationBuilder.Build());
-        services.AddDandyRabbitMQDeclarations(configuration.DeclarationsConfigurationBuilder.Build());
+        services.AddRabbitMQConnectivity(configuration.ConnectivityConfigurationBuilder.Build());
+        services.AddRabbitMQMessages(configuration.MessagesConfigurationBuilder.Build());
+        services.AddRabbitMQDeclarations(configuration.DeclarationsConfigurationBuilder.Build());
+
+        if (configuration.SerializerConfiguration != null)
+            services.AddSerializer(configuration.SerializerConfiguration);
+
+        if (configuration.EncodingConfiguration != null)
+            services.AddEncoder(configuration.EncodingConfiguration);
 
         return services;
     }

@@ -16,7 +16,7 @@ internal sealed class SqliteConfiguration : PersistenceConfiguration
     {
         base.ConfigureServices(services);
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration
                 .UseSqlite(ConnectionString)

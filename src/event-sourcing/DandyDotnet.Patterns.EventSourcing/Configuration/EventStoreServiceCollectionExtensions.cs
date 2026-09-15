@@ -12,7 +12,7 @@ namespace DandyDotnet.Patterns.EventSourcing.Configuration;
 
 public static class EventStoreServiceCollectionExtensions
 {
-    public static IServiceCollection AddDandyEventSourcing(this IServiceCollection services, Action<EventStoreConfigurationBuilder> builderAction)
+    public static IServiceCollection AddEventSourcing(this IServiceCollection services, Action<EventStoreConfigurationBuilder> builderAction)
     {
         var builder = new EventStoreConfigurationBuilder();
         builderAction(builder);

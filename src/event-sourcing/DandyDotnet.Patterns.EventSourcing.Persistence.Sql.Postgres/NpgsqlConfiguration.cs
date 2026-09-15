@@ -16,7 +16,7 @@ internal sealed class NpgsqlConfiguration : PersistenceConfiguration
     {
         base.ConfigureServices(services);
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration
                 .UsePostgres(ConnectionString)

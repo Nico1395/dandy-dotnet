@@ -46,7 +46,7 @@ public sealed class DefaultFixture : Fixture
 
         _sqlServer.StartAsync().GetAwaiter().GetResult();
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.UseSqlServer(ConnectionString);
             configuration.ScanInAssemblies(assemblies);

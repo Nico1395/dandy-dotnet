@@ -122,7 +122,7 @@ public sealed class MigrateDownTests(DefaultFixture fixture) : IClassFixture<Def
         params Type[] migrationTypes)
     {
         var services = new ServiceCollection();
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration.Schema = schema;
             configuration.Table = table;

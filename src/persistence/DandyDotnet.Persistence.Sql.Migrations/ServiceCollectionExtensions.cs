@@ -7,7 +7,7 @@ namespace DandyDotnet.Persistence.Sql.Migrations;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDandyMigrations(this IServiceCollection services, Action<MigrationsConfiguration> configure)
+    public static IServiceCollection AddMigrations(this IServiceCollection services, Action<MigrationsConfiguration> configure)
     {
         var configuration = new MigrationsConfiguration();
         configure(configuration);

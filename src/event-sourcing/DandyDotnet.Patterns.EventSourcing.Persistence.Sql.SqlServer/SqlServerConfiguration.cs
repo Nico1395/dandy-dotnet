@@ -16,7 +16,7 @@ public sealed class SqlServerConfiguration : PersistenceConfiguration
     {
         base.ConfigureServices(services);
 
-        services.AddDandyMigrations(configuration =>
+        services.AddMigrations(configuration =>
         {
             configuration
                 .UseSqlServer(ConnectionString)
