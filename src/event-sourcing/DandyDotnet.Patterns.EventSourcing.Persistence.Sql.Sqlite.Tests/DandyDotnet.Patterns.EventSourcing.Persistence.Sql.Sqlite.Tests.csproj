@@ -17,8 +17,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\DandyDotnet.Tests.Core\DandyDotnet.Tests.Core.csproj" />
-      <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.SystemTextJson\DandyDotnet.Serialization.SystemTextJson.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
       <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.csproj" />
+      <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.SystemTextJson\DandyDotnet.Serialization.SystemTextJson.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Mocks\" />
     </ItemGroup>
 
 </Project>

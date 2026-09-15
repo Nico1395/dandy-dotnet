@@ -22,6 +22,9 @@ internal sealed class EventStore(
         var configuration = eventStoreConfiguration.Aggregates.GetOrAddAggregateConfiguration(aggregateType);
         var (snapshot, stream) = await this.ReplayStreamAsync(streamId, toVersion, toTimestamp, cancellationToken);
 
+        if (snapshot == null && stream.Length == 0)
+            return null;
+
         var hasDuplicates = stream.GroupBy(e => e.Version).Any(c => c.Count() > 1);
         if (hasDuplicates)
             throw new InvalidOperationException($"Stream with ID '{streamId}' has duplicate events.");

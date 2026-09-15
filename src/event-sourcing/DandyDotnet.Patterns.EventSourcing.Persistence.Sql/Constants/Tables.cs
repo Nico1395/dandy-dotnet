@@ -54,7 +54,7 @@ public static class Tables
         public const string Type = "type";
         public const string ConsumedAt = "consumed_at";
         public const string FailedAt = "failed_at";
-        public const string ConsumerKey = "ConsumerKey";
+        public const string ConsumerKey = "consumer_key";
         public const int ConsumerKeyLength = 255;
     }
 }
