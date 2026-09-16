@@ -1,3 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>DandyDotnet.Patterns.Strategies.Abstractions</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>Strategy pattern abstractions.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+        <PackageTags>Strategies, Strategy</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
 </Project>
