@@ -16,6 +16,12 @@ public sealed class OutboxConfigurationBuilder
         return this;
     }
 
+    public OutboxConfigurationBuilder WithDefaultRetries(int retries)
+    {
+        _configuration.DefaultRetries = retries;
+        return this;
+    }
+
     public OutboxConfigurationBuilder DisableDaemon()
     {
         _configuration.DaemonEnabled = false;
