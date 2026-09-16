@@ -23,6 +23,7 @@ public sealed class EventsConfiguration
             {
                 Key = attribute?.Key ?? eventType.Name,
                 RuntimeType = eventType,
+                Lifetime = attribute != null ? TimeSpan.FromMinutes(attribute.LifetimeMinutes) : null,
             };
 
             return EventConfigsByKey[configuration.Key] = configuration;
