@@ -37,6 +37,7 @@ public sealed class SubscribersConfiguration
                 RuntimeType = subscriberType,
                 EventType = eventType,
                 Mode = attribute?.Mode ?? SubscriberMode.Async,
+                Retries = attribute?.Retries > 0 ? attribute.Retries : null,
             };
 
             ByKey[configuration.Key] = configuration;
