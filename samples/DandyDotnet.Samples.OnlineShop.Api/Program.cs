@@ -1,6 +1,6 @@
 namespace DandyDotnet.Samples.OnlineShop.Api;
 
-public class Program
+internal sealed class Program
 {
     public static void Main(string[] args)
     {
@@ -8,6 +8,7 @@ public class Program
 
         builder.Services.AddAuthorization();
         builder.Services.AddOpenApi();
+        builder.Services.AddOnlineShopApi(builder.Configuration);
 
         var app = builder.Build();
         if (app.Environment.IsDevelopment())

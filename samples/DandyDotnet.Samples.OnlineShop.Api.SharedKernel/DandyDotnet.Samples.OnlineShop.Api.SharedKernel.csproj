@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.csproj" />
+      <ProjectReference Include="..\..\src\http\DandyDotnet.Http.StaticEndpoints\DandyDotnet.Http.StaticEndpoints.csproj" />
+      <ProjectReference Include="..\..\src\mediator\DandyDotnet.Patterns.Mediator.Commands\DandyDotnet.Patterns.Mediator.Commands.csproj" />
+      <ProjectReference Include="..\..\src\mediator\DandyDotnet.Patterns.Mediator.Queries\DandyDotnet.Patterns.Mediator.Queries.csproj" />
+      <ProjectReference Include="..\..\src\mediator\DandyDotnet.Patterns.Mediator.Validation\DandyDotnet.Patterns.Mediator.Validation.csproj" />
+      <ProjectReference Include="..\..\src\rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.csproj" />
+      <ProjectReference Include="..\..\src\rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.csproj" />
+      <ProjectReference Include="..\..\src\serialization\DandyDotnet.Serialization.SystemTextJson\DandyDotnet.Serialization.SystemTextJson.csproj" />
+      <ProjectReference Include="..\..\src\strategies\DandyDotnet.Patterns.Strategies\DandyDotnet.Patterns.Strategies.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    </ItemGroup>
+
+</Project>
