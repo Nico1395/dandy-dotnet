@@ -1,4 +1,5 @@
 # DandyDotnet
+- [Official wiki](https://github.com/Nico1395/dandy-dotnet/wiki/Official-DandyDotnet-wiki)
 - [API reference](https://nico1395.github.io/dandy-dotnet/)
 - [What is currently being worked on?](https://github.com/Nico1395/dandy-dotnet/tree/main#what-is-currently-being-worked-on)
 - [What is DandyDotnet?](https://github.com/Nico1395/dandy-dotnet/tree/main#what-is-dandydotnet)

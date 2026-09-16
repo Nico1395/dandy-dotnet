@@ -70,7 +70,11 @@ public readonly struct DispatchInfo
             targetRoutingKeys = routingKeys.ToArray();
         }
 
-        targetRoutingKeys = targetRoutingKeys.Where(routingKey => !string.IsNullOrWhiteSpace(routingKey)).Distinct().ToArray();
+        targetRoutingKeys = targetRoutingKeys
+            .Where(routingKey => !string.IsNullOrWhiteSpace(routingKey))
+            .Select(routingKey => routingKey.Trim())
+            .Distinct()
+            .ToArray();
         if (targetRoutingKeys.Length == 0)
             throw new InvalidOperationException("Routing keys were resolved, but they are empty.");
 

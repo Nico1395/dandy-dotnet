@@ -79,7 +79,7 @@ public sealed class ConsumerResult
     {
         return new ConsumerResult
         {
-            Status = ConsumerStatus.Ack,
+            Status = ConsumerStatus.Nack,
             Multiple = true,
         };
     }
