@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection DandyDotnet.Patterns.Mediator is added to.</param>
     /// <param name="action">Configuration action to configure DandyDotnet.Patterns.Mediator.</param>
     /// <returns>The <paramref name="services"/>.</returns>
-    public static IServiceCollection AddDandyMediator(this IServiceCollection services, Action<MediatorConfigurationBuilder>? action = null)
+    public static IServiceCollection AddMediator(this IServiceCollection services, Action<MediatorConfigurationBuilder>? action = null)
     {
         var builder = new MediatorConfigurationBuilder();
         action?.Invoke(builder);

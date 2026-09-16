@@ -1,8 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>Implementations for abstractions for RabbitMQ producers and configuration API.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+        <PackageTags>RabbitMQ, Message Broker</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
     <ItemGroup>
-      <ProjectReference Include="..\..\encoding\DandyDotnet.Encoding.Abstractions\DandyDotnet.Encoding.Abstractions.csproj" />
-      <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization.Abstractions\DandyDotnet.Serialization.Abstractions.csproj" />
+        <None Include="../../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\encoding\DandyDotnet.Encoding\DandyDotnet.Encoding.csproj" />
+      <ProjectReference Include="..\..\serialization\DandyDotnet.Serialization\DandyDotnet.Serialization.csproj" />
       <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions.csproj" />
       <ProjectReference Include="..\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
     </ItemGroup>

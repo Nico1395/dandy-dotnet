@@ -1,3 +1,4 @@
+using DandyDotnet.DependencyInjection.Abstractions;
 using DandyDotnet.Encoding.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity;
 using DandyDotnet.Serialization.Abstractions;
@@ -9,29 +10,40 @@ using RabbitMQ.Client;
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
 
 internal sealed class Producer(
-    ISerializer payloadSerializer,
-    IEncoder encoder,
+    IServiceProvider serviceProvider,
     IConnectionProvider connectionProvider,
+    ProducerConfiguration producerConfiguration,
     MessagesConfiguration messagesConfiguration) : IProducer
 {
     private IChannel? _channel;
 
+    private IEncoder? _encoder;
+    private ISerializer? _serializer;
+
     public async Task ProduceAsync(string? exchange, IEnumerable<string>? routingKeys, object message, BasicProperties? properties, CancellationToken cancellationToken)
     {
         var dispatchInfo = DispatchInfo.Create(messagesConfiguration, exchange, routingKeys, message, properties);
-        var payload = payloadSerializer.Serialize(message, dispatchInfo.RuntimeType);
-        var encodedPayload = encoder.Encode(payload);
+        var payload = GetSerializer().Serialize(message, dispatchInfo.RuntimeType);
+        var encodedPayload = GetEncoder().Encode(payload);
         var channel = await GetChannelAsync(cancellationToken);
 
-        foreach (var routingKey in dispatchInfo.RoutingKeys)
+        try
         {
-            await channel.BasicPublishAsync(
-                exchange: dispatchInfo.Exchange,
-                routingKey: routingKey,
-                mandatory: true,
-                basicProperties: dispatchInfo.Properties,
-                body: encodedPayload,
-                cancellationToken: cancellationToken);
+            foreach (var routingKey in dispatchInfo.RoutingKeys)
+            {
+                await channel.BasicPublishAsync(
+                    exchange: dispatchInfo.Exchange,
+                    routingKey: routingKey,
+                    mandatory: true,
+                    basicProperties: dispatchInfo.Properties,
+                    body: encodedPayload,
+                    cancellationToken: cancellationToken);
+            }
+        }
+        catch
+        {
+            _channel = null;
+            throw;
         }
     }
 
@@ -42,5 +54,15 @@ internal sealed class Producer(
 
         var connection = await connectionProvider.GetAsync(cancellationToken);
         return _channel = await connection.CreateChannelAsync(options: null, cancellationToken);
+    }
+
+    private IEncoder GetEncoder()
+    {
+        return _encoder ??= serviceProvider.GetRequiredKeyedOrDefaultService<IEncoder>(producerConfiguration.EncodingConfiguration?.ServiceKey);
+    }
+
+    private ISerializer GetSerializer()
+    {
+        return _serializer ??= serviceProvider.GetRequiredKeyedOrDefaultService<ISerializer>(producerConfiguration.SerializerConfiguration?.ServiceKey);
     }
 }

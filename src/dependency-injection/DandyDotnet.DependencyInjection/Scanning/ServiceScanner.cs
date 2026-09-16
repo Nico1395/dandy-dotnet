@@ -3,11 +3,37 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.DependencyInjection.Scanning;
 
+/// <summary>
+///     Scans assemblies for implementation types and creates service descriptors for matching service types.
+/// </summary>
+/// <remarks>
+///     <para>
+///         The scanner considers non-abstract class types from the configured assemblies. Generic type definitions are
+///         excluded unless the matching <see cref="ScanDescriptor" /> allows open generic registrations.
+///     </para>
+///     <para>
+///         For each configured descriptor, matching implementation types are registered for the configured abstract type,
+///         or for the closed service types they implement when scanning for an open generic service type.
+///     </para>
+/// </remarks>
+/// <param name="descriptors">The scan descriptors keyed by their abstract service type.</param>
+/// <param name="assemblies">The assemblies to scan for implementation types.</param>
 public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> descriptors, Assembly[] assemblies)
 {
+    /// <summary>
+    ///     Gets the scan descriptors keyed by their abstract service type.
+    /// </summary>
     public IReadOnlyDictionary<Type, ScanDescriptor> Descriptors { get; } = descriptors;
+
+    /// <summary>
+    ///     Gets the assemblies scanned for implementation types.
+    /// </summary>
     public Assembly[] Assemblies { get; } = assemblies;
 
+    /// <summary>
+    ///     Gets the service descriptors produced by scanning the configured assemblies.
+    /// </summary>
+    /// <returns>The service descriptors for discovered implementation types.</returns>
     public IEnumerable<ServiceDescriptor> GetServiceDescriptors()
     {
         // Ruling out value types and abstract types
@@ -19,22 +45,35 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         foreach (var descriptor in Descriptors.Values)
         {
             var filteredTypes = implementationTypes
-                .Where(type => descriptor.IsOpenGeneric == type.IsGenericTypeDefinition) // Match open generic setting
+                .Where(type => descriptor.AllowOpenGeneric || !type.IsGenericTypeDefinition)
                 .Where(type => descriptor.Predicate?.Invoke(type) ?? true); // Apply predicate
 
             foreach (var filteredType in filteredTypes)
             {
-                var serviceTypes = GetServiceTypes(descriptor.AbstractType, filteredType, descriptor.IsOpenGeneric);
+                var serviceTypes = GetServiceTypes(descriptor.AbstractType, filteredType, descriptor.AllowOpenGeneric);
                 foreach (var serviceType in serviceTypes)
-                    yield return CreateServiceDescriptor(descriptor, serviceType, filteredType);
+                {
+                    var serviceKey = descriptor.ServiceKeyFactory is null
+                        ? descriptor.ServiceKey
+                        : descriptor.ServiceKeyFactory(filteredType);
+
+                    yield return CreateServiceDescriptor(
+                        descriptor,
+                        serviceType,
+                        filteredType,
+                        serviceKey);
+                }
             }
         }
     }
 
     private static IEnumerable<Type> GetServiceTypes(Type abstractType, Type implementationType, bool isOpenGeneric)
     {
-        if (isOpenGeneric)
+        if (implementationType.IsGenericTypeDefinition)
         {
+            if (!isOpenGeneric)
+                yield break;
+
             if (ImplementsGenericType(implementationType, abstractType))
                 yield return abstractType;
 
@@ -73,7 +112,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
             yield return baseType;
     }
 
-    private static ServiceDescriptor CreateServiceDescriptor(ScanDescriptor descriptor, Type serviceType, Type implementationType)
+    private static ServiceDescriptor CreateServiceDescriptor(ScanDescriptor descriptor, Type serviceType, Type implementationType, object? serviceKey)
     {
         // Non-keyed descriptor
         if (!descriptor.IsKeyed())
@@ -99,7 +138,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         {
             return ServiceDescriptor.DescribeKeyed(
                 serviceType,
-                descriptor.ServiceKey,
+                serviceKey,
                 descriptor.KeyedFactory,
                 descriptor.Lifetime);
         }
@@ -109,7 +148,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         {
             return ServiceDescriptor.DescribeKeyed(
                 serviceType,
-                descriptor.ServiceKey,
+                serviceKey,
                 (serviceProvider, _) => descriptor.Factory(serviceProvider),
                 descriptor.Lifetime);
         }
@@ -117,7 +156,7 @@ public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> des
         // Implementation type rather than a factory
         return ServiceDescriptor.DescribeKeyed(
             serviceType,
-            descriptor.ServiceKey,
+            serviceKey,
             implementationType,
             descriptor.Lifetime);
     }

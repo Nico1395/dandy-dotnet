@@ -1,19 +1,26 @@
-using DandyDotnet.Patterns.EventSourcing.Persistence;
-using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Connections;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Repositories;
+using DandyDotnet.Persistence.Sql.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql;
 
+/// <summary>
+///     Represents a unit of work managing database transactions and repositories for SQL-based event persistence.
+/// </summary>
 internal sealed class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly UnitOfWorkContext _context;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="UnitOfWork" /> class.
+    /// </summary>
+    /// <param name="dbConnectionFactory">The database connection factory resolved by service key.</param>
+    /// <param name="sqlStrings">The provider of SQL command strings.</param>
     public UnitOfWork(
-        SqlStrings sqlStrings,
-        IDbConnectionFactory dbConnectionFactory)
+        [FromKeyedServices(EventSourcingConstants.ServiceKey)] IDbConnectionFactory dbConnectionFactory,
+        SqlStrings sqlStrings)
     {
-        _dbConnectionFactory = dbConnectionFactory;
         _context = new UnitOfWorkContext(dbConnectionFactory);
 
         Envelopes = new EnvelopeRepository(sqlStrings, _context);
@@ -21,10 +28,16 @@ internal sealed class UnitOfWork : IUnitOfWork, IDisposable
         Outbox = new OutboxRepository(sqlStrings, _context);
     }
 
+    /// <inheritdoc />
     public IEnvelopeRepository Envelopes { get; }
+
+    /// <inheritdoc />
     public ISnapshotRepository Snapshots { get; }
+
+    /// <inheritdoc />
     public IOutboxRepository Outbox { get; }
 
+    /// <inheritdoc />
     public Task CommitAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -34,6 +47,7 @@ internal sealed class UnitOfWork : IUnitOfWork, IDisposable
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         _context.Dispose();

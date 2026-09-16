@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>SQL Server event sourcing persistence driver.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+        <PackageTags>Event Sourcing, SQL, MSSQL, SQL Server</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Migrations.SqlServer\DandyDotnet.Persistence.Sql.Migrations.SqlServer.csproj" />
+      <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.SqlServer\DandyDotnet.Persistence.Sql.SqlServer.csproj" />
+      <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -74,6 +74,23 @@ public sealed class ServiceScannerTests
     }
 
     [Fact]
+    public void GetServiceDescriptors_CreatesAKeyedDescriptorForEachImplementationKey()
+    {
+        var descriptors = new ServiceScannerBuilder()
+            .ScanIn(TestAssembly)
+            .ScanFor<IHandler<Request, string>>(builder => builder
+                .When(type => type == typeof(RequestHandler))
+                .WithKey(type => type.Name))
+            .Build()
+            .GetServiceDescriptors()
+            .ToArray();
+
+        var descriptor = Assert.Single(descriptors);
+        Assert.True(descriptor.IsKeyedService);
+        Assert.Equal(nameof(RequestHandler), descriptor.ServiceKey);
+    }
+
+    [Fact]
     public void GetServiceDescriptors_CreatesKeyedFactoryDescriptor()
     {
         Func<IServiceProvider, object?, object> factory = (_, key) => new RequestHandler();
@@ -130,8 +147,8 @@ public sealed class ServiceScannerTests
     public void GetServiceDescriptors_FindsOpenGenericImplementation()
     {
         var descriptor = Assert.Single(CreateScanner(typeof(IOpenGenericHandler<>), builder => builder
-                .When(_ => true)
-                .AsOpenGeneric())
+                .When(type => type.IsGenericTypeDefinition)
+                .AllowOpenGeneric())
             .GetServiceDescriptors());
 
         Assert.Equal(typeof(IOpenGenericHandler<>), descriptor.ServiceType);
@@ -139,15 +156,40 @@ public sealed class ServiceScannerTests
     }
 
     [Fact]
-    public void GetServiceDescriptors_OpenGenericScanIgnoresClosedImplementations()
+    public void GetServiceDescriptors_AllowsOpenAndClosedImplementationsWhenConfigured()
     {
         var descriptors = CreateScanner(typeof(IOpenGenericHandler<>), builder => builder
-                .When(_ => true)
-                .AsOpenGeneric()
-                .When(type => type == typeof(ClosedGenericHandler)))
+                .When(type => type is { Namespace: not null } && type.Namespace == typeof(OpenGenericHandler<>).Namespace)
+                .AllowOpenGeneric())
+            .GetServiceDescriptors()
+            .ToArray();
+
+        Assert.Equal(
+            [
+                typeof(IOpenGenericHandler<>),
+                typeof(IOpenGenericHandler<Request>)
+            ],
+            descriptors.Select(descriptor => descriptor.ServiceType).OrderBy(type => type.FullName));
+        Assert.Contains(descriptors, descriptor =>
+            descriptor.ServiceType == typeof(IOpenGenericHandler<>) &&
+            descriptor.ImplementationType == typeof(OpenGenericHandler<>));
+        Assert.Contains(descriptors, descriptor =>
+            descriptor.ServiceType == typeof(IOpenGenericHandler<Request>) &&
+            descriptor.ImplementationType == typeof(ClosedGenericHandler));
+    }
+
+    [Fact]
+    public void GetServiceDescriptors_AllowsClosedImplementationsWhenConfiguredForOpenGenerics()
+    {
+        var descriptors = CreateScanner(typeof(IOpenGenericHandler<>), builder => builder
+                .When(type => type == typeof(ClosedGenericHandler))
+                .AllowOpenGeneric()
+                )
             .GetServiceDescriptors();
 
-        Assert.Empty(descriptors);
+        var descriptor = Assert.Single(descriptors);
+        Assert.Equal(typeof(IOpenGenericHandler<Request>), descriptor.ServiceType);
+        Assert.Equal(typeof(ClosedGenericHandler), descriptor.ImplementationType);
     }
 
     [Fact]

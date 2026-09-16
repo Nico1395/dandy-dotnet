@@ -26,18 +26,29 @@ internal sealed class SubscriptionManager(
         // Only resolve consumers that are configured with the right mode and that have not yet successfully consumed the event.
         // This way we can avoid resolving subscribers that should not receive the event or won't be invoked.
 
-        var subscribers = subscriberConfigurations
-            .Where(c => modes.Contains(c.Mode))
-            .Where(c => !outboxEnvelope.HasConsumed(c.Key))
-            .Select(c => (c, serviceProvider.GetRequiredService(c.AbstractionType)));
+        var subscribersToNotify = subscriberConfigurations
+            .Where(configuration => modes.Contains(configuration.Mode))
+            .Where(configuration => !outboxEnvelope.HasConsumed(configuration.Key))
+            .Where(configuration =>
+            {
+                var consumer = outboxEnvelope.Consumers.SingleOrDefault(c => c.ConsumerKey == configuration.Key);
+                var maxRetries = configuration.Retries ?? eventStoreConfiguration.Outbox.DefaultRetries;
 
-        foreach (var (configuration, subscriber) in subscribers)
+                // Either no consumer record can be found and this is the subscriber's first try, or it still has retries left.
+                return consumer == null || consumer.CanRetry(maxRetries);
+            })
+            .Select(configuration => (subscriber: configuration, serviceProvider.GetRequiredService(configuration.AbstractionType)));
+
+        foreach (var (configuration, subscriber) in subscribersToNotify)
         {
+            var consumer = outboxEnvelope.Consumers.SingleOrDefault(c => c.ConsumerKey == configuration.Key);
             var context = new SubscriberContext
             {
                 EventStore = eventStore ??= serviceProvider.GetRequiredService<IEventStore>(),
                 Envelope = outboxEnvelope,
                 Mode = configuration.Mode,
+                MaxRetries = configuration.Retries ?? eventStoreConfiguration.Outbox.DefaultRetries,
+                RetryCount = consumer?.Tries ?? 0,
             };
 
             try

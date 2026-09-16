@@ -2,14 +2,19 @@ using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite;
 
+/// <summary>
+///     Represents SQLite-specific SQL command strings for event store persistence operations.
+/// </summary>
 internal sealed class SqliteSqlStrings : SqlStrings
 {
+    /// <inheritdoc />
     public override string GetStreamVersion => $"""
-                                                    SELECT MAX(Version)
+                                                    SELECT COALESCE(MAX(Version) + 1, 0)
                                                     FROM {Tables.Envelopes.Table}
                                                     WHERE {Tables.Envelopes.StreamId} = @StreamId
                                                 """;
 
+    /// <inheritdoc />
     public override string GetStream => $"""
                                               SELECT
                                                   {Tables.Envelopes.StreamId} AS StreamId,
@@ -25,6 +30,7 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                               AND (@ToTimestamp IS NULL OR {Tables.Envelopes.Timestamp} <= @ToTimestamp)
                                           """;
 
+    /// <inheritdoc />
     public override string InsertEnvelope => $"""
                                                  INSERT INTO {Tables.Envelopes.Table} (
                                                      {Tables.Envelopes.StreamId},
@@ -40,6 +46,7 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                      @Payload)
                                              """;
 
+    /// <inheritdoc />
     public override string GetLastSnapshot => $"""
                                                    SELECT
                                                        {Tables.Snapshots.StreamId} AS StreamId,
@@ -53,6 +60,7 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                    LIMIT 1
                                                """;
 
+    /// <inheritdoc />
     public override string StoreSnapshot => $"""
                                                  INSERT INTO {Tables.Snapshots.Table} (
                                                      {Tables.Snapshots.StreamId},
@@ -68,6 +76,7 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                      @AggregateKey)
                                              """;
 
+    /// <inheritdoc />
     public override string GetOutboxEnvelopes => $"""
                                                         SELECT
                                                             e.{Tables.OutboxEnvelopes.StreamId} AS StreamId,
@@ -80,13 +89,15 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                             c.{Tables.OutboxEnvelopeConsumers.ConsumerKey} AS ConsumerKey,
                                                             c.{Tables.OutboxEnvelopeConsumers.Type} AS ConsumerType,
                                                             c.{Tables.OutboxEnvelopeConsumers.ConsumedAt} AS ConsumedAt,
-                                                            c.{Tables.OutboxEnvelopeConsumers.FailedAt} AS FailedAt
+                                                            c.{Tables.OutboxEnvelopeConsumers.FailedAt} AS FailedAt,
+                                                            c.{Tables.OutboxEnvelopeConsumers.Tries} AS Tries
                                                         FROM {Tables.OutboxEnvelopes.Table} e
                                                         LEFT JOIN {Tables.OutboxEnvelopeConsumers.Table} c
                                                             ON c.{Tables.OutboxEnvelopeConsumers.StreamId} = e.{Tables.OutboxEnvelopes.StreamId}
                                                             AND c.{Tables.OutboxEnvelopeConsumers.Version} = e.{Tables.OutboxEnvelopes.Version}
                                                     """;
 
+    /// <inheritdoc />
     public override string InsertOutboxEnvelopes => $"""
                                                          INSERT INTO {Tables.OutboxEnvelopes.Table} (
                                                              {Tables.OutboxEnvelopes.StreamId},
@@ -102,6 +113,7 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                              @EventKey)
                                                      """;
 
+    /// <inheritdoc />
     public override string DeleteOutboxEnvelopes => $"""
                                                          DELETE FROM {Tables.OutboxEnvelopeConsumers.Table}
                                                          WHERE {Tables.OutboxEnvelopeConsumers.StreamId} = @StreamId
@@ -111,6 +123,7 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                          AND {Tables.OutboxEnvelopes.Version} = @Version
                                                      """;
 
+    /// <inheritdoc />
     public override string InsertOutboxEnvelopeConsumers => $"""
                                                                 INSERT INTO {Tables.OutboxEnvelopeConsumers.Table} (
                                                                     {Tables.OutboxEnvelopeConsumers.StreamId},
@@ -118,21 +131,25 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                                     {Tables.OutboxEnvelopeConsumers.ConsumerKey},
                                                                     {Tables.OutboxEnvelopeConsumers.Type},
                                                                     {Tables.OutboxEnvelopeConsumers.ConsumedAt},
-                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt})
+                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt},
+                                                                    {Tables.OutboxEnvelopeConsumers.Tries})
                                                                 VALUES (
                                                                     @StreamId,
                                                                     @Version,
                                                                     @ConsumerKey,
                                                                     @Type,
                                                                     @ConsumedAt,
-                                                                    @FailedAt)
+                                                                    @FailedAt,
+                                                                    @Tries)
                                                             """;
 
+    /// <inheritdoc />
     public override string UpdateOutboxEnvelopeConsumers => $"""
                                                                 UPDATE {Tables.OutboxEnvelopeConsumers.Table}
                                                                 SET
                                                                     {Tables.OutboxEnvelopeConsumers.ConsumedAt} = @ConsumedAt,
-                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt} = @FailedAt
+                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt} = @FailedAt,
+                                                                    {Tables.OutboxEnvelopeConsumers.Tries} = @Tries
                                                                 WHERE {Tables.OutboxEnvelopeConsumers.StreamId} = @StreamId
                                                                 AND {Tables.OutboxEnvelopeConsumers.Version} = @Version
                                                                 AND {Tables.OutboxEnvelopeConsumers.ConsumerKey} = @ConsumerKey

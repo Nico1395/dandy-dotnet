@@ -1,5 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+	<PropertyGroup>
+		<EnablePackageValidation>true</EnablePackageValidation>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageId>DandyDotnet.Patterns.Mediator</PackageId>
+		<Authors>Nicolai Wolf</Authors>
+		<Description>Implementation of mediator pattern abstractions and configuration API.</Description>
+		<RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+		<PackageTags>Mediator, Mediator Pattern</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../../../README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
 	<ItemGroup>
 	  <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
 	  <ProjectReference Include="..\DandyDotnet.Patterns.Mediator.Abstractions\DandyDotnet.Patterns.Mediator.Abstractions.csproj" />

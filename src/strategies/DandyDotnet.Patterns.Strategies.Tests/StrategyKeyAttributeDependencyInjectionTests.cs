@@ -26,7 +26,7 @@ public class StrategyKeyAttributeDependencyInjectionTests
     public void ServiceCollectionExtensions_AddStrategiesByKeyAttributeFromAssemblies_CorrectlyAddsStrategies()
     {
         var assembly = GetType().Assembly;
-        var serviceProvider = new ServiceCollection().AddDandyStrategies(cfg => cfg.ScanInAssemblies(assembly)).BuildServiceProvider();
+        var serviceProvider = new ServiceCollection().AddStrategies(cfg => cfg.ScanInAssemblies(assembly)).BuildServiceProvider();
 
         // Assert for a
         var a = serviceProvider.GetKeyedService<IStrategy<AssemblyScanningStrategyDefinition>>(_stratAKey);

@@ -19,18 +19,20 @@
     <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.csproj" />
     <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
   </Folder>
-  <Folder Name="/EventDrivenArchitecture/RabbitMQ/Samples/">
-    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Consumer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Consumer.csproj" />
-    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Producer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Producer.csproj" />
-    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared.csproj" />
+  <Folder Name="/Http/">
+    <Project Path="http\DandyDotnet.Http.StaticEndpoints.Tests\DandyDotnet.Http.StaticEndpoints.Tests.csproj" />
+    <Project Path="http\DandyDotnet.Http.StaticEndpoints\DandyDotnet.Http.StaticEndpoints.csproj" />
   </Folder>
   <Folder Name="/Patterns/" />
   <Folder Name="/Patterns/EventSourcing/">
     <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Abstractions/DandyDotnet.Patterns.EventSourcing.Abstractions.csproj" />
+    <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Tests/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Tests.csproj" />
+    <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests.csproj" />
+    <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer.Tests/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer.Tests.csproj" />
+    <Project Path="event-sourcing/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer/DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
-    <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing.Tests\DandyDotnet.Patterns.EventSourcing.Tests.csproj" />
     <Project Path="event-sourcing\DandyDotnet.Patterns.EventSourcing\DandyDotnet.Patterns.EventSourcing.csproj" />
   </Folder>
   <Folder Name="/Patterns/Mediator/">
@@ -58,7 +60,7 @@
     <Project Path="persistence\DandyDotnet.Persistence.Sql.Sqlite\DandyDotnet.Persistence.Sql.Sqlite.csproj" />
   </Folder>
   <Folder Name="/Persistence/Migrations/">
-    <Project Path="DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests.csproj" />
+    <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests/DandyDotnet.Persistence.Sql.Migrations.SqlServer.Tests.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests/DandyDotnet.Persistence.Sql.Migrations.Postgres.Tests.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Postgres/DandyDotnet.Persistence.Sql.Migrations.Postgres.csproj" />
     <Project Path="persistence/DandyDotnet.Persistence.Sql.Migrations.Sqlite.Tests/DandyDotnet.Persistence.Sql.Migrations.Sqlite.Tests.csproj" />

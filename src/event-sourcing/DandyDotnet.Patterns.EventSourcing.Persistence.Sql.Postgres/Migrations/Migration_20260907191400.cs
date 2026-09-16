@@ -1,68 +1,74 @@
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
-using FluentMigrator;
+using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Migrations;
 
-[Migration(20260907191400, "Creating schema and tables")]
-public class Migration_20260907191400 : Migration
+public sealed class Migration_20260907191400 : IMigration
 {
-    public override void Up()
+    public long Version => 20260907191400;
+
+    public void Up(IMigrationBuilder builder)
     {
-        Create.Schema(Sql.Constants.Schema.Name);
+        builder.Execute($"""
+                         CREATE SCHEMA IF NOT EXISTS "{Sql.Constants.Schema.Name}";
 
-        Create.Table(Tables.Envelopes.Table)
-            .WithColumn(Tables.Envelopes.StreamId).AsString(255).NotNullable()
-            .WithColumn(Tables.Envelopes.Payload).AsString(int.MaxValue).NotNullable()
-            .WithColumn(Tables.Envelopes.Version).AsInt64().NotNullable()
-            .WithColumn(Tables.Envelopes.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.Envelopes.EventKey).AsString(255).NotNullable();
-        Create.PrimaryKey("pk_envelopes")
-            .OnTable(Tables.Envelopes.Table)
-            .Columns(Tables.Envelopes.StreamId, Tables.Envelopes.Version);
+                         CREATE TABLE "{Sql.Constants.Schema.Name}"."{Tables.Envelopes.Table}" (
+                             "{Tables.Envelopes.StreamId}" VARCHAR({Tables.Envelopes.StreamIdLength}) NOT NULL,
+                             "{Tables.Envelopes.Payload}" TEXT NOT NULL,
+                             "{Tables.Envelopes.Version}" BIGINT NOT NULL,
+                             "{Tables.Envelopes.Timestamp}" TIMESTAMP NOT NULL,
+                             "{Tables.Envelopes.EventKey}" VARCHAR({Tables.Envelopes.EventKeyLength}) NOT NULL,
+                             CONSTRAINT "pk_envelopes" PRIMARY KEY ("{Tables.Envelopes.StreamId}", "{Tables.Envelopes.Version}")
+                         );
 
-        Create.Table(Tables.Snapshots.Table)
-            .WithColumn(Tables.Snapshots.StreamId).AsString(255).NotNullable()
-            .WithColumn(Tables.Snapshots.Payload).AsString(int.MaxValue).NotNullable()
-            .WithColumn(Tables.Snapshots.Version).AsInt64().NotNullable()
-            .WithColumn(Tables.Snapshots.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.Snapshots.AggregateKey).AsString(255).NotNullable();
-        Create.PrimaryKey("pk_snapshots")
-            .OnTable(Tables.Snapshots.Table)
-            .Columns(Tables.Snapshots.StreamId, Tables.Snapshots.Version);
+                         CREATE TABLE "{Sql.Constants.Schema.Name}"."{Tables.Snapshots.Table}" (
+                             "{Tables.Snapshots.StreamId}" VARCHAR({Tables.Snapshots.StreamIdLength}) NOT NULL,
+                             "{Tables.Snapshots.Payload}" TEXT NOT NULL,
+                             "{Tables.Snapshots.Version}" BIGINT NOT NULL,
+                             "{Tables.Snapshots.Timestamp}" TIMESTAMP NOT NULL,
+                             "{Tables.Snapshots.AggregateKey}" VARCHAR({Tables.Snapshots.AggregateKeyLength}) NOT NULL,
+                             CONSTRAINT "pk_snapshots" PRIMARY KEY ("{Tables.Snapshots.StreamId}", "{Tables.Snapshots.Version}")
+                         );
 
-        Create.Table(Tables.OutboxEnvelopes.Table)
-            .WithColumn(Tables.OutboxEnvelopes.StreamId).AsString(255).NotNullable()
-            .WithColumn(Tables.OutboxEnvelopes.Version).AsInt64().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopes.Payload).AsString(int.MaxValue).NotNullable()
-            .WithColumn(Tables.OutboxEnvelopes.Timestamp).AsDateTime().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopes.EventKey).AsString(255).NotNullable();
-        Create.PrimaryKey("pk_outbox_envelopes")
-            .OnTable(Tables.OutboxEnvelopes.Table)
-            .Columns(Tables.OutboxEnvelopes.StreamId, Tables.OutboxEnvelopes.Version);
+                         CREATE TABLE "{Sql.Constants.Schema.Name}"."{Tables.OutboxEnvelopes.Table}" (
+                             "{Tables.OutboxEnvelopes.StreamId}" VARCHAR({Tables.OutboxEnvelopes.StreamIdLength}) NOT NULL,
+                             "{Tables.OutboxEnvelopes.Version}" BIGINT NOT NULL,
+                             "{Tables.OutboxEnvelopes.Payload}" TEXT NOT NULL,
+                             "{Tables.OutboxEnvelopes.Timestamp}" TIMESTAMP NOT NULL,
+                             "{Tables.OutboxEnvelopes.EventKey}" VARCHAR({Tables.OutboxEnvelopes.EventKeyLength}) NOT NULL,
+                             CONSTRAINT "pk_outbox_envelopes" PRIMARY KEY ("{Tables.OutboxEnvelopes.StreamId}", "{Tables.OutboxEnvelopes.Version}")
+                         );
 
-        Create.Table(Tables.OutboxEnvelopeConsumers.Table)
-            .WithColumn(Tables.OutboxEnvelopeConsumers.StreamId).AsString(255).NotNullable()
-            .WithColumn(Tables.OutboxEnvelopeConsumers.Version).AsInt64().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopeConsumers.ConsumerKey).AsString(255).NotNullable()
-            .WithColumn(Tables.OutboxEnvelopeConsumers.Type).AsInt16().NotNullable()
-            .WithColumn(Tables.OutboxEnvelopeConsumers.ConsumedAt).AsDateTime().Nullable()
-            .WithColumn(Tables.OutboxEnvelopeConsumers.FailedAt).AsDateTime().Nullable();
-        Create.PrimaryKey("pk_outbox_envelope_consumers")
-            .OnTable(Tables.OutboxEnvelopeConsumers.Table)
-            .Columns(Tables.OutboxEnvelopeConsumers.StreamId, Tables.OutboxEnvelopeConsumers.Version, Tables.OutboxEnvelopeConsumers.ConsumerKey);
-
-        Create.ForeignKey("fk_outbox_envelope_consumers")
-            .FromTable(Tables.OutboxEnvelopeConsumers.Table).ForeignColumns(Tables.OutboxEnvelopeConsumers.StreamId, Tables.OutboxEnvelopeConsumers.Version)
-            .ToTable(Tables.OutboxEnvelopes.Table).PrimaryColumns(Tables.OutboxEnvelopes.StreamId, Tables.OutboxEnvelopes.Version);
+                         CREATE TABLE "{Sql.Constants.Schema.Name}"."{Tables.OutboxEnvelopeConsumers.Table}" (
+                             "{Tables.OutboxEnvelopeConsumers.StreamId}" VARCHAR({Tables.OutboxEnvelopeConsumers.StreamIdLength}) NOT NULL,
+                             "{Tables.OutboxEnvelopeConsumers.Version}" BIGINT NOT NULL,
+                             "{Tables.OutboxEnvelopeConsumers.ConsumerKey}" VARCHAR({Tables.OutboxEnvelopeConsumers.ConsumerKeyLength}) NOT NULL,
+                             "{Tables.OutboxEnvelopeConsumers.Type}" SMALLINT NOT NULL,
+                             "{Tables.OutboxEnvelopeConsumers.ConsumedAt}" TIMESTAMP NULL,
+                             "{Tables.OutboxEnvelopeConsumers.FailedAt}" TIMESTAMP NULL,
+                             "{Tables.OutboxEnvelopeConsumers.Tries}" INT NOT NULL,
+                             CONSTRAINT "pk_outbox_envelope_consumers" PRIMARY KEY (
+                                 "{Tables.OutboxEnvelopeConsumers.StreamId}",
+                                 "{Tables.OutboxEnvelopeConsumers.Version}",
+                                 "{Tables.OutboxEnvelopeConsumers.ConsumerKey}"
+                             ),
+                             CONSTRAINT "fk_outbox_envelope_consumers"
+                                 FOREIGN KEY ("{Tables.OutboxEnvelopeConsumers.StreamId}", "{Tables.OutboxEnvelopeConsumers.Version}")
+                                 REFERENCES "{Sql.Constants.Schema.Name}"."{Tables.OutboxEnvelopes.Table}" (
+                                     "{Tables.OutboxEnvelopes.StreamId}", "{Tables.OutboxEnvelopes.Version}"
+                                 )
+                         );
+                         """);
     }
 
-    public override void Down()
+    public void Down(IMigrationBuilder builder)
     {
-        Delete.ForeignKey("fk_outbox_envelope_consumers");
-        Delete.Table(Tables.OutboxEnvelopeConsumers.Table);
-        Delete.Table(Tables.OutboxEnvelopes.Table);
-        Delete.Table(Tables.Snapshots.Table);
-        Delete.Table(Tables.Envelopes.Table);
-        Delete.Schema(Sql.Constants.Schema.Name);
+        builder.Execute($"""
+                         DROP TABLE "{Sql.Constants.Schema.Name}"."{Tables.OutboxEnvelopeConsumers.Table}";
+                         DROP TABLE "{Sql.Constants.Schema.Name}"."{Tables.OutboxEnvelopes.Table}";
+                         DROP TABLE "{Sql.Constants.Schema.Name}"."{Tables.Snapshots.Table}";
+                         DROP TABLE "{Sql.Constants.Schema.Name}"."{Tables.Envelopes.Table}";
+                         DROP SCHEMA "{Sql.Constants.Schema.Name}";
+                         """);
     }
 }

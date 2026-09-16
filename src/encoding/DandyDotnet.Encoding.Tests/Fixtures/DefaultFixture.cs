@@ -8,6 +8,6 @@ public sealed class DefaultFixture : Fixture
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddDandyEncoder(cfg => cfg.UseUtf8PayloadEncoder());
+        services.AddEncoder(cfg => cfg.UseUtf8PayloadEncoder());
     }
 }

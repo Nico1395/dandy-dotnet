@@ -1,9 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>DandyDotnet.Encoding</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>Internal encoding implementations and configuration API.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+        <PackageTags>Encoding</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\dependency-injection\DandyDotnet.DependencyInjection\DandyDotnet.DependencyInjection.csproj" />
         <ProjectReference Include="..\DandyDotnet.Encoding.Abstractions\DandyDotnet.Encoding.Abstractions.csproj" />
     </ItemGroup>
+
 </Project>
