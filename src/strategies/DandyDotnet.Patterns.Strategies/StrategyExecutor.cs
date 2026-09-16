@@ -3,8 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.Strategies;
 
+/// <summary>
+///     Provides the standard implementation of <see cref="IStrategyExecutor" />, resolving strategies from the service provider
+///     and executing them synchronously or asynchronously.
+/// </summary>
+/// <param name="serviceProvider">The service provider used to resolve strategy implementations.</param>
 internal sealed class StrategyExecutor(IServiceProvider serviceProvider) : IStrategyExecutor
 {
+    /// <inheritdoc />
     public void Execute<TDefinition>(TDefinition definition)
         where TDefinition : IStrategyDefinition
     {
@@ -12,6 +18,7 @@ internal sealed class StrategyExecutor(IServiceProvider serviceProvider) : IStra
         strategy.Execute(definition);
     }
 
+    /// <inheritdoc />
     public TReturn Execute<TReturn>(IStrategyDefinition<TReturn> definition)
     {
         var strategyType = typeof(IStrategy<,>).MakeGenericType(definition.GetType(), typeof(TReturn));
@@ -26,6 +33,7 @@ internal sealed class StrategyExecutor(IServiceProvider serviceProvider) : IStra
         return castedResult;
     }
 
+    /// <inheritdoc />
     public Task ExecuteAsync<TDefinition>(TDefinition definition, CancellationToken cancellationToken)
         where TDefinition : IAsyncStrategyDefinition
     {
@@ -33,6 +41,7 @@ internal sealed class StrategyExecutor(IServiceProvider serviceProvider) : IStra
         return strategy.ExecuteAsync(definition, cancellationToken);
     }
 
+    /// <inheritdoc />
     public async Task<TReturn> ExecuteAsync<TReturn>(IAsyncStrategyDefinition<TReturn> definition, CancellationToken cancellationToken = default)
     {
         var strategyType = typeof(IAsyncStrategy<,>).MakeGenericType(definition.GetType(), typeof(TReturn));
