@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel;
+namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure;
 
 public static class Assemblies
 {

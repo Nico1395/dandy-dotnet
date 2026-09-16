@@ -1,7 +1,8 @@
-using DandyDotnet.Samples.OnlineShop.Api.Orders;
-using DandyDotnet.Samples.OnlineShop.Api.Payment;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel;
-using DandyDotnet.Samples.OnlineShop.Api.Users;
+using DandyDotnet.Samples.OnlineShop.Api.Carts.Infrastructure;
+using DandyDotnet.Samples.OnlineShop.Api.Orders.Infrastructure;
+using DandyDotnet.Samples.OnlineShop.Api.Payment.Infrastructure;
+using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure;
+using DandyDotnet.Samples.OnlineShop.Api.Users.Infrastructure;
 
 namespace DandyDotnet.Samples.OnlineShop.Api;
 
@@ -15,6 +16,7 @@ internal static class DependencyInjection
         services.AddOnlineShopApiOrders();
         services.AddOnlineShopApiUsers();
         services.AddOnlineShopApiPayment();
+        services.AddOnlineShopApiCarts();
 
         return services;
     }

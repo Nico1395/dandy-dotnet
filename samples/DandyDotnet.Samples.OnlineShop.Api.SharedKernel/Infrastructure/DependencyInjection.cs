@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel;
+namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure;
 
 public static class DependencyInjection
 {

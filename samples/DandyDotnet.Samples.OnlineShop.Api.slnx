@@ -84,6 +84,7 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
+  <Project Path="DandyDotnet.Samples.OnlineShop.Api.Carts\DandyDotnet.Samples.OnlineShop.Api.Carts.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.Orders/DandyDotnet.Samples.OnlineShop.Api.Orders.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.Payment/DandyDotnet.Samples.OnlineShop.Api.Payment.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.SharedKernel\DandyDotnet.Samples.OnlineShop.Api.SharedKernel.csproj" />

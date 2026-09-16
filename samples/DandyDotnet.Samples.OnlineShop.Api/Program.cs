@@ -1,3 +1,5 @@
+using DandyDotnet.Http.StaticEndpoints;
+
 namespace DandyDotnet.Samples.OnlineShop.Api;
 
 internal sealed class Program
@@ -18,6 +20,8 @@ internal sealed class Program
 
         app.UseHttpsRedirection();
         app.UseAuthorization();
+
+        app.MapStaticEndpoints();
 
         app.Run();
     }

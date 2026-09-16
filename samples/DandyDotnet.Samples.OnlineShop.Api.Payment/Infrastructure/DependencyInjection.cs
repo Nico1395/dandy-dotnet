@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DandyDotnet.Samples.OnlineShop.Api.Payment;
+namespace DandyDotnet.Samples.OnlineShop.Api.Payment.Infrastructure;
 
 public static class DependencyInjection
 {

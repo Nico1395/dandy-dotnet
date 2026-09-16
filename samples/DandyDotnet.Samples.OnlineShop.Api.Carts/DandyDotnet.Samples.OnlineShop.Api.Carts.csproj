@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.SharedKernel\DandyDotnet.Samples.OnlineShop.Api.SharedKernel.csproj" />
+  </ItemGroup>
+</Project>
