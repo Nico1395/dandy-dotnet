@@ -19,4 +19,9 @@ public sealed class ConsumerContext(
     /// Gets the channel declaration configuration associated with the delivery.
     /// </summary>
     public IReadOnlyChannelConfiguration ChannelConfiguration { get; } = channelConfiguration;
+
+    public bool IsRetry()
+    {
+        return DeliverArgs.Redelivered;
+    }
 }
