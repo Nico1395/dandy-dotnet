@@ -3,11 +3,37 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.DependencyInjection.Scanning;
 
+/// <summary>
+///     Scans assemblies for implementation types and creates service descriptors for matching service types.
+/// </summary>
+/// <remarks>
+///     <para>
+///         The scanner considers non-abstract class types from the configured assemblies. Generic type definitions are
+///         excluded unless the matching <see cref="ScanDescriptor" /> allows open generic registrations.
+///     </para>
+///     <para>
+///         For each configured descriptor, matching implementation types are registered for the configured abstract type,
+///         or for the closed service types they implement when scanning for an open generic service type.
+///     </para>
+/// </remarks>
+/// <param name="descriptors">The scan descriptors keyed by their abstract service type.</param>
+/// <param name="assemblies">The assemblies to scan for implementation types.</param>
 public sealed class ServiceScanner(IReadOnlyDictionary<Type, ScanDescriptor> descriptors, Assembly[] assemblies)
 {
+    /// <summary>
+    ///     Gets the scan descriptors keyed by their abstract service type.
+    /// </summary>
     public IReadOnlyDictionary<Type, ScanDescriptor> Descriptors { get; } = descriptors;
+
+    /// <summary>
+    ///     Gets the assemblies scanned for implementation types.
+    /// </summary>
     public Assembly[] Assemblies { get; } = assemblies;
 
+    /// <summary>
+    ///     Gets the service descriptors produced by scanning the configured assemblies.
+    /// </summary>
+    /// <returns>The service descriptors for discovered implementation types.</returns>
     public IEnumerable<ServiceDescriptor> GetServiceDescriptors()
     {
         // Ruling out value types and abstract types
