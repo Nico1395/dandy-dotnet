@@ -14,7 +14,7 @@ public sealed class ConnectivityConfigurationBuilder
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Enables <see cref="RabbitMQ.Client.ConnectionFactory.AutomaticRecoveryEnabled"/> and <see cref="ConnectionFactory.TopologyRecoveryEnabled"/>
+    ///         Enables <see cref="ConnectionFactory.AutomaticRecoveryEnabled"/> and <see cref="ConnectionFactory.TopologyRecoveryEnabled"/>
     ///         to create a fail-over connection to the cluster as well.
     ///     </para>
     /// </remarks>
