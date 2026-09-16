@@ -2,6 +2,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Fixtures;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
+using RabbitMQ.Client;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests;
 
@@ -49,6 +50,35 @@ public sealed class ProducerConsumerIntegrationTests(IntegrationFixture fixture)
 
         Assert.Equal(first.Message.Id, second.Message.Id);
         Assert.True(second.Context.DeliverArgs.Redelivered);
+    }
+
+    [Fact]
+    public async Task ProduceAsync_WithExplicitExchangeAndRoutingKey_IsConsumed()
+    {
+        IntegrationMessageConsumer.Reset();
+        var message = new IntegrationMessage { Content = "explicit" };
+
+        await fixture.CreateProducer().ProduceAsync(fixture.ExchangeName, fixture.RoutingKey, message, CancellationToken.None);
+
+        Assert.Equal(message.Content, (await WaitForMessageAsync()).Message.Content);
+    }
+
+    [Fact]
+    public async Task ProduceAsync_WithEmptyRoutingKeys_Throws()
+    {
+        var message = new IntegrationMessage { Content = "invalid" };
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            fixture.CreateProducer().ProduceAsync(fixture.ExchangeName, [], message, null, CancellationToken.None));
+    }
+
+    [Fact]
+    public async Task ProduceAsync_WithWhitespaceExchange_Throws()
+    {
+        var message = new IntegrationMessage { Content = "invalid" };
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            fixture.CreateProducer().ProduceAsync(" ", fixture.RoutingKey, message, null, CancellationToken.None));
     }
 
     private static async Task<(IntegrationMessage Message, ConsumerContext Context)> WaitForMessageAsync(int minimumCount = 1)
