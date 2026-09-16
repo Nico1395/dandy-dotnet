@@ -6,7 +6,7 @@ public sealed class AggregateConfiguration
 {
     public string Key { get; internal set; } = string.Empty;
     public required Type RuntimeType { get; init; }
-    public Type? FactoryType { get; set; }
+    public Type? FactoryType { get; internal set; }
     public Func<object?, IReadOnlyEnvelope[], object>? FactoryFunc { get; internal set; }
     public int SnapshotInterval { get; internal set; } = -1;
 

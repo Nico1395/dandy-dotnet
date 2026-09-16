@@ -56,5 +56,6 @@ public static class Tables
         public const string FailedAt = "failed_at";
         public const string ConsumerKey = "consumer_key";
         public const int ConsumerKeyLength = 255;
+        public const string Tries = "tries";
     }
 }

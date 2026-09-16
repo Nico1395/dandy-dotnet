@@ -80,7 +80,8 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                             c.{Tables.OutboxEnvelopeConsumers.ConsumerKey} AS ConsumerKey,
                                                             c.{Tables.OutboxEnvelopeConsumers.Type} AS ConsumerType,
                                                             c.{Tables.OutboxEnvelopeConsumers.ConsumedAt} AS ConsumedAt,
-                                                            c.{Tables.OutboxEnvelopeConsumers.FailedAt} AS FailedAt
+                                                            c.{Tables.OutboxEnvelopeConsumers.FailedAt} AS FailedAt,
+                                                            c.{Tables.OutboxEnvelopeConsumers.Tries} AS Tries
                                                         FROM {Tables.OutboxEnvelopes.Table} e
                                                         LEFT JOIN {Tables.OutboxEnvelopeConsumers.Table} c
                                                             ON c.{Tables.OutboxEnvelopeConsumers.StreamId} = e.{Tables.OutboxEnvelopes.StreamId}
@@ -118,21 +119,24 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                                     {Tables.OutboxEnvelopeConsumers.ConsumerKey},
                                                                     {Tables.OutboxEnvelopeConsumers.Type},
                                                                     {Tables.OutboxEnvelopeConsumers.ConsumedAt},
-                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt})
+                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt},
+                                                                    {Tables.OutboxEnvelopeConsumers.Tries})
                                                                 VALUES (
                                                                     @StreamId,
                                                                     @Version,
                                                                     @ConsumerKey,
                                                                     @Type,
                                                                     @ConsumedAt,
-                                                                    @FailedAt)
+                                                                    @FailedAt,
+                                                                    @Tries)
                                                             """;
 
     public override string UpdateOutboxEnvelopeConsumers => $"""
                                                                 UPDATE {Tables.OutboxEnvelopeConsumers.Table}
                                                                 SET
                                                                     {Tables.OutboxEnvelopeConsumers.ConsumedAt} = @ConsumedAt,
-                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt} = @FailedAt
+                                                                    {Tables.OutboxEnvelopeConsumers.FailedAt} = @FailedAt,
+                                                                    {Tables.OutboxEnvelopeConsumers.Tries} = @Tries
                                                                 WHERE {Tables.OutboxEnvelopeConsumers.StreamId} = @StreamId
                                                                 AND {Tables.OutboxEnvelopeConsumers.Version} = @Version
                                                                 AND {Tables.OutboxEnvelopeConsumers.ConsumerKey} = @ConsumerKey

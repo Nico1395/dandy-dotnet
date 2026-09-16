@@ -25,6 +25,12 @@ public sealed class SubscriberConfigurationBuilder(Type subscriberType, Type eve
         return this;
     }
 
+    public SubscriberConfigurationBuilder WithRetries(int retries)
+    {
+        _configuration.Retries = retries;
+        return this;
+    }
+
     internal SubscriberConfiguration Build()
     {
         return _configuration;

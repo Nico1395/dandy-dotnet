@@ -46,6 +46,7 @@ public sealed class Migration_20260907191400 : IMigration
                              "{Tables.OutboxEnvelopeConsumers.Type}" SMALLINT NOT NULL,
                              "{Tables.OutboxEnvelopeConsumers.ConsumedAt}" TIMESTAMP NULL,
                              "{Tables.OutboxEnvelopeConsumers.FailedAt}" TIMESTAMP NULL,
+                             "{Tables.OutboxEnvelopeConsumers.Tries}" INT NOT NULL,
                              CONSTRAINT "pk_outbox_envelope_consumers" PRIMARY KEY (
                                  "{Tables.OutboxEnvelopeConsumers.StreamId}",
                                  "{Tables.OutboxEnvelopeConsumers.Version}",
