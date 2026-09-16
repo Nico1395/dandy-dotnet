@@ -131,6 +131,27 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
     }
 
     [Fact]
+    public async Task CheckAndProcessOutbox_WhenMaximumRetriesAreReached_ShouldStopProcessingConsumer()
+    {
+        SubscriberRecorder.Clear();
+        var id = Guid.NewGuid();
+        using (var scope = fixture.CreateScope())
+            await scope.ServiceProvider.GetRequiredService<IEventStore>().AppendAsync(id.ToString(), new FailingEvent(id), CancellationToken.None);
+
+        for (var attempt = 0; attempt < 4; attempt++)
+        {
+            using var scope = fixture.CreateScope();
+            await scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+        }
+
+        Assert.Equal(3, SubscriberRecorder.Exceptions.Count);
+        Assert.Equal(3, SubscriberRecorder.Calls.Count(c => c.StartsWith("handler:")));
+        using var verificationScope = fixture.CreateScope();
+        var consumer = Assert.Single((await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Outbox.GetEnvelopesAsync(CancellationToken.None)).Single().Consumers);
+        Assert.Equal(3, consumer.Tries);
+    }
+
+    [Fact]
     public async Task CheckAndProcessOutbox_WithCancelledToken_ShouldThrow()
     {
         var cancellation = new CancellationTokenSource();
