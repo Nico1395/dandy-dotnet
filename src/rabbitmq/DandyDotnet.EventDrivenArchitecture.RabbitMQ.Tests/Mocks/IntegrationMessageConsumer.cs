@@ -7,10 +7,13 @@ public sealed class IntegrationMessageConsumer : IConsumer<IntegrationMessage>
 {
     public static ConcurrentQueue<(IntegrationMessage Message, ConsumerContext Context)> Received { get; } = new();
     public static ConsumerResult Result { get; set; } = ConsumerResult.Ack();
+    public static bool Throw { get; set; }
 
     public Task<ConsumerResult> ConsumeAsync(IntegrationMessage message, ConsumerContext context, CancellationToken cancellationToken)
     {
         Received.Enqueue((message, context));
+        if (Throw)
+            throw new InvalidOperationException("consumer failure");
         return Task.FromResult(Result);
     }
 
@@ -21,5 +24,6 @@ public sealed class IntegrationMessageConsumer : IConsumer<IntegrationMessage>
         }
 
         Result = ConsumerResult.Ack();
+        Throw = false;
     }
 }

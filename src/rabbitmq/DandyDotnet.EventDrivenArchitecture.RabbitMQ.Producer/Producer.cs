@@ -27,15 +27,23 @@ internal sealed class Producer(
         var encodedPayload = GetEncoder().Encode(payload);
         var channel = await GetChannelAsync(cancellationToken);
 
-        foreach (var routingKey in dispatchInfo.RoutingKeys)
+        try
         {
-            await channel.BasicPublishAsync(
-                exchange: dispatchInfo.Exchange,
-                routingKey: routingKey,
-                mandatory: true,
-                basicProperties: dispatchInfo.Properties,
-                body: encodedPayload,
-                cancellationToken: cancellationToken);
+            foreach (var routingKey in dispatchInfo.RoutingKeys)
+            {
+                await channel.BasicPublishAsync(
+                    exchange: dispatchInfo.Exchange,
+                    routingKey: routingKey,
+                    mandatory: true,
+                    basicProperties: dispatchInfo.Properties,
+                    body: encodedPayload,
+                    cancellationToken: cancellationToken);
+            }
+        }
+        catch
+        {
+            _channel = null;
+            throw;
         }
     }
 

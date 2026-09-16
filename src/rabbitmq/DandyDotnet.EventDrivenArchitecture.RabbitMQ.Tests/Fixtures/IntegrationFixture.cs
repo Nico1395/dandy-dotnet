@@ -97,7 +97,36 @@ public sealed class IntegrationFixture : Fixture
 
     public IProducer CreateProducer() => ServiceProvider.GetRequiredService<IProducer>();
 
+    public IServiceScope CreateProducerScope() => ServiceProvider.CreateScope();
+
     public IConnectionProvider GetConnectionProvider() => ServiceProvider.GetRequiredService<IConnectionProvider>();
+
+    public async Task<uint> GetQueueMessageCountAsync()
+    {
+        var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);
+        await using var channel = await connection.CreateChannelAsync();
+        return (await channel.QueueDeclarePassiveAsync(QueueName)).MessageCount;
+    }
+
+    public async Task<ProbeQueue> CreateProbeQueueAsync(params string[] routingKeys)
+    {
+        var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);
+        var channel = await connection.CreateChannelAsync();
+        await channel.ExchangeDeclareAsync(ExchangeName, ExchangeType.Topic, durable: true, autoDelete: false);
+        var queue = await channel.QueueDeclareAsync("", durable: false, exclusive: true, autoDelete: true);
+
+        foreach (var routingKey in routingKeys.Distinct())
+            await channel.QueueBindAsync(queue.QueueName, ExchangeName, routingKey);
+
+        return new ProbeQueue(channel, queue.QueueName);
+    }
+
+    public sealed class ProbeQueue(IChannel channel, string queueName) : IAsyncDisposable
+    {
+        public IChannel Channel { get; } = channel;
+        public string QueueName { get; } = queueName;
+        public ValueTask DisposeAsync() => Channel.DisposeAsync();
+    }
 
     public override async Task DisposeAsync()
     {
