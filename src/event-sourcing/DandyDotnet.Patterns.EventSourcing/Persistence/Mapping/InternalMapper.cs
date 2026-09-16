@@ -69,6 +69,7 @@ internal static class InternalMapper
                     Type = c.Type,
                     ConsumedAt = c.ConsumedAt,
                     FailedAt = c.FailedAt,
+                    Tries = c.Tries,
                 }).ToList(),
             };
         });
@@ -103,6 +104,7 @@ internal static class InternalMapper
             Type = c.Type,
             ConsumedAt = c.ConsumedAt,
             FailedAt = c.FailedAt,
+            Tries = c.Tries,
         });
     }
 }

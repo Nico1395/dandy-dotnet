@@ -10,4 +10,5 @@ public sealed class OutboxEnvelopeConsumerEntity
     public required OutboxEventConsumerType Type { get; init; }
     public DateTime? ConsumedAt { get; set; }
     public DateTime? FailedAt { get; set; }
+    public int Tries { get; set; }
 }

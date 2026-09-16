@@ -8,16 +8,29 @@ public sealed class OutboxEnvelopeConsumer
     public required OutboxEventConsumerType Type { get; init; }
     public DateTime? ConsumedAt { get; set; }
     public DateTime? FailedAt { get; set; }
+    public int Tries { get; set; }
 
     internal bool IsNew { get; init; }
 
     public void Consume()
     {
+        Try();
         ConsumedAt = DateTime.UtcNow;
     }
 
     public void Fail()
     {
+        Try();
         FailedAt = DateTime.UtcNow;
+    }
+
+    public void Try()
+    {
+        Tries++;
+    }
+
+    public bool CanRetry(int retries)
+    {
+        return Tries < retries; 
     }
 }
