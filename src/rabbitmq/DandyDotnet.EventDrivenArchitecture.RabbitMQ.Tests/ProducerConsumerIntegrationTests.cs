@@ -238,6 +238,53 @@ public sealed class ProducerConsumerIntegrationTests(IntegrationFixture fixture)
         await WaitForQueueCountAsync(0);
     }
 
+    [Fact]
+    public async Task MessageWithUnknownTypeKey_IsNacked()
+    {
+        IntegrationMessageConsumer.Reset();
+        await fixture.PublishRawAsync("unknown-type", global::System.Text.Encoding.UTF8.GetBytes("{}"));
+        await WaitForQueueCountAsync(0);
+        Assert.Empty(IntegrationMessageConsumer.Received);
+    }
+
+    [Fact]
+    public async Task MessageWithoutTypeProperty_IsNacked()
+    {
+        IntegrationMessageConsumer.Reset();
+        var connection = await fixture.GetConnectionProvider().GetAsync(CancellationToken.None);
+        await using var channel = await connection.CreateChannelAsync();
+        await channel.BasicPublishAsync(fixture.ExchangeName, fixture.RoutingKey, true, new BasicProperties(), global::System.Text.Encoding.UTF8.GetBytes("{}"));
+        await WaitForQueueCountAsync(0);
+        Assert.Empty(IntegrationMessageConsumer.Received);
+    }
+
+    [Fact]
+    public async Task MessageWithEmptyEncodedBody_IsNacked()
+    {
+        IntegrationMessageConsumer.Reset();
+        await fixture.PublishRawAsync(nameof(IntegrationMessage), ReadOnlyMemory<byte>.Empty);
+        await WaitForQueueCountAsync(0);
+        Assert.Empty(IntegrationMessageConsumer.Received);
+    }
+
+    [Fact]
+    public async Task MessageWithInvalidSerializedBody_IsNacked()
+    {
+        IntegrationMessageConsumer.Reset();
+        await fixture.PublishRawAsync(nameof(IntegrationMessage), global::System.Text.Encoding.UTF8.GetBytes("not-json"));
+        await WaitForQueueCountAsync(0);
+        Assert.Empty(IntegrationMessageConsumer.Received);
+    }
+
+    [Fact]
+    public async Task DeserializationFailure_DoesNotInvokeConsumerOrInterceptor()
+    {
+        IntegrationMessageConsumer.Reset();
+        await fixture.PublishRawAsync(nameof(IntegrationMessage), global::System.Text.Encoding.UTF8.GetBytes("{ invalid"));
+        await WaitForQueueCountAsync(0);
+        Assert.Empty(IntegrationMessageConsumer.Received);
+    }
+
     private async Task WaitForQueueCountAsync(uint expected)
     {
         var timeout = DateTime.UtcNow.AddSeconds(10);

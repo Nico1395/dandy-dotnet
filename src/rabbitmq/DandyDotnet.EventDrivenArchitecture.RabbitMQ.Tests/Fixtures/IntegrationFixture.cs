@@ -108,6 +108,13 @@ public sealed class IntegrationFixture : Fixture
         return (await channel.QueueDeclarePassiveAsync(QueueName)).MessageCount;
     }
 
+    public async Task PublishRawAsync(string type, ReadOnlyMemory<byte> body)
+    {
+        var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);
+        await using var channel = await connection.CreateChannelAsync();
+        await channel.BasicPublishAsync(ExchangeName, RoutingKey, true, new BasicProperties { Type = type }, body);
+    }
+
     public async Task<ProbeQueue> CreateProbeQueueAsync(params string[] routingKeys)
     {
         var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);

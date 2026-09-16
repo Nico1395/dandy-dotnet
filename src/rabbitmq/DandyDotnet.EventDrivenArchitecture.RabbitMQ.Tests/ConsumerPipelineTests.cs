@@ -107,6 +107,44 @@ public sealed class ConsumerPipelineTests
         Assert.True(handler.Called);
     }
 
+    [Fact]
+    public async Task Pipeline_WithNoConsumer_ThrowsAndInvokesExceptionHandler()
+    {
+        var handler = new TestExceptionHandler();
+        var provider = new ServiceCollection().AddSingleton<IConsumerExceptionHandler<TestMessage>>(handler).BuildServiceProvider();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => new ConsumerPipeline(provider).ExecuteAsync(new TestMessage(), CreateContext(), CancellationToken.None));
+        Assert.True(handler.Called);
+    }
+
+    [Fact]
+    public async Task Middleware_ExecutesAroundConsumerInRegistrationOrder()
+    {
+        var calls = new List<string>();
+        var provider = new ServiceCollection()
+            .AddSingleton<IConsumer<TestMessage>>(new TestConsumer(calls))
+            .AddSingleton<IConsumerMiddleware<TestMessage>>(new NamedMiddleware("first", calls))
+            .AddSingleton<IConsumerMiddleware<TestMessage>>(new NamedMiddleware("second", calls))
+            .BuildServiceProvider();
+
+        await new ConsumerPipeline(provider).ExecuteAsync(new TestMessage(), CreateContext(), CancellationToken.None);
+
+        Assert.Equal(["first-before", "second-before", "consumer", "second-after", "first-after"], calls);
+    }
+
+    [Fact]
+    public async Task ConsumerThrowingException_InvokesTypedExceptionHandler()
+    {
+        var handler = new TestExceptionHandler();
+        var provider = new ServiceCollection()
+            .AddSingleton<IConsumer<TestMessage>>(new ThrowingConsumer())
+            .AddSingleton<IConsumerExceptionHandler<TestMessage>>(handler)
+            .BuildServiceProvider();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => new ConsumerPipeline(provider).ExecuteAsync(new TestMessage(), CreateContext(), CancellationToken.None));
+        Assert.True(handler.Called);
+    }
+
     private static ConsumerContext CreateContext()
     {
         var args = new BasicDeliverEventArgs("consumer", 1, false, "exchange", "routing", new BasicProperties(), ReadOnlyMemory<byte>.Empty);
@@ -175,6 +213,17 @@ public sealed class ConsumerPipelineTests
         {
             Received = cancellationToken == expected;
             return Task.FromResult(ConsumerResult.Ack());
+        }
+    }
+
+    private sealed class NamedMiddleware(string name, List<string> calls) : IConsumerMiddleware<TestMessage>
+    {
+        public async Task<ConsumerResult> InterceptAsync(TestMessage message, ConsumerContext context, ConsumerDelegate nextStep, CancellationToken cancellationToken)
+        {
+            calls.Add($"{name}-before");
+            var result = await nextStep();
+            calls.Add($"{name}-after");
+            return result;
         }
     }
 }

@@ -31,7 +31,38 @@ public sealed class MessagesConfigurationBuilderTests
         Assert.Contains(typeof(MessagesConfigurationBuilderTests).Assembly, result.Assemblies);
     }
 
+    [Fact]
+    public void CopyConstructor_CopiesConfiguration()
+    {
+        var original = new MessagesConfigurationBuilder()
+            .AddMessage(typeof(TestMessage), x => x.SetKey("original"))
+            .ScanInAssemblies(typeof(MessagesConfigurationBuilderTests).Assembly)
+            .Build();
+
+        var copy = new MessagesConfigurationBuilder(original).Build();
+
+        Assert.Same(original.MessagesByRuntimeType[typeof(TestMessage)], copy.MessagesByRuntimeType[typeof(TestMessage)]);
+        Assert.Equal(original.Assemblies, copy.Assemblies);
+    }
+
+    [Fact]
+    public void AddMessage_WithDifferentRuntimeTypesKeepsBothConfigurations()
+    {
+        var result = new MessagesConfigurationBuilder()
+            .AddMessage(typeof(TestMessage), x => x.SetKey("one"))
+            .AddMessage(typeof(OtherMessage), x => x.SetKey("two"))
+            .Build();
+
+        Assert.Equal(2, result.MessagesByRuntimeType.Count);
+        Assert.Contains("one", result.MessagesByKey.Keys);
+        Assert.Contains("two", result.MessagesByKey.Keys);
+    }
+
     private sealed class TestMessage
+    {
+    }
+
+    private sealed class OtherMessage
     {
     }
 }

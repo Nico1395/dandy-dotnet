@@ -65,6 +65,64 @@ public sealed class ProducerExtensionsTests
         Assert.Equal(["routing"], producer.RoutingKeys);
     }
 
+    [Fact]
+    public async Task StringIdCustomPropertiesSingleKeyOverload_ForwardsCorrectArguments()
+    {
+        var producer = new RecordingProducer();
+        var properties = new BasicProperties { CorrelationId = "corr" };
+        var timestamp = DateTime.UtcNow;
+
+        await producer.ProduceAsync("exchange", "routing", "id", timestamp, new object(), properties, CancellationToken.None);
+
+        Assert.Equal(["routing"], producer.RoutingKeys);
+        Assert.Same(properties, producer.Properties);
+        Assert.Equal("id", producer.Properties.MessageId);
+        Assert.Equal(timestamp.Ticks, producer.Properties.Timestamp.UnixTime);
+    }
+
+    [Fact]
+    public async Task GuidCustomPropertiesSingleKeyOverload_ForwardsCorrectArguments()
+    {
+        var producer = new RecordingProducer();
+        var id = Guid.NewGuid();
+        var properties = new BasicProperties { CorrelationId = "corr" };
+
+        await producer.ProduceAsync("exchange", "routing", id, DateTime.UtcNow, new object(), properties, CancellationToken.None);
+
+        Assert.Equal(id.ToString(), producer.Properties!.MessageId);
+        Assert.Equal("corr", producer.Properties.CorrelationId);
+        Assert.Equal(["routing"], producer.RoutingKeys);
+    }
+
+    [Fact]
+    public async Task IMessageCustomPropertiesSingleKeyOverload_PreservesCustomProperties()
+    {
+        var producer = new RecordingProducer();
+        var message = new TestMessage();
+        var properties = new BasicProperties { CorrelationId = "corr" };
+
+        await producer.ProduceAsync("exchange", "routing", message, properties, CancellationToken.None);
+
+        Assert.Same(properties, producer.Properties);
+        Assert.Equal(message.Id.ToString(), producer.Properties!.MessageId);
+        Assert.Equal("corr", producer.Properties.CorrelationId);
+        Assert.Equal(["routing"], producer.RoutingKeys);
+    }
+
+    [Fact]
+    public async Task GuidCustomPropertiesOverload_PreservesCustomProperties()
+    {
+        var producer = new RecordingProducer();
+        var id = Guid.NewGuid();
+        var properties = new BasicProperties { CorrelationId = "corr" };
+
+        await producer.ProduceAsync(id, DateTime.UtcNow, new object(), properties, CancellationToken.None);
+
+        Assert.Same(properties, producer.Properties);
+        Assert.Equal(id.ToString(), producer.Properties!.MessageId);
+        Assert.Equal("corr", producer.Properties.CorrelationId);
+    }
+
     private sealed class RecordingProducer : IProducer
     {
         public string? Exchange { get; private set; }
