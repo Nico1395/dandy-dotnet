@@ -1,4 +1,5 @@
 using DandyDotnet.Encoding.Abstractions;
+using DandyDotnet.Encoding.Configuration;
 
 namespace DandyDotnet.Encoding.Codes;
 

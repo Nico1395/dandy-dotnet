@@ -1,3 +1,5 @@
+using DandyDotnet.Encoding.Abstractions;
+
 namespace DandyDotnet.Encoding.Configuration;
 
 /// <summary>
@@ -30,7 +32,7 @@ public sealed class EncodingConfigurationBuilder
     ///     <para>
     ///         When a non-null <paramref name="serviceKey"/> is provided, the encoder will be registered as a keyed service
     ///         and must be resolved using the same key value. When <see langword="null"/>, the encoder will be
-    ///         registered as the default implementation of <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/>.
+    ///         registered as the default implementation of <see cref="IEncoder"/>.
     ///     </para>
     /// </remarks>
     public EncodingConfigurationBuilder UseServiceKey(object? serviceKey)
@@ -43,14 +45,14 @@ public sealed class EncodingConfigurationBuilder
     ///     Selects the payload encoder implementation type.
     /// </summary>
     /// <param name="implementationType">
-    ///     The <see cref="Type"/> of the class that implements <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/>
+    ///     The <see cref="Type"/> of the class that implements <see cref="IEncoder"/>
     ///     to use for encoding and decoding operations.
     /// </param>
     /// <returns>The same <see cref="EncodingConfigurationBuilder"/> instance for method chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="implementationType"/> is null.</exception>
     /// <remarks>
     ///     <para>
-    ///         The specified type must implement <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/> and must
+    ///         The specified type must implement <see cref="IEncoder"/> and must
     ///         not be an abstract class. This validation is performed when the configuration is built or when
     ///         the service is registered with the dependency injection container.
     ///     </para>

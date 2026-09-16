@@ -1,3 +1,4 @@
+using DandyDotnet.Encoding.Abstractions;
 using DandyDotnet.Encoding.Codes;
 
 namespace DandyDotnet.Encoding.Configuration;
@@ -19,13 +20,13 @@ public sealed class EncodingConfiguration
     /// </summary>
     /// <value>
     ///     The service key object, or <see langword="null"/> if the encoder should be registered as the default
-    ///     implementation of <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/>. The service key is used to
+    ///     implementation of <see cref="IEncoder"/>. The service key is used to
     ///     distinguish between multiple encoder registrations.
     /// </value>
     /// <remarks>
     ///     <para>
     ///         When <see langword="null"/>, the encoder will be registered as the default implementation and can be
-    ///         resolved by requesting an <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/> without a key.
+    ///         resolved by requesting an <see cref="IEncoder"/> without a key.
     ///         When a non-null value is provided, the encoder must be resolved using the same key value.
     ///     </para>
     /// </remarks>
@@ -35,17 +36,17 @@ public sealed class EncodingConfiguration
     ///     Gets or sets the type of the encoder implementation.
     /// </summary>
     /// <value>
-    ///     The <see cref="Type"/> of the class that implements <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/>
+    ///     The <see cref="Type"/> of the class that implements <see cref="IEncoder"/>
     ///     and will be instantiated to perform encoding and decoding operations.
     /// </value>
     /// <remarks>
     ///     <para>
-    ///         The type must implement <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/> and must not be
+    ///         The type must implement <see cref="IEncoder"/> and must not be
     ///         an abstract class. The default value is <see cref="Utf8Encoder"/>, which provides UTF-8 encoding.
     ///     </para>
     /// </remarks>
     /// <exception cref="ArgumentException">
-    ///     Thrown when setting a type that does not implement <see cref="DandyDotnet.Encoding.Abstractions.IEncoder"/>
+    ///     Thrown when setting a type that does not implement <see cref="IEncoder"/>
     ///     or is an abstract class.
     /// </exception>
     public Type EncoderType { get; set; } = typeof(Utf8Encoder);

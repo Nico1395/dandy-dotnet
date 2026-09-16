@@ -1,5 +1,6 @@
 using DandyDotnet.DependencyInjection.Abstractions;
 using DandyDotnet.Encoding.Abstractions;
+using DandyDotnet.Encoding.Codes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Encoding.Configuration;
