@@ -3,11 +3,18 @@ using DandyDotnet.Persistence.Sql.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql;
 
+/// <summary>
+///     Represents the runtime execution context managing database connections and active transactions for SQL persistence.
+/// </summary>
 internal sealed class UnitOfWorkContext : IReadOnlyUnitOfWorkContext, IDisposable
 {
     private readonly IDbConnectionFactory _dbConnectionFactory;
     private bool _disposed;
     
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="UnitOfWorkContext" /> class.
+    /// </summary>
+    /// <param name="dbConnectionFactory">The database connection factory.</param>
     public UnitOfWorkContext(IDbConnectionFactory dbConnectionFactory)
     {
         _dbConnectionFactory = dbConnectionFactory;
@@ -16,10 +23,16 @@ internal sealed class UnitOfWorkContext : IReadOnlyUnitOfWorkContext, IDisposabl
         Transaction = Connection.BeginTransaction();
     }
 
+    /// <inheritdoc />
     public IDbConnection Connection { get; private set; }
+
+    /// <inheritdoc />
     public IDbTransaction Transaction { get; private set; }
+
+    /// <inheritdoc />
     public bool Completed { get; private set; }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         if (_disposed)

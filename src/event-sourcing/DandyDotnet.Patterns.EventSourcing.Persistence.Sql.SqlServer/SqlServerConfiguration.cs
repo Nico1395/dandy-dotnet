@@ -8,10 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer;
 
+/// <summary>
+///     Represents the configuration and service registration provider for SQL Server event persistence.
+/// </summary>
 public sealed class SqlServerConfiguration : PersistenceConfiguration
 {
     private static readonly Assembly[] _assemblies = [typeof(SqlServerConfiguration).Assembly];
 
+    /// <inheritdoc />
     public override void ConfigureServices(IServiceCollection services)
     {
         base.ConfigureServices(services);

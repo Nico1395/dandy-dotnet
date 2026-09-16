@@ -2,14 +2,19 @@ using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer;
 
+/// <summary>
+///     Represents SQL Server-specific SQL command strings for event store persistence operations.
+/// </summary>
 internal sealed class SqlServerSqlStrings : SqlStrings
 {
+    /// <inheritdoc />
     public override string GetStreamVersion => $"""
                                                     SELECT COALESCE(MAX(Version) + 1, 0)
                                                     FROM {Schema.Name}.{Tables.Envelopes.Table}
                                                     WHERE {Tables.Envelopes.StreamId} = @StreamId
                                                 """;
 
+    /// <inheritdoc />
     public override string GetStream => $"""
                                               SELECT
                                                   {Tables.Envelopes.StreamId} AS StreamId,
@@ -25,6 +30,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                               AND (CAST(@ToTimestamp AS DATETIME2) IS NULL OR {Tables.Envelopes.Timestamp} <= CAST(@ToTimestamp AS DATETIME2))
                                           """;
 
+    /// <inheritdoc />
     public override string InsertEnvelope => $"""
                                                  INSERT INTO {Schema.Name}.{Tables.Envelopes.Table} (
                                                      {Tables.Envelopes.StreamId},
@@ -40,6 +46,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                                      @EventKey)
                                              """;
 
+    /// <inheritdoc />
     public override string GetLastSnapshot => $"""
                                                    SELECT TOP (1)
                                                        {Tables.Snapshots.StreamId} AS StreamId,
@@ -52,6 +59,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                                    ORDER BY {Tables.Snapshots.Version} DESC
                                                """;
 
+    /// <inheritdoc />
     public override string StoreSnapshot => $"""
                                                  INSERT INTO {Schema.Name}.{Tables.Snapshots.Table} (
                                                      {Tables.Snapshots.StreamId},
@@ -67,6 +75,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                                      @AggregateKey)
                                              """;
 
+    /// <inheritdoc />
     public override string GetOutboxEnvelopes => $"""
                                                         SELECT
                                                             e.{Tables.OutboxEnvelopes.StreamId} AS StreamId,
@@ -87,6 +96,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                                             AND c.{Tables.OutboxEnvelopeConsumers.Version} = e.{Tables.OutboxEnvelopes.Version}
                                                     """;
 
+    /// <inheritdoc />
     public override string InsertOutboxEnvelopes => $"""
                                                          INSERT INTO {Schema.Name}.{Tables.OutboxEnvelopes.Table} (
                                                              {Tables.OutboxEnvelopes.StreamId},
@@ -102,6 +112,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                                              @EventKey)
                                                      """;
 
+    /// <inheritdoc />
     public override string DeleteOutboxEnvelopes => $"""
                                                          DELETE FROM {Schema.Name}.{Tables.OutboxEnvelopeConsumers.Table}
                                                          WHERE {Tables.OutboxEnvelopeConsumers.StreamId} = @StreamId
@@ -111,6 +122,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                                          AND {Tables.OutboxEnvelopes.Version} = @Version
                                                      """;
 
+    /// <inheritdoc />
     public override string InsertOutboxEnvelopeConsumers => $"""
                                                                 INSERT INTO {Schema.Name}.{Tables.OutboxEnvelopeConsumers.Table} (
                                                                     {Tables.OutboxEnvelopeConsumers.StreamId},
@@ -130,6 +142,7 @@ internal sealed class SqlServerSqlStrings : SqlStrings
                                                                     @Tries)
                                                             """;
 
+    /// <inheritdoc />
     public override string UpdateOutboxEnvelopeConsumers => $"""
                                                                 UPDATE {Schema.Name}.{Tables.OutboxEnvelopeConsumers.Table}
                                                                 SET

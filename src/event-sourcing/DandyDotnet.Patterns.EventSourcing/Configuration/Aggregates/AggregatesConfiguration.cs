@@ -4,12 +4,22 @@ using DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 
+/// <summary>
+///     Represents the registry and configuration collection for all aggregate root types in the event store.
+/// </summary>
 public sealed class AggregatesConfiguration
 {
     internal ConcurrentDictionary<Type, AggregateConfiguration> AggregateConfigsByType { get; } = new();
     internal ConcurrentDictionary<string, AggregateConfiguration> AggregateConfigsByKey { get; } = new();
 
+    /// <summary>
+    ///     Gets the read-only dictionary of aggregate configurations indexed by their CLR runtime type.
+    /// </summary>
     public IReadOnlyDictionary<Type, AggregateConfiguration> AggregatesByType => AggregateConfigsByType;
+
+    /// <summary>
+    ///     Gets the read-only dictionary of aggregate configurations indexed by their string key.
+    /// </summary>
     public IReadOnlyDictionary<string, AggregateConfiguration> AggregatesByKey => AggregateConfigsByKey;
 
     internal AggregateConfiguration GetOrAddAggregateConfiguration(Type aggregateType)
