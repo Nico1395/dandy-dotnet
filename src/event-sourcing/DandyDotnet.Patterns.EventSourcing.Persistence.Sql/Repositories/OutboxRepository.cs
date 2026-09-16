@@ -71,6 +71,7 @@ internal sealed class OutboxRepository(
             Type = (short)c.Type,
             c.ConsumedAt,
             c.FailedAt,
+            c.Tries,
         });
 
         await unitOfWorkContext.Connection.ExecuteAsync(new CommandDefinition(
@@ -92,6 +93,7 @@ internal sealed class OutboxRepository(
             c.ConsumerKey,
             c.ConsumedAt,
             c.FailedAt,
+            c.Tries,
         });
 
         await unitOfWorkContext.Connection.ExecuteAsync(new CommandDefinition(
@@ -129,6 +131,7 @@ internal sealed class OutboxRepository(
                             Type = (OutboxEventConsumerType)row.ConsumerType!.Value,
                             ConsumedAt = row.ConsumedAt,
                             FailedAt = row.FailedAt,
+                            Tries = row.Tries!.Value,
                         })
                         .ToList(),
                 };
@@ -148,5 +151,6 @@ internal sealed class OutboxRepository(
         public short? ConsumerType { get; init; }
         public DateTime? ConsumedAt { get; init; }
         public DateTime? FailedAt { get; init; }
+        public int? Tries { get; init; }
     }
 }
