@@ -1,10 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Migrations.Sqlite\DandyDotnet.Persistence.Sql.Migrations.Sqlite.csproj" />
-    <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Sqlite\DandyDotnet.Persistence.Sql.Sqlite.csproj" />
-    <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
-  </ItemGroup>
+
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>SQLite event sourcing persistence driver.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+        <PackageTags>Event Sourcing, SQL, SQLite</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Data.Sqlite" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Migrations.Sqlite\DandyDotnet.Persistence.Sql.Migrations.Sqlite.csproj" />
+        <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Sqlite\DandyDotnet.Persistence.Sql.Sqlite.csproj" />
+        <ProjectReference Include="..\DandyDotnet.Patterns.EventSourcing.Persistence.Sql\DandyDotnet.Patterns.EventSourcing.Persistence.Sql.csproj" />
+    </ItemGroup>
+
 </Project>

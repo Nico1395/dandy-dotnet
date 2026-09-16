@@ -5,7 +5,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageId>DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer</PackageId>
         <Authors>Nicolai Wolf</Authors>
-        <Description>Implementations for abstractions of RabbitMQ consumers.</Description>
+        <Description>Implementations for abstractions of RabbitMQ consumers and configuration API.</Description>
         <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
         <PackageTags>RabbitMQ, Message Broker</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
