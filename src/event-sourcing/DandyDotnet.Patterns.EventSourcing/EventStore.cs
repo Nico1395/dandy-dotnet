@@ -109,7 +109,6 @@ internal sealed class EventStore(
 
         // Notify inline subscribers
         await outbox.NotifyInlineConsumersAsync(outboxEnvelopes, cancellationToken);
-        await unitOfWork.CommitAsync(cancellationToken);
     }
 
     private async Task CreateSnapshotAsync(Type? aggregateType, string streamId, Envelope[] envelopes, long currentVersion, CancellationToken cancellationToken)
