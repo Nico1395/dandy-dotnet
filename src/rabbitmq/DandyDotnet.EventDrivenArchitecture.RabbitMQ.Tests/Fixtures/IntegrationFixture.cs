@@ -1,13 +1,10 @@
-using DandyDotnet.Tests.Core.Fixtures;
 using DandyDotnet.Encoding.Configuration;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Connectivity;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Connectivity;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions;
-using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Mocks;
+using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.TestDoubles;
 using DandyDotnet.Serialization;
 using DandyDotnet.Serialization.SystemTextJson;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,115 +14,78 @@ using Testcontainers.RabbitMq;
 
 namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Fixtures;
 
-public sealed class IntegrationFixture : Fixture
+public sealed class IntegrationFixture : IAsyncLifetime
 {
-    private RabbitMqContainer? _rabbitMq;
-    private IHostedService? _consumerWorker;
+    private readonly RabbitMqContainer _rabbitMq = new RabbitMqBuilder("rabbitmq:4-management")
+        .WithUsername("tests").WithPassword("tests").Build();
+
+    private ServiceProvider? _provider;
+    private IHostedService? _worker;
 
     public string ExchangeName { get; } = $"tests-{Guid.NewGuid():N}";
     public string QueueName { get; } = $"tests-{Guid.NewGuid():N}";
-    public string RoutingKey { get; } = "messages";
+    public string RoutingKey => "messages";
+    public IntegrationMessageConsumer Consumer { get; } = new();
 
-    protected override void ConfigureServices(IServiceCollection services)
+    public async Task InitializeAsync()
     {
-        _rabbitMq = new RabbitMqBuilder("rabbitmq:4-management")
-            .WithUsername("tests")
-            .WithPassword("tests")
-            .Build();
-        _rabbitMq.StartAsync().GetAwaiter().GetResult();
-        services.AddSerializer(config => config.UseSystemTextJson());
-        services.AddEncoder();
-
-        services.AddRabbitMQConsumer(config =>
+        try
         {
-            ConfigureConnection(config.Connectivity);
-            config.OnExceptionWhenInitializingWorker((_, exception) => Console.WriteLine($"RabbitMQ consumer startup failed: {exception}"));
-            config.Messages.AddMessage(typeof(IntegrationMessage), message =>
+            await _rabbitMq.StartAsync();
+            var services = new ServiceCollection();
+            services.AddSerializer(config => config.UseSystemTextJson());
+            services.AddEncoder();
+            services.AddSingleton<IConsumer<IntegrationMessage>>(Consumer);
+            services.AddRabbitMQConsumer(config =>
             {
-                message.SetKey(nameof(IntegrationMessage));
-                message.SetExchange(ExchangeName);
-                message.SetRoutingKeys(RoutingKey);
+                ConfigureConnection(config.Connectivity);
+                config.Messages.AddMessage(typeof(IntegrationMessage), message => message
+                    .SetKey(nameof(IntegrationMessage)).SetExchange(ExchangeName).SetRoutingKeys(RoutingKey));
+                config.Declarations.SubscribeChannel(ExchangeName, QueueName, channel =>
+                {
+                    channel.Queue.RoutingKeys = [RoutingKey];
+                    channel.Queue.Arguments = new Dictionary<string, object?>();
+                });
             });
-            config.Declarations.SubscribeChannel(ExchangeName, QueueName, channel =>
-            {
-                channel.Queue.RoutingKeys = [RoutingKey];
-                channel.Queue.Arguments = new Dictionary<string, object?>();
-            });
-            config.ScanInAssemblies(typeof(IntegrationFixture).Assembly);
-        });
+            services.AddRabbitMQProducer(config => ConfigureConnection(config.Connectivity));
+            _provider = services.BuildServiceProvider();
 
-        services.AddRabbitMQProducer(config =>
-        {
-            ConfigureConnection(config.Connectivity);
-            config.Messages.AddMessage(typeof(IntegrationMessage), message =>
-            {
-                message.SetKey(nameof(IntegrationMessage));
-                message.SetExchange(ExchangeName);
-                message.SetRoutingKeys(RoutingKey);
-            });
-            config.Declarations.SubscribeChannel(ExchangeName, QueueName, channel =>
-            {
-                channel.Queue.RoutingKeys = [RoutingKey];
-                channel.Queue.Arguments = new Dictionary<string, object?>();
-            });
-        });
-    }
-
-    protected override async Task OnInitializeAsync()
-    {
-        _consumerWorker = ServiceProvider.GetServices<IHostedService>().Single();
-        await _consumerWorker.StartAsync(CancellationToken.None);
-
-        var timeout = DateTime.UtcNow.AddSeconds(10);
-        while (DateTime.UtcNow < timeout)
-        {
-            try
-            {
-                var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);
-                await using var channel = await connection.CreateChannelAsync();
-                await channel.QueueDeclarePassiveAsync(QueueName);
-                return;
-            }
-            catch (Exception)
-            {
-                await Task.Delay(50);
-            }
+            // Declare before starting the worker so readiness checks never close a channel on a missing queue.
+            var connection = await GetConnectionAsync();
+            await using var channel = await connection.CreateChannelAsync();
+            await _provider.GetRequiredService<DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions.Declarations.IDeclarer>()
+                .DeclareQueueAsync(QueueName, channel, CancellationToken.None);
+            _worker = _provider.GetServices<IHostedService>().Single();
+            await _worker.StartAsync(CancellationToken.None);
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            while ((await channel.QueueDeclarePassiveAsync(QueueName, timeout.Token)).ConsumerCount == 0)
+                await Task.Delay(25, timeout.Token);
         }
-
-        throw new TimeoutException("The integration consumer did not declare its queue.");
+        catch
+        {
+            await DisposeAsync();
+            throw;
+        }
     }
 
-    public IProducer CreateProducer() => ServiceProvider.GetRequiredService<IProducer>();
-
-    public IServiceScope CreateProducerScope() => ServiceProvider.CreateScope();
-
-    public IConnectionProvider GetConnectionProvider() => ServiceProvider.GetRequiredService<IConnectionProvider>();
-
-    public async Task<uint> GetQueueMessageCountAsync()
-    {
-        var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);
-        await using var channel = await connection.CreateChannelAsync();
-        return (await channel.QueueDeclarePassiveAsync(QueueName)).MessageCount;
-    }
-
-    public async Task PublishRawAsync(string type, ReadOnlyMemory<byte> body)
-    {
-        var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);
-        await using var channel = await connection.CreateChannelAsync();
-        await channel.BasicPublishAsync(ExchangeName, RoutingKey, true, new BasicProperties { Type = type }, body);
-    }
+    public IServiceScope CreateProducerScope() => _provider!.CreateScope();
 
     public async Task<ProbeQueue> CreateProbeQueueAsync(params string[] routingKeys)
     {
-        var connection = await GetConnectionProvider().GetAsync(CancellationToken.None);
+        var connection = await GetConnectionAsync();
         var channel = await connection.CreateChannelAsync();
-        await channel.ExchangeDeclareAsync(ExchangeName, ExchangeType.Topic, durable: true, autoDelete: false);
-        var queue = await channel.QueueDeclareAsync("", durable: false, exclusive: true, autoDelete: true);
-
-        foreach (var routingKey in routingKeys.Distinct())
-            await channel.QueueBindAsync(queue.QueueName, ExchangeName, routingKey);
-
-        return new ProbeQueue(channel, queue.QueueName);
+        try
+        {
+            var queue = await channel.QueueDeclareAsync("", durable: false, exclusive: true, autoDelete: true);
+            foreach (var routingKey in routingKeys.Distinct())
+                await channel.QueueBindAsync(queue.QueueName, ExchangeName, routingKey);
+            return new ProbeQueue(channel, queue.QueueName);
+        }
+        catch
+        {
+            await channel.DisposeAsync();
+            throw;
+        }
     }
 
     public sealed class ProbeQueue(IChannel channel, string queueName) : IAsyncDisposable
@@ -135,22 +95,36 @@ public sealed class IntegrationFixture : Fixture
         public ValueTask DisposeAsync() => Channel.DisposeAsync();
     }
 
-    public override async Task DisposeAsync()
+    public async Task DisposeAsync()
     {
-        if (_consumerWorker is not null)
-            await _consumerWorker.StopAsync(CancellationToken.None);
-
-        await base.DisposeAsync();
-        if (_rabbitMq is not null)
-            await _rabbitMq.DisposeAsync();
+        try
+        {
+            if (_worker is not null)
+            {
+                using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                await _worker.StopAsync(timeout.Token);
+                _worker = null;
+            }
+        }
+        finally
+        {
+            try
+            {
+                if (_provider is not null)
+                {
+                    await _provider.DisposeAsync();
+                    _provider = null;
+                }
+            }
+            finally
+            {
+                await _rabbitMq.DisposeAsync();
+            }
+        }
     }
 
-    private void ConfigureConnection(ConnectivityConfigurationBuilder config)
-    {
-        config.ConnectToCluster(
-            "tests",
-            "tests",
-            [new Uri($"amqp://localhost:{_rabbitMq!.GetMappedPublicPort(5672)}")],
-            TimeSpan.FromSeconds(1));
-    }
+    private Task<IConnection> GetConnectionAsync() => _provider!.GetRequiredService<IConnectionProvider>().GetAsync(CancellationToken.None);
+
+    private void ConfigureConnection(ConnectivityConfigurationBuilder config) => config.ConnectToCluster(
+        "tests", "tests", [new Uri($"amqp://{_rabbitMq.Hostname}:{_rabbitMq.GetMappedPublicPort(5672)}")], TimeSpan.FromSeconds(1));
 }

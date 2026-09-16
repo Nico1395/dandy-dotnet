@@ -1,6 +1,6 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Unit.Messages;
 
 public sealed class MessageConfigurationBuilderTests
 {
@@ -25,7 +25,7 @@ public sealed class MessageConfigurationBuilderTests
 
         Assert.Equal("test", configuration.Key);
         Assert.Equal("exchange", configuration.Exchange);
-        Assert.Equal(["one", "two"], configuration.RoutingKeys);
+        Assert.Equal(["one", "two"], Assert.IsType<string[]>(configuration.RoutingKeys));
         Assert.Equal(42, configuration.Metadata["answer"]);
     }
 

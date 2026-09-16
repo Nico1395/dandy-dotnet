@@ -1,6 +1,6 @@
 using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Messages;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Unit.Messages;
 
 public sealed class MessagesConfigurationBuilderTests
 {
@@ -32,7 +32,7 @@ public sealed class MessagesConfigurationBuilderTests
     }
 
     [Fact]
-    public void CopyConstructor_CopiesConfiguration()
+    public void CopyConstructor_CopiesRuntimeTypeEntriesAndAssemblies()
     {
         var original = new MessagesConfigurationBuilder()
             .AddMessage(typeof(TestMessage), x => x.SetKey("original"))
@@ -46,7 +46,7 @@ public sealed class MessagesConfigurationBuilderTests
     }
 
     [Fact]
-    public void AddMessage_WithDifferentRuntimeTypesKeepsBothConfigurations()
+    public void AddMessage_WithDifferentRuntimeTypes_KeepsBothConfigurations()
     {
         var result = new MessagesConfigurationBuilder()
             .AddMessage(typeof(TestMessage), x => x.SetKey("one"))
@@ -58,6 +58,18 @@ public sealed class MessagesConfigurationBuilderTests
         Assert.Contains("two", result.MessagesByKey.Keys);
     }
 
+    [Fact]
+    public void AddMessage_WithDuplicateKey_IndexesLastMessageByKey()
+    {
+        var result = new MessagesConfigurationBuilder()
+            .AddMessage(typeof(TestMessage), x => x.SetKey("duplicate"))
+            .AddMessage(typeof(OtherMessage), x => x.SetKey("duplicate"))
+            .Build();
+        Assert.Equal(2, result.MessagesByRuntimeType.Count);
+        Assert.Single(result.MessagesByKey);
+        Assert.Same(result.MessagesByRuntimeType[typeof(OtherMessage)], result.MessagesByKey["duplicate"]);
+    }
+
     private sealed class TestMessage
     {
     }
@@ -65,4 +77,5 @@ public sealed class MessagesConfigurationBuilderTests
     private sealed class OtherMessage
     {
     }
+
 }

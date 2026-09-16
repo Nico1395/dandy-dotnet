@@ -3,7 +3,7 @@ using DandyDotnet.EventDrivenArchitecture.RabbitMQ.Declarations;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client;
 
-namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests;
+namespace DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.Unit.Consumer;
 
 public sealed class ConsumerContextTests
 {
