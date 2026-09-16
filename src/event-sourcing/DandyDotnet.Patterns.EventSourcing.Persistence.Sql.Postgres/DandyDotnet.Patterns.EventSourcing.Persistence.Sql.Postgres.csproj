@@ -1,5 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>Postgres event sourcing persistence driver.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+        <PackageTags>Event Sourcing, SQL, Postgres, PostgreSQL, Npgsql</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Migrations.Postgres\DandyDotnet.Persistence.Sql.Migrations.Postgres.csproj" />
       <ProjectReference Include="..\..\persistence\DandyDotnet.Persistence.Sql.Postgres\DandyDotnet.Persistence.Sql.Postgres.csproj" />

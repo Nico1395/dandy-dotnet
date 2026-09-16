@@ -8,10 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres;
 
+/// <summary>
+///     Represents the configuration and service registration provider for PostgreSQL event persistence.
+/// </summary>
 internal sealed class NpgsqlConfiguration : PersistenceConfiguration
 {
     private static readonly Assembly[] _assemblies = [typeof(NpgsqlConfiguration).Assembly];
 
+    /// <inheritdoc />
     public override void ConfigureServices(IServiceCollection services)
     {
         base.ConfigureServices(services);
