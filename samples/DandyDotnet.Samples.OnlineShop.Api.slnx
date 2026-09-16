@@ -80,5 +80,9 @@
     <Project Path="../src/serialization/DandyDotnet.Serialization.SystemTextJson/DandyDotnet.Serialization.SystemTextJson.csproj" />
     <Project Path="../src/serialization/DandyDotnet.Serialization/DandyDotnet.Serialization.csproj" />
   </Folder>
-  <Folder Name="/_/" />
+  <Folder Name="/_/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="DandyDotnet.Samples.OnlineShop.Api/DandyDotnet.Samples.OnlineShop.Api.csproj" />
 </Solution>
