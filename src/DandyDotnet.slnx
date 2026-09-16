@@ -19,11 +19,6 @@
     <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Tests.csproj" />
     <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ\DandyDotnet.EventDrivenArchitecture.RabbitMQ.csproj" />
   </Folder>
-  <Folder Name="/EventDrivenArchitecture/RabbitMQ/Samples/">
-    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Consumer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Consumer.csproj" />
-    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Producer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Producer.csproj" />
-    <Project Path="rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Sample.Shared.csproj" />
-  </Folder>
   <Folder Name="/Http/">
     <Project Path="http\DandyDotnet.Http.StaticEndpoints.Tests\DandyDotnet.Http.StaticEndpoints.Tests.csproj" />
     <Project Path="http\DandyDotnet.Http.StaticEndpoints\DandyDotnet.Http.StaticEndpoints.csproj" />
