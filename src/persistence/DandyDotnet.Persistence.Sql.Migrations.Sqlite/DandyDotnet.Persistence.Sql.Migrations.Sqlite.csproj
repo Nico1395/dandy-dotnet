@@ -1,5 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>DandyDotnet.Persistence.Sql.Migrations.Sqlite</PackageId>
+        <Authors>Nicolai Wolf</Authors>
+        <Description>SQLite driver for slim minimal migrations.</Description>
+        <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
+        <PackageTags>Migrations, SQL, SQLite</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Migrations\DandyDotnet.Persistence.Sql.Migrations.csproj" />
         <ProjectReference Include="..\DandyDotnet.Persistence.Sql.Sqlite\DandyDotnet.Persistence.Sql.Sqlite.csproj" />
