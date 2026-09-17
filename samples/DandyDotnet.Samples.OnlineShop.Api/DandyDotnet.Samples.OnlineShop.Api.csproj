@@ -4,6 +4,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Carts\DandyDotnet.Samples.OnlineShop.Api.Carts.csproj" />
+    <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Inventory\DandyDotnet.Samples.OnlineShop.Api.Inventory.csproj" />
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Orders\DandyDotnet.Samples.OnlineShop.Api.Orders.csproj" />
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Payment\DandyDotnet.Samples.OnlineShop.Api.Payment.csproj" />
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Users\DandyDotnet.Samples.OnlineShop.Api.Users.csproj" />

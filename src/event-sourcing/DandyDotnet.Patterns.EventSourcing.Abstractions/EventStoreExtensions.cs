@@ -113,7 +113,7 @@ public static class EventStoreExtensions
     /// </summary>
     /// <param name="eventStore">The event store to append the event to.</param>
     /// <param name="streamId">The unique identifier of the stream to append the event to.</param>
-    /// <param name="@event">The event to append to the stream.</param>
+    /// <param name="event">The event to append to the stream.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <typeparam name="TAggregate">The type of the aggregate to which the event belongs.</typeparam>
     /// <returns>A <see cref="Task" /> that represents the asynchronous append operation.</returns>
