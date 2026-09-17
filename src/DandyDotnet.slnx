@@ -77,10 +77,6 @@
     <Project Path="serialization/DandyDotnet.Serialization.SystemTextJson/DandyDotnet.Serialization.SystemTextJson.csproj" />
     <Project Path="serialization/DandyDotnet.Serialization/DandyDotnet.Serialization.csproj" />
   </Folder>
-  <Folder Name="/Validation/">
-    <Project Path="validation/DandyDotnet.Validation.Abstractions/DandyDotnet.Validation.Abstractions.csproj" />
-    <Project Path="validation/DandyDotnet.Validation.Tests/DandyDotnet.Validation.Tests.csproj" />
-  </Folder>
   <Folder Name="/_/">
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
