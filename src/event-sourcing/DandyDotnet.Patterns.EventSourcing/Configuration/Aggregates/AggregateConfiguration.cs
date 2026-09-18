@@ -18,11 +18,6 @@ public sealed class AggregateConfiguration
     public required Type RuntimeType { get; init; }
 
     /// <summary>
-    ///     Gets the custom factory type implementing <see cref="IAggregateFactory{T}" /> for this aggregate, if configured.
-    /// </summary>
-    public Type? FactoryType { get; internal set; }
-
-    /// <summary>
     ///     Gets the factory delegate used to construct or restore the aggregate from a snapshot and event stream.
     /// </summary>
     public Func<object?, IReadOnlyEnvelope[], object>? FactoryFunc { get; internal set; }

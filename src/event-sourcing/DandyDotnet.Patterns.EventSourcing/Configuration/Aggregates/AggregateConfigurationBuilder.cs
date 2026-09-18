@@ -39,17 +39,6 @@ public sealed class AggregateConfigurationBuilder<TAggregate>
     }
 
     /// <summary>
-    ///     Configures a custom factory type that implements <see cref="IAggregateFactory{TAggregate}" />.
-    /// </summary>
-    /// <param name="factoryType">The concrete factory type implementing <see cref="IAggregateFactory{TAggregate}" />.</param>
-    /// <returns>The same builder instance so that additional calls can be chained.</returns>
-    public AggregateConfigurationBuilder<TAggregate> UseFactory(Type factoryType)
-    {
-        _configuration.FactoryType = factoryType;
-        return this;
-    }
-
-    /// <summary>
     ///     Configures an inline factory delegate to instantiate or reconstruct the aggregate from its snapshot and event stream.
     /// </summary>
     /// <param name="factoryFunc">
