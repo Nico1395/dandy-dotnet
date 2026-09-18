@@ -37,7 +37,7 @@ internal sealed class SubscriptionManager(
                 // Either no consumer record can be found and this is the subscriber's first try, or it still has retries left.
                 return consumer == null || consumer.CanRetry(maxRetries);
             })
-            .Select(configuration => (subscriber: configuration, serviceProvider.GetRequiredService(configuration.AbstractionType)));
+            .Select(configuration => (configuration, subscriber: serviceProvider.GetRequiredService(configuration.AbstractionType)));
 
         foreach (var (configuration, subscriber) in subscribersToNotify)
         {
