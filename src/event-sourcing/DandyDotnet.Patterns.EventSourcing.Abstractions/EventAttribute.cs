@@ -1,5 +1,3 @@
-using System;
-
 namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 /// <summary>
@@ -58,10 +56,12 @@ public sealed class EventAttribute : Attribute
     ///         This controls the retention period for events in the outbox. Events that exceed their lifetime
     ///         will be removed during the periodic cleanup process performed by the outbox daemon.
     ///     </para>
-///     <para>
+    ///     <para>
     ///         This is useful for events that have a natural expiration, such as time-sensitive notifications
     ///         or temporary data that should not be processed after a certain time period.
     ///     </para>
     /// </remarks>
     public int LifetimeMinutes { get; init; } = -1;
+
+    public Type[]? ProjectTo { get; init; }
 }
