@@ -2,6 +2,7 @@ using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Mapping;
+using DandyDotnet.Patterns.EventSourcing.Projections;
 using DandyDotnet.Patterns.EventSourcing.Subscribers;
 using DandyDotnet.Serialization.Abstractions;
 
@@ -10,6 +11,7 @@ namespace DandyDotnet.Patterns.EventSourcing.Outbox;
 internal sealed class Outbox(
     EventStoreConfiguration eventStoreConfiguration,
     ISerializer serializer,
+    IProjectionManager projectionManager,
     ISubscriptionManager subscriptionManager,
     IUnitOfWork unitOfWork) : IOutbox
 {
@@ -27,6 +29,11 @@ internal sealed class Outbox(
                 eventStore: null,
                 outboxEnvelope, 
                 modes: [SubscriberMode.Inline],
+                cancellationToken);
+
+            await projectionManager.ProjectAsync(
+                outboxEnvelope,
+                modes: [ProjectionMode.Inline],
                 cancellationToken);
         }
 
@@ -56,20 +63,25 @@ internal sealed class Outbox(
             await unitOfWork.CommitAsync(cancellationToken);
         }
 
-        var envelopes = InternalMapper.MapFromEntity(eventStoreConfiguration, serializer, rawEnvelopes.Except(expired)).ToArray();
-        foreach (var envelope in envelopes)
+        var outboxEnvelopes = InternalMapper.MapFromEntity(eventStoreConfiguration, serializer, rawEnvelopes.Except(expired)).ToArray();
+        foreach (var outboxEnvelope in outboxEnvelopes)
         {
             // The subscription manager filters out subscribers that have already successfully consumed the envelope
             // using the envelope's consumers and their statuses.
 
             await subscriptionManager.NotifySubscribersAsync(
                 eventStore: null,
-                envelope,
+                outboxEnvelope,
                 [SubscriberMode.Inline, SubscriberMode.Async],
+                cancellationToken);
+            
+            await projectionManager.ProjectAsync(
+                outboxEnvelope,
+                modes: [ProjectionMode.Inline, ProjectionMode.Async],
                 cancellationToken);
         }
 
-        var consumers = envelopes.SelectMany(e => e.Consumers).ToArray();
+        var consumers = outboxEnvelopes.SelectMany(e => e.Consumers).ToArray();
 
         var consumersToInsert = consumers.Where(c => c.IsNew);
         var insertEntities = InternalMapper.MapToEntity(consumersToInsert).ToArray();
