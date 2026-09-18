@@ -1,5 +1,3 @@
-using System;
-
 namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 /// <summary>
