@@ -3,6 +3,7 @@ using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Events;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Outbox;
+using DandyDotnet.Patterns.EventSourcing.Configuration.Projections;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;
 
 namespace DandyDotnet.Patterns.EventSourcing.Configuration;
@@ -20,6 +21,8 @@ public sealed class EventStoreConfigurationBuilder
 {
     private readonly Dictionary<string, PluginConfiguration> _plugins = [];
 
+    public ProjectionsConfigurationBuilder Projections { get; } = new();
+    
     /// <summary>
     ///     Gets the configuration builder for aggregate roots, factories, and snapshot policies.
     /// </summary>
@@ -81,6 +84,7 @@ public sealed class EventStoreConfigurationBuilder
     {
         return new EventStoreConfiguration
         {
+            Projections = Projections.Build(),
             Aggregates = Aggregates.Build(),
             Events = Events.Build(),
             Subscribers = Subscribers.Build(),

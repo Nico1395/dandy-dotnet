@@ -3,8 +3,8 @@ using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Events;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Outbox;
+using DandyDotnet.Patterns.EventSourcing.Configuration.Projections;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;
-using DandyDotnet.Patterns.EventSourcing.Subscribers;
 
 namespace DandyDotnet.Patterns.EventSourcing.Configuration;
 
@@ -22,6 +22,8 @@ public sealed class EventStoreConfiguration
     internal EventStoreConfiguration()
     {
     }
+
+    public required ProjectionsConfiguration Projections { get; init; }
 
     /// <summary>
     ///     Gets the configuration for aggregate types, their keys, factories, and snapshot policies.
