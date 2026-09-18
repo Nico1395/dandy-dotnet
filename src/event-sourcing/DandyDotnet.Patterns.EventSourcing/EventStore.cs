@@ -19,6 +19,9 @@ internal sealed class EventStore(
 {
     public async Task<object?> ReplayAggregateAsync(Type aggregateType, string streamId, long? toVersion, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(streamId))
+            return null;
+
         var configuration = eventStoreConfiguration.Aggregates.GetOrAddAggregateConfiguration(aggregateType);
         var (snapshot, stream) = await this.ReplayStreamAsync(streamId, toVersion, toTimestamp, cancellationToken);
 
