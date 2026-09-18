@@ -27,11 +27,10 @@ public sealed class EventsConfiguration
     /// </summary>
     public TimeSpan DefaultLifetime { get; set; } = TimeSpan.FromMinutes(15);
 
-    internal EventConfiguration GetOrAddEventConfiguration(Type eventType)
+    internal EventConfiguration GetOrAddEventConfiguration(Type eventType, EventAttribute attribute)
     {
         return EventConfigsByType.GetOrAdd(eventType, type =>
         {
-            var attribute = type.GetCustomAttribute<EventAttribute>();
             var configuration = new EventConfiguration
             {
                 Key = attribute?.Key ?? eventType.Name,
