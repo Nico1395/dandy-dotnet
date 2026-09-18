@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using System.Reflection;
 using DandyDotnet.DependencyInjection.Scanning;
 using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Events;
+using DandyDotnet.Patterns.EventSourcing.Configuration.Projections;
 using DandyDotnet.Patterns.EventSourcing.Configuration.Subscribers;
 using DandyDotnet.Patterns.EventSourcing.Outbox;
 using DandyDotnet.Patterns.EventSourcing.Subscribers;
@@ -49,17 +51,6 @@ public static class EventStoreServiceCollectionExtensions
     /// <returns>The same <paramref name="services" /> instance for method chaining.</returns>
     /// <remarks>
     ///     <para>
-    ///         This method registers the following services with the DI container:
-    ///         <list type="bullet">
-    ///             <item><description><see cref="EventStoreConfiguration" /> as a singleton service.</description></item>
-    ///             <item><description><see cref="IEventStore" /> implementation as a scoped service.</description></item>
-    ///             <item><description><see cref="ISubscriptionManager" /> as a scoped service.</description></item>
-    ///             <item><description><see cref="IEnvelopeFactory" /> as a singleton service.</description></item>
-    ///             <item><description><see cref="IOutbox" /> as a scoped service.</description></item>
-    ///             <item><description><see cref="AsyncOutboxDaemon" /> as a hosted service (if outbox daemon is enabled).</description></item>
-    ///         </list>
-    ///     </para>
-    ///     <para>
     ///         If assembly scanning is enabled via <see cref="EventStoreConfigurationBuilder.ScanInAssemblies" />,
     ///         this method also:
     ///         <list type="bullet">
@@ -100,127 +91,83 @@ public static class EventStoreServiceCollectionExtensions
 
         if (configuration.Assemblies != null)
         {
-            AddAggregatesFromAssemblies(configuration.Assemblies, configuration.Aggregates);
-            AddEventsFromAssemblies(configuration.Assemblies, configuration.Events);
-            AddSubscribersFromAssemblies(configuration.Assemblies, configuration.Subscribers);
+            var types = configuration.Assemblies
+                .SelectMany(assembly => assembly.GetTypes())
+                .ToArray();
+
+            AddAggregatesFromAssemblies(types, configuration.Aggregates);
+            AddProjectionsFromAssemblies(types, configuration.Projections, configuration.Events);
+            AddEventsFromAssemblies(types, configuration.Events, configuration.Projections);
+            AddSubscribersFromAssemblies(types, configuration.Subscribers);
 
             services.ScanAndAdd(scanner =>
             {
                 scanner.ScanIn(configuration.Assemblies);
                 scanner.ScanFor(typeof(ISubscriber<>));
-                scanner.ScanFor(typeof(ISubscriberExceptionHandler<>), handler =>
-                {
-                    handler.AllowOpenGeneric();
-                });
+                scanner.ScanFor(typeof(ISubscriberExceptionHandler<>), h => h.AllowOpenGeneric());
                 scanner.ScanFor(typeof(IAggregateFactory<>));
+                scanner.ScanFor(typeof(IProjectionFactory<>));
+                scanner.ScanFor(typeof(IProjectionExceptionHandler<>), h => h.AllowOpenGeneric());
                 scanner.Build();
             });
         }
 
-        foreach (var aggregateConfiguration in configuration.Aggregates.AggregatesByType.Values)
-        {
-            if (aggregateConfiguration.FactoryType == null)
-                continue;
-
-            services.AddTransient(
-                typeof(IAggregateFactory<>).MakeGenericType(aggregateConfiguration.RuntimeType),
-                aggregateConfiguration.FactoryType);
-        }
-
-        AddAggregateFactories(services, configuration.Aggregates);
         AddPlugins(services, configuration.Plugins);
 
         return services;
     }
 
-    /// <summary>
-    ///     Discovers and registers aggregate types from the specified assemblies.
-    /// </summary>
-    /// <param name="assemblies">The assemblies to scan for aggregate types.</param>
-    /// <param name="configuration">The aggregates configuration to add discovered types to.</param>
-    /// <remarks>
-    ///     This method scans the specified assemblies for types decorated with the
-    ///     <see cref="AggregateAttribute" /> and adds them to the aggregates configuration.
-    /// </remarks>
-    private static void AddAggregatesFromAssemblies(Assembly[] assemblies, AggregatesConfiguration configuration)
+    private static void AddAggregatesFromAssemblies(Type[] types, AggregatesConfiguration configuration)
     {
-        var aggregateTypes = assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(t => t.GetCustomAttribute<AggregateAttribute>() != null);
-
-        foreach (var aggregateType in aggregateTypes)
+        foreach (var aggregateType in types.Where(t => t.GetCustomAttribute<AggregateAttribute>() != null))
             configuration.GetOrAddAggregateConfiguration(aggregateType);
     }
-
-    /// <summary>
-    ///     Discovers and registers event types from the specified assemblies.
-    /// </summary>
-    /// <param name="assemblies">The assemblies to scan for event types.</param>
-    /// <param name="configuration">The events configuration to add discovered types to.</param>
-    /// <remarks>
-    ///     This method scans the specified assemblies for types decorated with the
-    ///     <see cref="EventAttribute" /> and adds them to the events configuration.
-    /// </remarks>
-    private static void AddEventsFromAssemblies(Assembly[] assemblies, EventsConfiguration configuration)
+    
+    private static void AddEventsFromAssemblies(Type[] types, EventsConfiguration events, ProjectionsConfiguration projections)
     {
-        var eventTypes = assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(t => t.GetCustomAttribute<EventAttribute>() != null);
-
-        foreach (var eventType in eventTypes)
-            configuration.GetOrAddEventConfiguration(eventType);
-    }
-
-    /// <summary>
-    ///     Discovers and registers subscriber types from the specified assemblies.
-    /// </summary>
-    /// <param name="assemblies">The assemblies to scan for subscriber types.</param>
-    /// <param name="configuration">The subscribers configuration to add discovered types to.</param>
-    /// <remarks>
-    ///     This method scans the specified assemblies for types decorated with the
-    ///     <see cref="SubscriberAttribute" /> and adds them to the subscribers configuration.
-    /// </remarks>
-    private static void AddSubscribersFromAssemblies(Assembly[] assemblies, SubscribersConfiguration configuration)
-    {
-        var subscriberTypes = assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(t => t.GetCustomAttribute<SubscriberAttribute>() != null);
-
-        foreach (var subscriberType in subscriberTypes)
-            configuration.GetOrAddSubscriberConfiguration(subscriberType);
-    }
-
-    /// <summary>
-    ///     Registers aggregate factories for configured aggregates.
-    /// </summary>
-    /// <param name="services">The service collection to register factories with.</param>
-    /// <param name="configuration">The aggregates configuration containing factory configurations.</param>
-    /// <remarks>
-    ///     This method registers each configured aggregate factory type with the DI container,
-    ///     allowing the event store to resolve and use them when reconstructing aggregates.
-    /// </remarks>
-    private static void AddAggregateFactories(IServiceCollection services, AggregatesConfiguration configuration)
-    {
-        foreach (var aggregateConfiguration in configuration.AggregatesByType.Values)
+        foreach (var eventType in types.Where(t => t.GetCustomAttribute<EventAttribute>() != null))
         {
-            if (aggregateConfiguration.FactoryType == null)
+            var attribute = eventType.GetCustomAttribute<EventAttribute>();
+            if (attribute == null)
+                throw new UnreachableException();
+
+            var eventConfig = events.GetOrAddEventConfiguration(eventType, attribute);
+
+            if (attribute.ProjectTo == null)
                 continue;
 
-            services.AddTransient(
-                typeof(IAggregateFactory<>).MakeGenericType(aggregateConfiguration.RuntimeType),
-                aggregateConfiguration.FactoryType);
+            foreach (var projectionType in attribute.ProjectTo)
+            {
+                if (!projections.ProjectionConfigsByType.TryGetValue(projectionType, out var projectionConfig))
+                    continue;
+
+                projectionConfig.EventTypes.Add(eventConfig.RuntimeType);
+                projections.ProjectionConfigsByEventKey[eventConfig.Key] = projectionConfig;
+            }
         }
     }
 
-    /// <summary>
-    ///     Registers plugin services.
-    /// </summary>
-    /// <param name="services">The service collection to register plugin services with.</param>
-    /// <param name="plugins">The dictionary of plugin configurations to process.</param>
-    /// <remarks>
-    ///     This method invokes the <see cref="PluginConfiguration.ConfigureServices" /> method on each
-    ///     registered plugin, allowing plugins to add their own services to the container.
-    /// </remarks>
+    private static void AddSubscribersFromAssemblies(Type[] types, SubscribersConfiguration configuration)
+    {
+        foreach (var subscriberType in types.Where(t => t.GetCustomAttribute<SubscriberAttribute>() != null))
+            configuration.GetOrAddSubscriberConfiguration(subscriberType);
+    }
+
+    private static void AddProjectionsFromAssemblies(Type[] types, ProjectionsConfiguration projections, EventsConfiguration events)
+    {
+        foreach (var projectionType in types.Where(t => t.GetCustomAttribute<ProjectionAttribute>() != null))
+        {
+            var configuration = projections.GetOrAddProjectionConfiguration(projectionType);
+            foreach (var eventType in configuration.EventTypes)
+            {
+                if (!events.EventsByType.TryGetValue(eventType, out var eventConfig))
+                    continue;
+
+                projections.ProjectionConfigsByEventKey[eventConfig.Key] = configuration;
+            }
+        }
+    }
+
     private static void AddPlugins(IServiceCollection services, IReadOnlyDictionary<string, PluginConfiguration> plugins)
     {
         foreach (var (_, configuration) in plugins)
