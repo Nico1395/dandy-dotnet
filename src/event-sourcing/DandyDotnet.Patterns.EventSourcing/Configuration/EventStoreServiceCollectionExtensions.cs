@@ -49,27 +49,6 @@ public static class EventStoreServiceCollectionExtensions
     /// <returns>The same <paramref name="services" /> instance for method chaining.</returns>
     /// <remarks>
     ///     <para>
-    ///         This method registers the following services with the DI container:
-    ///         <list type="bullet">
-    ///             <item><description><see cref="EventStoreConfiguration" /> as a singleton service.</description></item>
-    ///             <item><description><see cref="IEventStore" /> implementation as a scoped service.</description></item>
-    ///             <item><description><see cref="ISubscriptionManager" /> as a scoped service.</description></item>
-    ///             <item><description><see cref="IEnvelopeFactory" /> as a singleton service.</description></item>
-    ///             <item><description><see cref="IOutbox" /> as a scoped service.</description></item>
-    ///             <item><description><see cref="AsyncOutboxDaemon" /> as a hosted service (if outbox daemon is enabled).</description></item>
-    ///         </list>
-    ///     </para>
-    ///     <para>
-    ///         If assembly scanning is enabled via <see cref="EventStoreConfigurationBuilder.ScanInAssemblies" />,
-    ///         this method also:
-    ///         <list type="bullet">
-    ///             <item><description>Automatically discovers and registers aggregates marked with <see cref="AggregateAttribute" />.</description></item>
-    ///             <item><description>Automatically discovers and registers events marked with <see cref="EventAttribute" />.</description></item>
-    ///             <item><description>Automatically discovers and registers subscribers marked with <see cref="SubscriberAttribute" />.</description></item>
-    ///             <item><description>Scans for and registers implementations of <see cref="ISubscriber{TEvent}" />, <see cref="ISubscriberExceptionHandler{TEvent}" />, and <see cref="IAggregateFactory{T}" />.</description></item>
-    ///         </list>
-    ///     </para>
-    ///     <para>
     ///         Custom aggregate factories configured with a specific factory type are also registered
     ///         with the DI container.
     ///     </para>
@@ -100,9 +79,11 @@ public static class EventStoreServiceCollectionExtensions
 
         if (configuration.Assemblies != null)
         {
-            AddAggregatesFromAssemblies(configuration.Assemblies, configuration.Aggregates);
-            AddEventsFromAssemblies(configuration.Assemblies, configuration.Events);
-            AddSubscribersFromAssemblies(configuration.Assemblies, configuration.Subscribers);
+            var types = configuration.Assemblies.SelectMany(a => a.GetTypes()).ToArray();
+
+            AddAggregatesFromAssemblies(types, configuration.Aggregates);
+            AddEventsFromAssemblies(types, configuration.Events);
+            AddSubscribersFromAssemblies(types, configuration.Subscribers);
 
             services.ScanAndAdd(scanner =>
             {
@@ -133,72 +114,24 @@ public static class EventStoreServiceCollectionExtensions
         return services;
     }
 
-    /// <summary>
-    ///     Discovers and registers aggregate types from the specified assemblies.
-    /// </summary>
-    /// <param name="assemblies">The assemblies to scan for aggregate types.</param>
-    /// <param name="configuration">The aggregates configuration to add discovered types to.</param>
-    /// <remarks>
-    ///     This method scans the specified assemblies for types decorated with the
-    ///     <see cref="AggregateAttribute" /> and adds them to the aggregates configuration.
-    /// </remarks>
-    private static void AddAggregatesFromAssemblies(Assembly[] assemblies, AggregatesConfiguration configuration)
+    private static void AddAggregatesFromAssemblies(Type[] types, AggregatesConfiguration configuration)
     {
-        var aggregateTypes = assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(t => t.GetCustomAttribute<AggregateAttribute>() != null);
-
-        foreach (var aggregateType in aggregateTypes)
+        foreach (var aggregateType in types.Where(t => t.GetCustomAttribute<AggregateAttribute>() != null))
             configuration.GetOrAddAggregateConfiguration(aggregateType);
     }
 
-    /// <summary>
-    ///     Discovers and registers event types from the specified assemblies.
-    /// </summary>
-    /// <param name="assemblies">The assemblies to scan for event types.</param>
-    /// <param name="configuration">The events configuration to add discovered types to.</param>
-    /// <remarks>
-    ///     This method scans the specified assemblies for types decorated with the
-    ///     <see cref="EventAttribute" /> and adds them to the events configuration.
-    /// </remarks>
-    private static void AddEventsFromAssemblies(Assembly[] assemblies, EventsConfiguration configuration)
+    private static void AddEventsFromAssemblies(Type[] types, EventsConfiguration configuration)
     {
-        var eventTypes = assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(t => t.GetCustomAttribute<EventAttribute>() != null);
-
-        foreach (var eventType in eventTypes)
+        foreach (var eventType in types.Where(t => t.GetCustomAttribute<EventAttribute>() != null))
             configuration.GetOrAddEventConfiguration(eventType);
     }
 
-    /// <summary>
-    ///     Discovers and registers subscriber types from the specified assemblies.
-    /// </summary>
-    /// <param name="assemblies">The assemblies to scan for subscriber types.</param>
-    /// <param name="configuration">The subscribers configuration to add discovered types to.</param>
-    /// <remarks>
-    ///     This method scans the specified assemblies for types decorated with the
-    ///     <see cref="SubscriberAttribute" /> and adds them to the subscribers configuration.
-    /// </remarks>
-    private static void AddSubscribersFromAssemblies(Assembly[] assemblies, SubscribersConfiguration configuration)
+    private static void AddSubscribersFromAssemblies(Type[] types, SubscribersConfiguration configuration)
     {
-        var subscriberTypes = assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(t => t.GetCustomAttribute<SubscriberAttribute>() != null);
-
-        foreach (var subscriberType in subscriberTypes)
+        foreach (var subscriberType in types.Where(t => t.GetCustomAttribute<SubscriberAttribute>() != null))
             configuration.GetOrAddSubscriberConfiguration(subscriberType);
     }
 
-    /// <summary>
-    ///     Registers aggregate factories for configured aggregates.
-    /// </summary>
-    /// <param name="services">The service collection to register factories with.</param>
-    /// <param name="configuration">The aggregates configuration containing factory configurations.</param>
-    /// <remarks>
-    ///     This method registers each configured aggregate factory type with the DI container,
-    ///     allowing the event store to resolve and use them when reconstructing aggregates.
-    /// </remarks>
     private static void AddAggregateFactories(IServiceCollection services, AggregatesConfiguration configuration)
     {
         foreach (var aggregateConfiguration in configuration.AggregatesByType.Values)
@@ -212,15 +145,6 @@ public static class EventStoreServiceCollectionExtensions
         }
     }
 
-    /// <summary>
-    ///     Registers plugin services.
-    /// </summary>
-    /// <param name="services">The service collection to register plugin services with.</param>
-    /// <param name="plugins">The dictionary of plugin configurations to process.</param>
-    /// <remarks>
-    ///     This method invokes the <see cref="PluginConfiguration.ConfigureServices" /> method on each
-    ///     registered plugin, allowing plugins to add their own services to the container.
-    /// </remarks>
     private static void AddPlugins(IServiceCollection services, IReadOnlyDictionary<string, PluginConfiguration> plugins)
     {
         foreach (var (_, configuration) in plugins)
