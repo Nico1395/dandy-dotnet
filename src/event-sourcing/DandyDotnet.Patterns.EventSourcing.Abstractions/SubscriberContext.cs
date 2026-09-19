@@ -84,15 +84,6 @@ public sealed class SubscriberContext
     ///     based on a specified maximum retry count. It is equivalent to checking if
     ///     <see cref="RetryCount" /> &lt; <paramref name="retries" />.
     /// </remarks>
-    /// <example>
-    ///     <code language="csharp">
-    ///         if (context.CanRetry(3))
-    ///         {
-    ///             // Will be retried up to 3 times total (0, 1, 2)
-    ///             throw new TemporaryException("Retry me");
-    ///         }
-    ///     </code>
-    /// </example>
     public bool CanRetry(int retries)
     {
         return RetryCount < retries;
@@ -108,18 +99,6 @@ public sealed class SubscriberContext
     ///     This helper method provides a convenient way to check if this is the initial processing
     ///     attempt, which can be useful for logging or special first-attempt behavior.
     /// </remarks>
-    /// <example>
-    ///     <code language="csharp">
-    ///         if (context.IsFirstTry())
-    ///         {
-    ///             _logger.LogInformation("First attempt to process event");
-    ///         }
-    ///         else
-    ///         {
-    ///             _logger.LogWarning("Retry attempt {RetryCount}", context.RetryCount);
-    ///         }
-    ///     </code>
-    /// </example>
     public bool IsFirstTry()
     {
         return RetryCount == 0;
