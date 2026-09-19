@@ -23,15 +23,14 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 /// </remarks>
 /// <example>
 ///     <code language="csharp">
-///         public class UserAggregateFactory : IAggregateFactory<UserAggregate>
+///         internal sealed class UserAggregateFactory : IAggregateFactory<UserAggregate>
 ///         {
 ///             public UserAggregate Create(UserAggregate? snapshot, IReadOnlyEnvelope[] envelopes)
 ///             {
 ///                 var aggregate = snapshot ?? new UserAggregate();
 ///                 foreach (var envelope in envelopes)
-///                 {
 ///                     aggregate.Apply((dynamic)envelope.Event);
-///                 }
+/// 
 ///                 return aggregate;
 ///             }
 ///         }
