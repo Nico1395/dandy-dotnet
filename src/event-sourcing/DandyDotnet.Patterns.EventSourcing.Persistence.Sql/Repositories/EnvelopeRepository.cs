@@ -1,4 +1,4 @@
-using DandyDotnet.Patterns.EventSourcing.Persistence;
+using System.Text;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
 using Dapper;
 
@@ -31,7 +31,7 @@ internal sealed class EnvelopeRepository(
             },
             transaction: unitOfWorkContext.Transaction,
             cancellationToken: cancellationToken));
-        
+
         return raw.ToArray();
     }
 
@@ -47,6 +47,7 @@ internal sealed class EnvelopeRepository(
             e.Timestamp,
             e.EventKey,
             e.Payload,
+            Tags = FormatTags(e.Tags),
         });
 
         await unitOfWorkContext.Connection.ExecuteAsync(new CommandDefinition(
@@ -54,5 +55,18 @@ internal sealed class EnvelopeRepository(
             parameters,
             transaction: unitOfWorkContext.Transaction,
             cancellationToken: cancellationToken));
+    }
+
+    private static string? FormatTags(string[] tags)
+    {
+        if (tags.Length == 0)
+            return null;
+
+        var builder = new StringBuilder()
+            .Append(';')
+            .Append(string.Join(';', tags))
+            .Append(';');
+
+        return builder.ToString();
     }
 }
