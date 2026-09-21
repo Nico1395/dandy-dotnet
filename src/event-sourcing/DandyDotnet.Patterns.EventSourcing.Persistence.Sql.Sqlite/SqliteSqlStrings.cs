@@ -21,7 +21,8 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                   {Tables.Envelopes.Payload} AS Payload,
                                                   {Tables.Envelopes.Version} AS Version,
                                                   {Tables.Envelopes.Timestamp} AS Timestamp,
-                                                  {Tables.Envelopes.EventKey} AS EventKey
+                                                  {Tables.Envelopes.EventKey} AS EventKey,
+                                                  {Tables.Envelopes.Tags} AS Tags
                                               FROM {Tables.Envelopes.Table}
                                               WHERE {Tables.Envelopes.StreamId} = @StreamId
                                               AND (@FromVersion IS NULL OR {Tables.Envelopes.Version} >= @FromVersion)
@@ -37,13 +38,15 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                      {Tables.Envelopes.Version},
                                                      {Tables.Envelopes.Timestamp},
                                                      {Tables.Envelopes.EventKey},
-                                                     {Tables.Envelopes.Payload})
+                                                     {Tables.Envelopes.Payload},
+                                                     {Tables.Envelopes.Tags})
                                                  VALUES (
                                                      @StreamId,
                                                      @Version,
                                                      @Timestamp,
                                                      @EventKey,
-                                                     @Payload)
+                                                     @Payload,
+                                                     @Tags)
                                              """;
 
     /// <inheritdoc />
