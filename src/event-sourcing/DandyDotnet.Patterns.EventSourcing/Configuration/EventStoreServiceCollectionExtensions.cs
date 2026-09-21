@@ -71,7 +71,6 @@ public static class EventStoreServiceCollectionExtensions
         services.AddSingleton(configuration);
         services.AddScoped<IEventStore, EventStore>();
         services.AddScoped<ISubscriptionManager, SubscriptionManager>();
-        services.AddSingleton<IEnvelopeFactory, EnvelopeFactory>();
         services.AddScoped<IOutbox, EventSourcing.Outbox.Outbox>();
 
         if (configuration.Outbox.DaemonEnabled)
