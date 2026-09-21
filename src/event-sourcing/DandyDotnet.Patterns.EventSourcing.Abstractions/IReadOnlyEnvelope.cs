@@ -81,4 +81,12 @@ public interface IReadOnlyEnvelope
     ///     type-based operations such as casting or reflection.
     /// </remarks>
     Type RuntimeType { get; }
+
+    /// <summary>
+    ///     Gets tags the event was associated with when appending to its respective stream.
+    /// </summary>
+    /// <remarks>
+    ///     Tags are always normalized on inserting and will never be <see langword="null"/>.
+    /// </remarks>
+    string[] Tags { get; }
 }
