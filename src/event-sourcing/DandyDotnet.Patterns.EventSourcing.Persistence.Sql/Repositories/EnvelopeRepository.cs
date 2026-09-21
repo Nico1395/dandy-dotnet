@@ -19,7 +19,7 @@ internal sealed class EnvelopeRepository(
 
     public async Task<EnvelopeEntity[]> GetStreamAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
-        var raw = await unitOfWorkContext.Connection.QueryAsync<EnvelopeEntity>(new CommandDefinition(
+        var rows = await unitOfWorkContext.Connection.QueryAsync<EnvelopeRow>(new CommandDefinition(
             sqlStrings.GetStream,
             new
             {
@@ -32,7 +32,7 @@ internal sealed class EnvelopeRepository(
             transaction: unitOfWorkContext.Transaction,
             cancellationToken: cancellationToken));
 
-        return raw.ToArray();
+        return GetEntities(rows).ToArray();
     }
 
     public async Task InsertAsync(string streamId, EnvelopeEntity[] envelopes, CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ internal sealed class EnvelopeRepository(
             e.Timestamp,
             e.EventKey,
             e.Payload,
-            Tags = FormatTags(e.Tags),
+            Tags = TagsToString(e.Tags),
         });
 
         await unitOfWorkContext.Connection.ExecuteAsync(new CommandDefinition(
@@ -57,7 +57,20 @@ internal sealed class EnvelopeRepository(
             cancellationToken: cancellationToken));
     }
 
-    private static string? FormatTags(string[] tags)
+    private static IEnumerable<EnvelopeEntity> GetEntities(IEnumerable<EnvelopeRow> rows)
+    {
+        return rows.Select(row => new EnvelopeEntity
+        {
+            StreamId = row.StreamId,
+            Payload = row.Payload,
+            Version = row.Version,
+            Timestamp = row.Timestamp,
+            EventKey = row.EventKey,
+            Tags = StringToTags(row.Tags),
+        });
+    }
+
+    private static string? TagsToString(string[] tags)
     {
         if (tags.Length == 0)
             return null;
@@ -68,5 +81,23 @@ internal sealed class EnvelopeRepository(
             .Append(';');
 
         return builder.ToString();
+    }
+
+    private static string[] StringToTags(string? tagsString)
+    {
+        if (string.IsNullOrWhiteSpace(tagsString))
+            return [];
+
+        return tagsString.Trim(';').Split(';');
+    }
+
+    private sealed class EnvelopeRow
+    {
+        public required string StreamId { get; init; }
+        public required string Payload { get; init; }
+        public required long Version { get; init; }
+        public required DateTime Timestamp { get; init; }
+        public required string EventKey { get; init; }
+        public required string? Tags { get; init; }
     }
 }
