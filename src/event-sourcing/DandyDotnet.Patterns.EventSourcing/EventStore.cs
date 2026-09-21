@@ -12,7 +12,6 @@ namespace DandyDotnet.Patterns.EventSourcing;
 internal sealed class EventStore(
     EventStoreConfiguration eventStoreConfiguration,
     IServiceProvider serviceProvider,
-    IEnvelopeFactory envelopeFactory,
     ISerializer serializer,
     IOutbox outbox,
     IUnitOfWork unitOfWork) : IEventStore
@@ -81,7 +80,7 @@ internal sealed class EventStore(
         };
     }
 
-    public async Task AppendAsync(Type? aggregateType, string streamId, object[] events, CancellationToken cancellationToken)
+    public async Task AppendAsync(Type? aggregateType, string streamId, (object Event, IEnumerable<string>? Tags)[] events, CancellationToken cancellationToken)
     {
         if (events.Length == 0)
             return;
@@ -94,7 +93,7 @@ internal sealed class EventStore(
 
         // Create envelopes
         var envelopeVersion = currentVersion;
-        var envelopes = events.Select(e => envelopeFactory.Create(streamId, e, envelopeVersion++)).ToArray();
+        var envelopes = events.Select(e => CreateEnvelope(streamId, e.Event, e.Tags, envelopeVersion++)).ToArray();
         var envelopeEntities = InternalMapper.MapToEntity(serializer, envelopes).ToArray();
 
         // Insert events
@@ -112,6 +111,43 @@ internal sealed class EventStore(
 
         // Notify inline subscribers
         await outbox.NotifyInlineConsumersAsync(outboxEnvelopes, cancellationToken);
+    }
+
+    private Envelope CreateEnvelope(string streamId, object @event, IEnumerable<string>? tags, long version)
+    {
+        var configuration = eventStoreConfiguration.Aggregates.GetOrAddAggregateConfiguration(@event.GetType());
+
+        string[] processedTags;
+        if (tags == null)
+        {
+            processedTags = [];
+        }
+        else
+        {
+            processedTags = tags
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct(StringComparer.Ordinal)
+                .Order()
+                .ToArray();
+
+            var tagsWithDelimiter = processedTags.Where(t => t.Contains(';')).ToArray();
+            if (tagsWithDelimiter.Length > 0)
+            {
+                var asString = string.Join(", ", tagsWithDelimiter);
+                throw new InvalidOperationException($"Tags '{asString}' contain the delimiter ';'.");
+            }
+        }
+
+        return new Envelope
+        {
+            StreamId = streamId,
+            Event = @event,
+            Timestamp = DateTime.UtcNow,
+            Version = version,
+            EventKey = configuration.Key,
+            RuntimeType = configuration.RuntimeType,
+            Tags = processedTags,
+        };
     }
 
     private async Task CreateSnapshotAsync(Type? aggregateType, string streamId, Envelope[] envelopes, long currentVersion, CancellationToken cancellationToken)
