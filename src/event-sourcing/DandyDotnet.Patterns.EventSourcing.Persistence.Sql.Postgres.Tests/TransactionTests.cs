@@ -35,7 +35,7 @@ public sealed class TransactionTests : IClassFixture<DefaultFixture>
         }
 
         using var verificationScope = _fixture.CreateScope();
-        Assert.Empty(await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Envelopes.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None));
+        Assert.Empty(await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Envelopes.GetEnvelopesAsync(streamId, null, null, null, null, CancellationToken.None));
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public sealed class TransactionTests : IClassFixture<DefaultFixture>
         }
 
         using var verificationScope = _fixture.CreateScope();
-        Assert.Single(await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Envelopes.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None));
+        Assert.Single(await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Envelopes.GetEnvelopesAsync(streamId, null, null, null, null, CancellationToken.None));
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public sealed class TransactionTests : IClassFixture<DefaultFixture>
         }
 
         using var verificationScope = _fixture.CreateScope();
-        Assert.Empty(await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Envelopes.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None));
+        Assert.Empty(await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Envelopes.GetEnvelopesAsync(streamId, null, null, null, null, CancellationToken.None));
     }
 }
 

@@ -47,7 +47,10 @@ internal sealed class EventStore(
 
     public async Task<IReadOnlyEnvelope[]> GetStreamAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
-        var envelopeEntities = await unitOfWork.Envelopes.GetStreamAsync(streamId, fromVersion, toVersion, fromTimestamp, toTimestamp, cancellationToken);
+        var envelopeEntities = await unitOfWork.Envelopes.GetEnvelopesAsync(streamId, fromVersion, toVersion, fromTimestamp, toTimestamp, cancellationToken);
+        if (envelopeEntities.Length == 0)
+            return [];
+
         var envelopes = InternalMapper.MapFromEntity(
             eventStoreConfiguration,
             serializer,
@@ -78,6 +81,28 @@ internal sealed class EventStore(
             AggregateKey = snapshotEntity.AggregateKey,
             RuntimeType = configuration.RuntimeType,
         };
+    }
+
+    public async Task<IReadOnlyEnvelope[]> GetEnvelopesAsync(IEnumerable<string> tags, CancellationToken cancellationToken)
+    {
+        var processedTags = tags
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct(StringComparer.Ordinal)
+            .Order()
+            .ToArray();
+        if (processedTags.Length == 0)
+            return [];
+
+        var envelopeEntities = await unitOfWork.Envelopes.GetEnvelopesAsync(processedTags, cancellationToken);
+        if (envelopeEntities.Length == 0)
+            return [];
+
+        var envelopes = InternalMapper.MapFromEntity(
+            eventStoreConfiguration,
+            serializer,
+            envelopeEntities);
+
+        return envelopes.ToArray<IReadOnlyEnvelope>();
     }
 
     public async Task AppendAsync(Type? aggregateType, string streamId, (object Event, IEnumerable<string>? Tags)[] events, CancellationToken cancellationToken)
@@ -123,6 +148,7 @@ internal sealed class EventStore(
             processedTags = [];
         }
         else
+
         {
             processedTags = tags
                 .Where(s => !string.IsNullOrWhiteSpace(s))  // Filter out null or empty tags
