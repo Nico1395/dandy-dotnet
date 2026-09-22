@@ -134,4 +134,22 @@ public interface IReadOnlyEventStore
     ///     Thrown when <paramref name="streamId" /> is <see langword="null" />.
     /// </exception>
     Task<IReadOnlySnapshot?> GetLastSnapshotAsync(string streamId, long? version, CancellationToken cancellationToken);
+
+    /// <summary>
+    ///     Gets envelopes stored with at least one of the given <paramref name="tags"/>.
+    /// </summary>
+    /// <param name="tags">
+    ///     Tags to query for.
+    /// </param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>
+    ///     Envelopes that have been stored with at least one matching tag from <paramref name="tags"/>.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         Matching tags is case-sensitive. <see langword="null"/>-tags are filtered out when storing. Storing
+    ///         events with tags containing the delimiter <c>;</c> is prevented with an exception.
+    ///     </para>
+    /// </remarks>
+    Task<IReadOnlyEnvelope[]> GetEnvelopesAsync(IEnumerable<string> tags, CancellationToken cancellationToken);
 }
