@@ -29,7 +29,7 @@ internal sealed class EventStore(
 
         var hasDuplicates = stream.GroupBy(e => e.Version).Any(c => c.Count() > 1);
         if (hasDuplicates)
-            throw new InvalidOperationException($"Stream with ID '{streamId}' has duplicate events.");
+            throw new EventStreamException($"Stream with ID '{streamId}' has duplicate events.");
 
         stream = stream.OrderBy(e => e.Version).ToArray();
 
@@ -39,9 +39,9 @@ internal sealed class EventStore(
         var factoryType = typeof(IAggregateFactory<>).MakeGenericType(configuration.RuntimeType);
         var factory = serviceProvider.GetService(factoryType);
         if (factory == null)
-            throw new InvalidOperationException($"Could not resolve aggregate factory for aggregate of type '{configuration.RuntimeType}'.");
+            throw new Abstractions.AggregateException($"Could not resolve aggregate factory for aggregate of type '{configuration.RuntimeType}'.");
 
-        var create = factoryType.GetMethod(nameof(IAggregateFactory<>.Create)) ?? throw new UnreachableException();
+        var create = factoryType.GetMethod(nameof(IAggregateFactory<>.Create)) ?? throw new UnreachableException($"The aggregate factory should have a method 'Create'.");
         return create.Invoke(factory, [snapshot?.Aggregate, stream]);
     }
 
@@ -86,7 +86,7 @@ internal sealed class EventStore(
             return;
 
         if (string.IsNullOrWhiteSpace(streamId))
-            throw new ArgumentException("Stream ID cannot be null or whitespace.", nameof(streamId));
+            throw new EventStreamException("Stream ID cannot be null or whitespace.");
 
         // Fetch current version
         var currentVersion = await unitOfWork.Envelopes.GetStreamVersionAsync(streamId, cancellationToken);
@@ -125,17 +125,13 @@ internal sealed class EventStore(
         else
         {
             processedTags = tags
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct(StringComparer.Ordinal)
-                .Order()
+                .Where(s => !string.IsNullOrWhiteSpace(s))  // Filter out null or empty tags
+                .Distinct(StringComparer.Ordinal)   // Distinct case-sensitively
+                .Order()    // Order alphabetically
                 .ToArray();
 
-            var tagsWithDelimiter = processedTags.Where(t => t.Contains(';')).ToArray();
-            if (tagsWithDelimiter.Length > 0)
-            {
-                var asString = string.Join(", ", tagsWithDelimiter);
-                throw new InvalidOperationException($"Tags '{asString}' contain the delimiter ';'.");
-            }
+            // Make sure to punish trying to sneak in the delimiter
+            EventStreamException.ThrowIfTagsContainDelimiter(processedTags);
         }
 
         return new Envelope
@@ -162,7 +158,7 @@ internal sealed class EventStore(
         {
             var aggregate = await ReplayAggregateAsync(aggregateType, streamId, null, null, cancellationToken);
             if (aggregate == null)
-                throw new InvalidOperationException($"Failed to replay aggregate {aggregateType.FullName} from stream {streamId} to create snapshot.");
+                throw new Abstractions.AggregateException($"Failed to replay aggregate {aggregateType.FullName} from stream {streamId} to create snapshot.");
 
             var snapshotEntity = new SnapshotEntity
             {

@@ -57,14 +57,12 @@ public interface IEventStore : IReadOnlyEventStore
     ///         lower-case strings. Tags will be sorted alphabetically.
     ///     </para>
     /// </remarks>
-    /// <exception cref="ArgumentNullException">
-    ///     Thrown when <paramref name="events" /> is <see langword="null" />.
+    /// <exception cref="Abstractions.AggregateException">
+    ///     Thrown when the aggregate replay for snapshots has failed.
     /// </exception>
-    /// <exception cref="ArgumentException">
-    ///     Thrown when <paramref name="streamId" /> is <see langword="null" />, empty, or whitespace.
-    /// </exception>
-    /// <exception cref="InvalidOperationException">
-    ///     Thrown when duplicate events are detected for the same version in a stream.
+    /// <exception cref="EventStreamException">
+    ///     Thrown if the <paramref name="streamId"/> is null or whitespace, any events are duplicates or any provided tag
+    ///     contains the delimiter character <c>;</c>.
     /// </exception>
     /// <seealso cref="EventStoreExtensions.AppendAsync(IEventStore, Type, string, object, CancellationToken)" />
     /// <seealso cref="EventStoreExtensions.AppendAsync(IEventStore, string, object[], CancellationToken)" />
