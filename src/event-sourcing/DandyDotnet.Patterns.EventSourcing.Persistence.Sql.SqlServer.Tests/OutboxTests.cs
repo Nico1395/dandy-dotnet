@@ -55,7 +55,7 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
             await scope.ServiceProvider.GetRequiredService<IEventStore>().AppendAsync(id.ToString(), new AsyncEvent(id), CancellationToken.None);
 
         using var processingScope = fixture.CreateScope();
-        await processingScope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+        await processingScope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
         Assert.Contains($"async:{id}:Async", SubscriberRecorder.Calls);
         var consumer = Assert.Single((await processingScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Outbox.GetEnvelopesAsync(CancellationToken.None)).Single().Consumers);
         Assert.True(consumer.ConsumedAt.HasValue);
@@ -70,7 +70,7 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
             await scope.ServiceProvider.GetRequiredService<IEventStore>().AppendAsync(id.ToString(), new FailingEvent(id), CancellationToken.None);
 
         using var processingScope = fixture.CreateScope();
-        await processingScope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+        await processingScope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
         Assert.Contains($"handler:{id}:Async", SubscriberRecorder.Calls);
         var consumer = Assert.Single((await processingScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Outbox.GetEnvelopesAsync(CancellationToken.None)).Single().Consumers);
         Assert.Null(consumer.ConsumedAt);
@@ -93,7 +93,7 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
         }
 
         using var scope = fixture.CreateScope();
-        await scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+        await scope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
         Assert.Empty(await scope.ServiceProvider.GetRequiredService<IUnitOfWork>().Outbox.GetEnvelopesAsync(CancellationToken.None));
     }
 
@@ -106,9 +106,9 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
             await scope.ServiceProvider.GetRequiredService<IEventStore>().AppendAsync(id.ToString(), new AsyncEvent(id), CancellationToken.None);
 
         using (var scope = fixture.CreateScope())
-            await scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+            await scope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
         using (var scope = fixture.CreateScope())
-            await scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+            await scope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
 
         Assert.Single(SubscriberRecorder.Calls);
     }
@@ -122,9 +122,9 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
             await scope.ServiceProvider.GetRequiredService<IEventStore>().AppendAsync(id.ToString(), new FailingEvent(id), CancellationToken.None);
 
         using (var scope = fixture.CreateScope())
-            await scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+            await scope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
         using (var scope = fixture.CreateScope())
-            await scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+            await scope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
 
         Assert.Equal(2, SubscriberRecorder.Exceptions.Count);
         Assert.Equal(2, SubscriberRecorder.Calls.Count(c => c.StartsWith("handler:")));
@@ -141,7 +141,7 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
         for (var attempt = 0; attempt < 4; attempt++)
         {
             using var scope = fixture.CreateScope();
-            await scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+            await scope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
         }
 
         Assert.Equal(3, SubscriberRecorder.Exceptions.Count);
@@ -157,7 +157,7 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
         var cancellation = new CancellationTokenSource();
         cancellation.Cancel();
         using var scope = fixture.CreateScope();
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => scope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(cancellation.Token));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => scope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(cancellation.Token));
     }
 
     [Fact]
@@ -168,7 +168,7 @@ public sealed class OutboxTests : IClassFixture<DefaultFixture>
             await scope.ServiceProvider.GetRequiredService<IEventStore>().AppendAsync(id.ToString(), new TestEvent(id, "no subscriber"), CancellationToken.None);
 
         using var processingScope = fixture.CreateScope();
-        await processingScope.ServiceProvider.GetRequiredService<IOutbox>().CheckAndProcessAsync(CancellationToken.None);
+        await processingScope.ServiceProvider.GetRequiredService<IOutbox>().NotifyAsyncSubscribersAsync(CancellationToken.None);
         var envelope = Assert.Single(await processingScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Outbox.GetEnvelopesAsync(CancellationToken.None));
         Assert.Empty(envelope.Consumers);
     }

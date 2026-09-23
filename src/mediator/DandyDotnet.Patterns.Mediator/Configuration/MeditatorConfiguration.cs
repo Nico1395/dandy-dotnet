@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using DandyDotnet.DependencyInjection.Scanning;
 using DandyDotnet.Patterns.Mediator.Abstractions.Notifications;
 using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 
@@ -34,6 +35,9 @@ public sealed class MeditatorConfiguration
     /// </summary>
     public IReadOnlyList<Assembly> Assemblies => _assemblies;
 
+    /// <summary>
+    /// Types of services that are registered via the <see cref="ServiceScanner"/> in <see cref="ServiceCollectionExtensions.AddMediator"/>.
+    /// </summary>
     public IReadOnlyList<Type> ServiceTypes => _serviceTypes;
 
     internal void AddPlugin(MediatorPluginConfiguration pluginConfiguration)

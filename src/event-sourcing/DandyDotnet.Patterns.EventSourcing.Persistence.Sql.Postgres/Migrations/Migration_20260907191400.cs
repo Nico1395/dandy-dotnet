@@ -57,6 +57,7 @@ internal sealed class Migration_20260907191400 : IMigration
                                  REFERENCES "{Sql.Constants.Schema.Name}"."{Tables.OutboxEnvelopes.Table}" (
                                      "{Tables.OutboxEnvelopes.StreamId}", "{Tables.OutboxEnvelopes.Version}"
                                  )
+                                 ON DELETE CASCADE
                          );
                          """);
     }

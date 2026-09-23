@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using DandyDotnet.DependencyInjection.Scanning;
 
 namespace DandyDotnet.Patterns.Mediator.Configuration;
 
@@ -20,6 +21,16 @@ public sealed class MediatorConfigurationBuilder
         return this;
     }
 
+    /// <summary>
+    /// Adds a service type to scan for via the <see cref="ServiceScanner"/> in <see cref="ServiceCollectionExtensions.AddMediator"/>.
+    /// </summary>
+    /// <param name="serviceType">The type of service to scan for.</param>
+    /// <returns>The builder.</returns>
+    /// <remarks>
+    ///     <para>
+    ///         Duplicate service types are ignored.
+    ///     </para>
+    /// </remarks>
     public MediatorConfigurationBuilder ScanForServiceType(Type serviceType)
     {
         _configuration.AddServiceType(serviceType);

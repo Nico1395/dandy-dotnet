@@ -13,8 +13,6 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///         query methods. It is the primary data structure used when replaying aggregate state.
 ///     </para>
 /// </remarks>
-/// <seealso cref="IReadOnlyOutboxEnvelope" />
-/// <seealso cref="IEventStore.GetStreamAsync" />
 public interface IReadOnlyEnvelope
 {
     /// <summary>

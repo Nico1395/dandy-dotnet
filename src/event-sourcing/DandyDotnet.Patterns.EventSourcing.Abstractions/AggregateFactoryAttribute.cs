@@ -18,22 +18,5 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///         instead of relying solely on the default <see cref="IAggregateFactory{T}" /> interface implementations.
 ///     </para>
 /// </remarks>
-/// <example>
-///     <code language="csharp">
-///         [Aggregate]
-///         internal sealed class UserAggregate
-///         {
-///             [AggregateFactory]
-///             public static UserAggregate Create(UserAggregate? snapshot, IReadOnlyEnvelope[] envelopes)
-///             {
-///                 var aggregate = snapshot ?? new UserAggregate();
-///                 foreach (var envelope in envelopes)
-///                     aggregate.Apply((dynamic)envelope.Event);
-
-///                 return aggregate;
-///             }
-///         }
-///     </code>
-/// </example>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor)]
 public sealed class AggregateFactoryAttribute : Attribute;

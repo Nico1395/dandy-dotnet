@@ -48,9 +48,9 @@ public sealed class FailingEventSubscriber : ISubscriber<FailingEvent>
 
 public sealed class FailingEventExceptionHandler : ISubscriberExceptionHandler<FailingEvent>
 {
-    public Task HandleAsync(FailingEvent @event, SubscriberContext context, Exception exception, CancellationToken cancellationToken)
+    public Task HandleAsync(FailingEvent subscribed, SubscriberContext context, Exception exception, CancellationToken cancellationToken)
     {
-        SubscriberRecorder.Calls.Enqueue($"handler:{@event.Id}:{context.Mode}");
+        SubscriberRecorder.Calls.Enqueue($"handler:{subscribed.Id}:{context.Mode}");
         return Task.CompletedTask;
     }
 }
