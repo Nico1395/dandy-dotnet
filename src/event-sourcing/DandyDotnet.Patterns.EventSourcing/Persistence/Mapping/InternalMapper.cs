@@ -16,6 +16,7 @@ internal static class InternalMapper
             Version = e.Version,
             Timestamp = e.Timestamp,
             EventKey = e.EventKey,
+            Tags = e.Tags,
         });
     }
 
@@ -38,6 +39,7 @@ internal static class InternalMapper
                 Timestamp = r.Timestamp,
                 EventKey = r.EventKey,
                 RuntimeType = configuration.RuntimeType,
+                Tags = r.Tags,
             };
         });
     }
