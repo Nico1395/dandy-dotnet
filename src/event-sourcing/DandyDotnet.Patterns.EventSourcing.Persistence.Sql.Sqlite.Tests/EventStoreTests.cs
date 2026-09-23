@@ -8,11 +8,11 @@ namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests;
 
 public sealed class EventStoreTests : IClassFixture<DefaultFixture>
 {
-    private readonly DefaultFixture fixture;
+    private readonly DefaultFixture _fixture;
 
     public EventStoreTests(DefaultFixture fixture)
     {
-        this.fixture = fixture;
+        _fixture = fixture;
         fixture.ResetDatabase();
     }
 
@@ -109,12 +109,12 @@ public sealed class EventStoreTests : IClassFixture<DefaultFixture>
     {
         var id = Guid.NewGuid();
         var streamId = id.ToString();
-        var scope = fixture.CreateScope();
+        var scope = _fixture.CreateScope();
         var eventStore = scope.ServiceProvider.GetRequiredService<IEventStore>();
         await Assert.ThrowsAsync<InvalidOperationException>(() => eventStore.AppendAsync(streamId, new UnconfiguredEvent(id), CancellationToken.None));
         scope.Dispose();
 
-        using var verificationScope = fixture.CreateScope();
+        using var verificationScope = _fixture.CreateScope();
         var verificationStore = verificationScope.ServiceProvider.GetRequiredService<IEventStore>();
         Assert.Empty(await verificationStore.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None));
         Assert.Empty(await verificationScope.ServiceProvider.GetRequiredService<IUnitOfWork>().Outbox.GetEnvelopesAsync(CancellationToken.None));
@@ -156,7 +156,7 @@ public sealed class EventStoreTests : IClassFixture<DefaultFixture>
     public async Task GetStream_WithUnknownEventKey_ShouldThrow()
     {
         var streamId = Guid.NewGuid().ToString();
-        using (var connection = fixture.OpenConnection())
+        using (var connection = _fixture.OpenConnection())
         using (var command = connection.CreateCommand())
         {
             command.CommandText = $"INSERT INTO {Tables.Envelopes.Table} (stream_id, version, payload, timestamp, event_key) VALUES ($stream, 0, '{{}}', $timestamp, 'UnknownEvent')";
@@ -165,7 +165,7 @@ public sealed class EventStoreTests : IClassFixture<DefaultFixture>
             command.ExecuteNonQuery();
         }
 
-        using var scope = fixture.CreateScope();
+        using var scope = _fixture.CreateScope();
         var store = scope.ServiceProvider.GetRequiredService<IEventStore>();
         await Assert.ThrowsAsync<InvalidOperationException>(() => store.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None));
     }
@@ -423,7 +423,7 @@ public sealed class EventStoreTests : IClassFixture<DefaultFixture>
 
     private IEventStore GetEventStore(out IServiceScope scope)
     {
-        scope = fixture.CreateScope();
+        scope = _fixture.CreateScope();
         return scope.ServiceProvider.GetRequiredService<IEventStore>();
     }
 
