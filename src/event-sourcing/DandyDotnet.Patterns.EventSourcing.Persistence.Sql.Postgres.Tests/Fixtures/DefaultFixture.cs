@@ -18,8 +18,7 @@ public sealed class DefaultFixture : Fixture
 
     protected override void ConfigureServices(IServiceCollection services)
     {
-        _postgres = new PostgreSqlBuilder()
-            .WithImage("postgres:16-alpine")
+        _postgres = new PostgreSqlBuilder("postgres:16-alpine")
             .WithDatabase("tests")
             .WithUsername("dev")
             .WithPassword("dev")
