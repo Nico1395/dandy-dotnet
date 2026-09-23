@@ -15,15 +15,10 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///         and an array of <see cref="IReadOnlyEnvelope" /> instances representing the events that need to be applied.
 ///         The factory should return a fully reconstructed aggregate instance with all events applied.
 ///     </para>
-///     <para>
-///         Custom aggregate factories can be registered using the <see cref="AggregateConfigurationBuilder{TAggregate}.UseFactory" />
-///         method during event store configuration, or by implementing this interface and registering it
-///         with the dependency injection container.
-///     </para>
 /// </remarks>
 /// <example>
-///     <code language="csharp">
-///         internal sealed class UserAggregateFactory : IAggregateFactory<UserAggregate>
+///     <code>
+///         internal sealed class UserAggregateFactory : IAggregateFactory{UserAggregate}
 ///         {
 ///             public UserAggregate Create(UserAggregate? snapshot, IReadOnlyEnvelope[] envelopes)
 ///             {

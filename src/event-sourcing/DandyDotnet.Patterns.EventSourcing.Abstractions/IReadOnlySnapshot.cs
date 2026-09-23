@@ -1,5 +1,3 @@
-using System;
-
 namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 /// <summary>
@@ -16,8 +14,6 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///         query methods when snapshots are requested.
 ///     </para>
 /// </remarks>
-/// <seealso cref="IEventStore.GetLastSnapshotAsync" />
-/// <seealso cref="ReadOnlyEventStoreExtensions.ReplayStreamAsync" />
 public interface IReadOnlySnapshot
 {
     /// <summary>

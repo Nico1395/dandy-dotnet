@@ -12,11 +12,6 @@ namespace DandyDotnet.Persistence.Sql.Migrations;
 ///         such as the service key, assemblies to scan for migrations, database schema, table name,
 ///         database driver, and exception handlers.
 ///     </para>
-///     <para>
-///         Use the fluent methods to configure migrations: <see cref="AddMigration{TMigration}" /> and
-///         <see cref="ScanInAssemblies" /> to register migrations, and <see cref="UsePostgres" />,
-///         <see cref="UseSqlServer" />, or <see cref="UseSqlite" /> to configure the database driver.
-///     </para>
 /// </remarks>
 /// <example>
 ///     <code>
@@ -75,16 +70,6 @@ public sealed class MigrationsConfiguration
     ///     Gets or sets the database schema name for migrations.
     /// </summary>
     /// <value>The schema name as a string, or <see langword="null" /> for the default schema.</value>
-    /// <remarks>
-    ///     <para>
-    ///         The default schema depends on the database provider:
-    ///         <list type="bullet">
-    ///             <item><description>PostgreSQL: "public"</description></item>
-    ///             <item><description>SQL Server: "dbo"</description></item>
-    ///             <item><description>SQLite: Not applicable (SQLite does not use schemas)</description></item>
-    ///         </list>
-    ///     </para>
-    /// </remarks>
     public string? Schema { get; set; }
 
     /// <summary>
@@ -110,11 +95,6 @@ public sealed class MigrationsConfiguration
     ///     <para>
     ///         The driver is responsible for configuring the database-specific services (connection factory
     ///         and SQL strings) needed for migration operations.
-    ///     </para>
-    ///     <para>
-    ///         Use the database-specific extension methods (<see cref="MigrationsConfigurationExtensions.UsePostgres" />,
-    ///         <see cref="MigrationsConfigurationExtensions.UseSqlServer" />, or
-    ///         <see cref="MigrationsConfigurationExtensions.UseSqlite" />) to set the appropriate driver.
     ///     </para>
     /// </remarks>
     public MigrationsDriver? Driver { get; set; }

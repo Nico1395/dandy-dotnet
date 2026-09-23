@@ -14,11 +14,6 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///         is published to the outbox and ready for processing.
 ///     </para>
 ///     <para>
-///         Subscribers can be registered during event store configuration using the
-///         <see cref="SubscribersConfigurationBuilder" />. They can also be discovered automatically using
-///         assembly scanning if the <see cref="SubscriberAttribute" /> is applied to the subscriber class.
-///     </para>
-///     <para>
 ///         The <see cref="SubscriberContext" /> provides additional information about the event being
 ///         processed, including the event store instance, the envelope, retry information, and more.
 ///     </para>
@@ -32,7 +27,7 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 /// </remarks>
 /// <example>
 ///     <code language="csharp">
-///         public class UserCreatedSubscriber : ISubscriber<UserCreatedEvent>
+///         public class UserCreatedSubscriber : ISubscriber{UserCreatedEvent}
 ///         {
 ///             private readonly ILogger&lt;UserCreatedSubscriber&gt; _logger;
 ///             
