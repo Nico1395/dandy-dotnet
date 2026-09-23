@@ -58,6 +58,7 @@ internal sealed class Migration_20260907205400 : IMigration
                                  "{Tables.OutboxEnvelopes.StreamId}",
                                  "{Tables.OutboxEnvelopes.Version}"
                              )
+                             ON DELETE CASCADE
                          );
                          """);
     }
