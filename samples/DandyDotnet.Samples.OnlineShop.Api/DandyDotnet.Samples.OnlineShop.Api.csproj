@@ -7,6 +7,7 @@
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Inventory\DandyDotnet.Samples.OnlineShop.Api.Inventory.csproj" />
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Orders\DandyDotnet.Samples.OnlineShop.Api.Orders.csproj" />
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Payment\DandyDotnet.Samples.OnlineShop.Api.Payment.csproj" />
+    <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Products\DandyDotnet.Samples.OnlineShop.Api.Products.csproj" />
     <ProjectReference Include="..\DandyDotnet.Samples.OnlineShop.Api.Users\DandyDotnet.Samples.OnlineShop.Api.Users.csproj" />
   </ItemGroup>
 </Project>

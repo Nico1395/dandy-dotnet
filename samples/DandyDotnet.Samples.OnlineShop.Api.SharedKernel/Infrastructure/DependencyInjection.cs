@@ -11,7 +11,7 @@ using DandyDotnet.Patterns.Mediator.Queries;
 using DandyDotnet.Patterns.Mediator.Validation;
 using DandyDotnet.Patterns.Strategies;
 using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Configuration;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence;
+using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence.EntityFrameworkCore;
 using DandyDotnet.Serialization;
 using DandyDotnet.Serialization.SystemTextJson;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +31,7 @@ public static class DependencyInjection
 
         services.AddDbContext<DbContext, ApiDbContext>(cfg =>
         {
+            cfg.AddInterceptors(new DomainAbstractionsSaveChangesInterceptor());
             cfg.UseNpgsql(defaultConnectionString);
         });
 

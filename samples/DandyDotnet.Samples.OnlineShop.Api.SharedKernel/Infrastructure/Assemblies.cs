@@ -15,5 +15,8 @@ public static class Assemblies
         yield return "DandyDotnet.Samples.OnlineShop.Api.Orders";
         yield return "DandyDotnet.Samples.OnlineShop.Api.Users";
         yield return "DandyDotnet.Samples.OnlineShop.Api.Payment";
+        yield return "DandyDotnet.Samples.OnlineShop.Api.Carts";
+        yield return "DandyDotnet.Samples.OnlineShop.Api.Inventory";
+        yield return "DandyDotnet.Samples.OnlineShop.Api.Products";
     }
 }

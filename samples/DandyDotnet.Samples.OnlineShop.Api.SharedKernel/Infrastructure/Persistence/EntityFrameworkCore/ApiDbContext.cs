@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence;
+namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence.EntityFrameworkCore;
 
 public sealed class ApiDbContext : DbContext
 {

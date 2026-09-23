@@ -10,6 +10,7 @@
       <ProjectReference Include="..\..\src\rabbitmq\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer\DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.csproj" />
       <ProjectReference Include="..\..\src\serialization\DandyDotnet.Serialization.SystemTextJson\DandyDotnet.Serialization.SystemTextJson.csproj" />
       <ProjectReference Include="..\..\src\strategies\DandyDotnet.Patterns.Strategies\DandyDotnet.Patterns.Strategies.csproj" />
+      <ProjectReference Include="..\..\src\validation\DandyDotnet.Validation.Abstractions\DandyDotnet.Validation.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
