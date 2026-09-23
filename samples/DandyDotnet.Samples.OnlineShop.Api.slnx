@@ -91,4 +91,5 @@
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.SharedKernel\DandyDotnet.Samples.OnlineShop.Api.SharedKernel.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.Users/DandyDotnet.Samples.OnlineShop.Api.Users.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api/DandyDotnet.Samples.OnlineShop.Api.csproj" />
+  <Project Path="DandyDotnet.Samples.OnlineShop.App/DandyDotnet.Samples.OnlineShop.App.csproj" />
 </Solution>
