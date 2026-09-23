@@ -32,6 +32,25 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                           """;
 
     /// <inheritdoc />
+    public override string SelectEnvelopesWhere => $"""
+                                                        SELECT
+                                                            {Tables.Envelopes.StreamId} AS StreamId,
+                                                            {Tables.Envelopes.Payload} AS Payload,
+                                                            {Tables.Envelopes.Version} AS Version,
+                                                            {Tables.Envelopes.Timestamp} AS Timestamp,
+                                                            {Tables.Envelopes.EventKey} AS EventKey,
+                                                            {Tables.Envelopes.Tags} AS Tags
+                                                        FROM {Schema.Name}.{Tables.Envelopes.Table}
+                                                        WHERE
+                                                    """;
+
+    /// <inheritdoc />
+    public override string TagsLike => $"{Tables.Envelopes.Tags} LIKE ";
+
+    /// <inheritdoc />
+    public override string OrTagsLike => $"OR {Tables.Envelopes.Tags} LIKE ";
+
+    /// <inheritdoc />
     public override string InsertEnvelope => $"""
                                                  INSERT INTO {Tables.Envelopes.Table} (
                                                      {Tables.Envelopes.StreamId},

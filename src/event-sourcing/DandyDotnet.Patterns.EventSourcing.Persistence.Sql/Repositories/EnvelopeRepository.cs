@@ -17,7 +17,7 @@ internal sealed class EnvelopeRepository(
             cancellationToken: cancellationToken));
     }
 
-    public async Task<EnvelopeEntity[]> GetStreamAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)
+    public async Task<EnvelopeEntity[]> GetEnvelopesAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
         var rows = await unitOfWorkContext.Connection.QueryAsync<EnvelopeRow>(new CommandDefinition(
             sqlStrings.GetStream,
@@ -29,6 +29,21 @@ internal sealed class EnvelopeRepository(
                 FromTimestamp = fromTimestamp,
                 ToTimestamp = toTimestamp,
             },
+            transaction: unitOfWorkContext.Transaction,
+            cancellationToken: cancellationToken));
+
+        return GetEntities(rows).ToArray();
+    }
+
+    public async Task<EnvelopeEntity[]> GetEnvelopesAsync(string[] tags, CancellationToken cancellationToken)
+    {
+        var (sql, parameters) = sqlStrings.GetEnvelopesByTags(tags);
+        if (sql == null)
+            return [];
+
+        var rows = await unitOfWorkContext.Connection.QueryAsync<EnvelopeRow>(new CommandDefinition(
+            sql,
+            parameters,
             transaction: unitOfWorkContext.Transaction,
             cancellationToken: cancellationToken));
 
