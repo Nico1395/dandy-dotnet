@@ -39,8 +39,7 @@ public sealed class DefaultFixture : Fixture
     {
         var assemblies = new[] { typeof(DefaultFixture).Assembly };
 
-        _postgres = new PostgreSqlBuilder()
-            .WithImage("postgres:16-alpine")
+        _postgres = new PostgreSqlBuilder("postgres:16-alpine")
             .WithDatabase("tests")
             .WithUsername("dev")
             .WithPassword("dev")

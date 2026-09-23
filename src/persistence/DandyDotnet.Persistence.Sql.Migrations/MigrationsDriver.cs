@@ -16,14 +16,6 @@ namespace DandyDotnet.Persistence.Sql.Migrations;
 ///         <see cref="IDbConnectionFactory" /> and <see cref="MigrationsSqlStrings" /> during service
 ///         collection configuration.
 ///     </para>
-///     <para>
-///         Use the database-specific implementations:
-///         <list type="bullet">
-///             <item><description><see cref="PostgresMigrationsDriver" /> for PostgreSQL</description></item>
-///             <item><description><see cref="SqlServerMigrationsDriver" /> for SQL Server</description></item>
-///             <item><description><see cref="SqliteMigrationsDriver" /> for SQLite</description></item>
-///         </list>
-///     </para>
 /// </remarks>
 public abstract class MigrationsDriver
 {

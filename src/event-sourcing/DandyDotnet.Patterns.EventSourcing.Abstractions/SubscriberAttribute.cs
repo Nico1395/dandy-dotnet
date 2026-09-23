@@ -20,7 +20,7 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 /// <example>
 ///     <code language="csharp">
 ///         [Subscriber(Key = "UserActions", Mode = SubscriberMode.Async, Retries = 3)]
-///         public class UserCreatedSubscriber : ISubscriber<UserCreatedEvent>
+///         public class UserCreatedSubscriber : ISubscriber{UserCreatedEvent}
 ///         {
 ///             public Task HandleAsync(UserCreatedEvent @event, SubscriberContext context, CancellationToken cancellationToken)
 ///             {
