@@ -3,7 +3,7 @@ using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres.Migrations;
 
-public sealed class Migration_20260907191400 : IMigration
+internal sealed class Migration_20260907191400 : IMigration
 {
     public long Version => 20260907191400;
 

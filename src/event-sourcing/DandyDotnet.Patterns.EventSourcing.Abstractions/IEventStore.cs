@@ -1,7 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 /// <summary>
@@ -34,7 +30,7 @@ public interface IEventStore : IReadOnlyEventStore
     ///     associated with a specific aggregate type.
     /// </param>
     /// <param name="streamId">The unique identifier of the stream to append the events to.</param>
-    /// <param name="events">The array of events to append to the stream. Must not be <see langword="null" />.</param>
+    /// <param name="events">Collection of events with optional tags.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A <see cref="Task" /> that represents the asynchronous append operation.</returns>
     /// <remarks>
@@ -56,17 +52,19 @@ public interface IEventStore : IReadOnlyEventStore
     ///         a snapshot may be automatically created after the events are appended, depending on the
     ///         snapshot interval configuration.
     ///     </para>
+    ///     <para>
+    ///         Tags of value <see langword="null"/> and duplicates will be filtered out. Tags will be normalized to invariant
+    ///         lower-case strings. Tags will be sorted alphabetically.
+    ///     </para>
     /// </remarks>
-    /// <exception cref="ArgumentNullException">
-    ///     Thrown when <paramref name="events" /> is <see langword="null" />.
+    /// <exception cref="Abstractions.AggregateException">
+    ///     Thrown when the aggregate replay for snapshots has failed.
     /// </exception>
-    /// <exception cref="ArgumentException">
-    ///     Thrown when <paramref name="streamId" /> is <see langword="null" />, empty, or whitespace.
-    /// </exception>
-    /// <exception cref="InvalidOperationException">
-    ///     Thrown when duplicate events are detected for the same version in a stream.
+    /// <exception cref="EventStreamException">
+    ///     Thrown if the <paramref name="streamId"/> is null or whitespace, any events are duplicates or any provided tag
+    ///     contains the delimiter character <c>;</c>.
     /// </exception>
     /// <seealso cref="EventStoreExtensions.AppendAsync(IEventStore, Type, string, object, CancellationToken)" />
     /// <seealso cref="EventStoreExtensions.AppendAsync(IEventStore, string, object[], CancellationToken)" />
-    Task AppendAsync(Type? aggregateType, string streamId, object[] events, CancellationToken cancellationToken);
+    Task AppendAsync(Type? aggregateType, string streamId, (object Event, IEnumerable<string>? Tags)[] events, CancellationToken cancellationToken);
 }

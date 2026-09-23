@@ -1,5 +1,3 @@
-using System;
-
 namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 /// <summary>
@@ -22,17 +20,16 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 /// </remarks>
 /// <example>
 ///     <code language="csharp">
-///         public class UserAggregate
+///         [Aggregate]
+///         internal sealed class UserAggregate
 ///         {
 ///             [AggregateFactory]
 ///             public static UserAggregate Create(UserAggregate? snapshot, IReadOnlyEnvelope[] envelopes)
 ///             {
-///                 // Create aggregate from snapshot and events
 ///                 var aggregate = snapshot ?? new UserAggregate();
 ///                 foreach (var envelope in envelopes)
-///                 {
 ///                     aggregate.Apply((dynamic)envelope.Event);
-///                 }
+
 ///                 return aggregate;
 ///             }
 ///         }

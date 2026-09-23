@@ -7,4 +7,5 @@ public sealed class EnvelopeEntity
     public required long Version { get; init; }
     public required DateTime Timestamp { get; init; }
     public required string EventKey { get; init; }
+    public required string[] Tags { get; init; }
 }

@@ -12,13 +12,15 @@ namespace DandyDotnet.Patterns.EventSourcing;
 internal sealed class EventStore(
     EventStoreConfiguration eventStoreConfiguration,
     IServiceProvider serviceProvider,
-    IEnvelopeFactory envelopeFactory,
     ISerializer serializer,
     IOutbox outbox,
     IUnitOfWork unitOfWork) : IEventStore
 {
     public async Task<object?> ReplayAggregateAsync(Type aggregateType, string streamId, long? toVersion, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(streamId))
+            return null;
+
         var configuration = eventStoreConfiguration.Aggregates.GetOrAddAggregateConfiguration(aggregateType);
         var (snapshot, stream) = await this.ReplayStreamAsync(streamId, toVersion, toTimestamp, cancellationToken);
 
@@ -27,7 +29,7 @@ internal sealed class EventStore(
 
         var hasDuplicates = stream.GroupBy(e => e.Version).Any(c => c.Count() > 1);
         if (hasDuplicates)
-            throw new InvalidOperationException($"Stream with ID '{streamId}' has duplicate events.");
+            throw new EventStreamException($"Stream with ID '{streamId}' has duplicate events.");
 
         stream = stream.OrderBy(e => e.Version).ToArray();
 
@@ -37,15 +39,18 @@ internal sealed class EventStore(
         var factoryType = typeof(IAggregateFactory<>).MakeGenericType(configuration.RuntimeType);
         var factory = serviceProvider.GetService(factoryType);
         if (factory == null)
-            throw new InvalidOperationException($"Could not resolve aggregate factory for aggregate of type '{configuration.RuntimeType}'.");
+            throw new Abstractions.AggregateException($"Could not resolve aggregate factory for aggregate of type '{configuration.RuntimeType}'.");
 
-        var create = factoryType.GetMethod(nameof(IAggregateFactory<>.Create)) ?? throw new UnreachableException();
+        var create = factoryType.GetMethod(nameof(IAggregateFactory<>.Create)) ?? throw new UnreachableException($"The aggregate factory should have a method 'Create'.");
         return create.Invoke(factory, [snapshot?.Aggregate, stream]);
     }
 
     public async Task<IReadOnlyEnvelope[]> GetStreamAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
-        var envelopeEntities = await unitOfWork.Envelopes.GetStreamAsync(streamId, fromVersion, toVersion, fromTimestamp, toTimestamp, cancellationToken);
+        var envelopeEntities = await unitOfWork.Envelopes.GetEnvelopesAsync(streamId, fromVersion, toVersion, fromTimestamp, toTimestamp, cancellationToken);
+        if (envelopeEntities.Length == 0)
+            return [];
+
         var envelopes = InternalMapper.MapFromEntity(
             eventStoreConfiguration,
             serializer,
@@ -78,20 +83,42 @@ internal sealed class EventStore(
         };
     }
 
-    public async Task AppendAsync(Type? aggregateType, string streamId, object[] events, CancellationToken cancellationToken)
+    public async Task<IReadOnlyEnvelope[]> GetEnvelopesAsync(IEnumerable<string> tags, CancellationToken cancellationToken)
+    {
+        var processedTags = tags
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Distinct(StringComparer.Ordinal)
+            .Order()
+            .ToArray();
+        if (processedTags.Length == 0)
+            return [];
+
+        var envelopeEntities = await unitOfWork.Envelopes.GetEnvelopesAsync(processedTags, cancellationToken);
+        if (envelopeEntities.Length == 0)
+            return [];
+
+        var envelopes = InternalMapper.MapFromEntity(
+            eventStoreConfiguration,
+            serializer,
+            envelopeEntities);
+
+        return envelopes.ToArray<IReadOnlyEnvelope>();
+    }
+
+    public async Task AppendAsync(Type? aggregateType, string streamId, (object Event, IEnumerable<string>? Tags)[] events, CancellationToken cancellationToken)
     {
         if (events.Length == 0)
             return;
 
         if (string.IsNullOrWhiteSpace(streamId))
-            throw new ArgumentException("Stream ID cannot be null or whitespace.", nameof(streamId));
+            throw new EventStreamException("Stream ID cannot be null or whitespace.");
 
         // Fetch current version
         var currentVersion = await unitOfWork.Envelopes.GetStreamVersionAsync(streamId, cancellationToken);
 
         // Create envelopes
         var envelopeVersion = currentVersion;
-        var envelopes = events.Select(e => envelopeFactory.Create(streamId, e, envelopeVersion++)).ToArray();
+        var envelopes = events.Select(e => CreateEnvelope(streamId, e.Event, e.Tags, envelopeVersion++)).ToArray();
         var envelopeEntities = InternalMapper.MapToEntity(serializer, envelopes).ToArray();
 
         // Insert events
@@ -111,6 +138,40 @@ internal sealed class EventStore(
         await outbox.NotifyInlineConsumersAsync(outboxEnvelopes, cancellationToken);
     }
 
+    private Envelope CreateEnvelope(string streamId, object @event, IEnumerable<string>? tags, long version)
+    {
+        var configuration = eventStoreConfiguration.Aggregates.GetOrAddAggregateConfiguration(@event.GetType());
+
+        string[] processedTags;
+        if (tags == null)
+        {
+            processedTags = [];
+        }
+        else
+
+        {
+            processedTags = tags
+                .Where(s => !string.IsNullOrWhiteSpace(s))  // Filter out null or empty tags
+                .Distinct(StringComparer.Ordinal)   // Distinct case-sensitively
+                .Order()    // Order alphabetically
+                .ToArray();
+
+            // Make sure to punish trying to sneak in the delimiter
+            EventStreamException.ThrowIfTagsContainDelimiter(processedTags);
+        }
+
+        return new Envelope
+        {
+            StreamId = streamId,
+            Event = @event,
+            Timestamp = DateTime.UtcNow,
+            Version = version,
+            EventKey = configuration.Key,
+            RuntimeType = configuration.RuntimeType,
+            Tags = processedTags,
+        };
+    }
+
     private async Task CreateSnapshotAsync(Type? aggregateType, string streamId, Envelope[] envelopes, long currentVersion, CancellationToken cancellationToken)
     {
         if (aggregateType == null || envelopes.Length == 0)
@@ -123,7 +184,7 @@ internal sealed class EventStore(
         {
             var aggregate = await ReplayAggregateAsync(aggregateType, streamId, null, null, cancellationToken);
             if (aggregate == null)
-                throw new InvalidOperationException($"Failed to replay aggregate {aggregateType.FullName} from stream {streamId} to create snapshot.");
+                throw new Abstractions.AggregateException($"Failed to replay aggregate {aggregateType.FullName} from stream {streamId} to create snapshot.");
 
             var snapshotEntity = new SnapshotEntity
             {
