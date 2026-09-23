@@ -11,7 +11,7 @@ internal sealed class Migration_20260921212000 : IMigration
     {
         builder.Execute($"""
                          ALTER TABLE [{Sql.Constants.Schema.Name}].[{Tables.Envelopes.Table}]
-                         ADD COLUMN [{Tables.Envelopes.Tags}] NVARCHAR(MAX) NULL;
+                         ADD [{Tables.Envelopes.Tags}] NVARCHAR(MAX) NULL;
                          """);
     }
 

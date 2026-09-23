@@ -1,5 +1,4 @@
 using DandyDotnet.Patterns.EventSourcing.Abstractions;
-using DandyDotnet.Patterns.EventSourcing.Outbox;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests.Fixtures;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Tests.Mocks;
@@ -89,7 +88,7 @@ public sealed class EventStoreTests : IClassFixture<DefaultFixture>
         var eventStore = GetEventStore(out var scope);
         using (scope)
         {
-            await Assert.ThrowsAsync<ArgumentException>(() => eventStore.AppendAsync(streamId, new TestEvent(Guid.NewGuid(), "x"), CancellationToken.None));
+            await Assert.ThrowsAsync<EventStreamException>(() => eventStore.AppendAsync(streamId, new TestEvent(Guid.NewGuid(), "x"), CancellationToken.None));
         }
     }
 
@@ -169,6 +168,257 @@ public sealed class EventStoreTests : IClassFixture<DefaultFixture>
         using var scope = fixture.CreateScope();
         var store = scope.ServiceProvider.GetRequiredService<IEventStore>();
         await Assert.ThrowsAsync<InvalidOperationException>(() => store.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None));
+    }
+
+    [Fact]
+    public async Task AppendEvents_WithTags_ShouldStoreTagsOnEnvelopes()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, streamId, new TestEvent(id, "tagged"), ["tag-a", "tag-b"], CancellationToken.None);
+            var stream = await eventStore.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None);
+
+            var envelope = Assert.Single(stream);
+            Assert.Equal(["tag-a", "tag-b"], envelope.Tags);
+        }
+    }
+
+    [Fact]
+    public async Task AppendEvents_WithDuplicateAndWhitespaceTags_ShouldDeduplicateAndFilterTags()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, streamId, new TestEvent(id, "tagged"), ["zebra", "apple", "apple", " ", null!, "zebra"], CancellationToken.None);
+            var stream = await eventStore.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None);
+
+            var envelope = Assert.Single(stream);
+            Assert.Equal(["apple", "zebra"], envelope.Tags);
+        }
+    }
+
+    [Fact]
+    public async Task AppendEvents_WithNullTags_ShouldStoreEmptyTags()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, streamId, new TestEvent(id, "not-tagged"), null, CancellationToken.None);
+            var stream = await eventStore.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None);
+
+            var envelope = Assert.Single(stream);
+            Assert.Empty(envelope.Tags);
+        }
+    }
+
+    [Fact]
+    public async Task AppendEvents_WithMultipleEventsAndTags_ShouldStoreRespectiveTags()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync<TestAggregate>(streamId, [
+                (new TestEvent(id, "first"), ["tag1", "common"]),
+                (new SecondTestEvent(id, 10), ["tag2", "common"]),
+                (new SecondTestEvent(id, 20), null),
+            ], CancellationToken.None);
+
+            var stream = await eventStore.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None);
+            Assert.Equal(3, stream.Length);
+            Assert.Equal(["common", "tag1"], stream[0].Tags);
+            Assert.Equal(["common", "tag2"], stream[1].Tags);
+            Assert.Empty(stream[2].Tags);
+        }
+    }
+
+    [Theory]
+    [InlineData("tag;with;delimiter")]
+    [InlineData(";leading")]
+    [InlineData("trailing;")]
+    public async Task AppendEvents_WithTagsContainingDelimiter_ShouldThrow(string invalidTag)
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await Assert.ThrowsAsync<EventStreamException>(() =>
+                eventStore.AppendAsync(null, streamId, new TestEvent(id, "invalid"), [invalidTag], CancellationToken.None));
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithMatchingTag_ShouldReturnMatchingEnvelopesAcrossStreams()
+    {
+        var id1 = Guid.NewGuid();
+        var id2 = Guid.NewGuid();
+        var id3 = Guid.NewGuid();
+        var stream1 = id1.ToString();
+        var stream2 = id2.ToString();
+        var stream3 = id3.ToString();
+
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, stream1, new TestEvent(id1, "event1"), ["audit", "order"], CancellationToken.None);
+            await eventStore.AppendAsync(null, stream2, new TestEvent(id2, "event2"), ["audit", "customer"], CancellationToken.None);
+            await eventStore.AppendAsync(null, stream3, new TestEvent(id3, "event3"), ["inventory"], CancellationToken.None);
+
+            var auditEnvelopes = await eventStore.GetEnvelopesAsync(["audit"], CancellationToken.None);
+
+            Assert.Equal(2, auditEnvelopes.Length);
+            Assert.Contains(auditEnvelopes, e => e.StreamId == stream1 && ((TestEvent)e.Event).Value == "event1");
+            Assert.Contains(auditEnvelopes, e => e.StreamId == stream2 && ((TestEvent)e.Event).Value == "event2");
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithMultipleTags_ShouldReturnEnvelopesMatchingAnyTag()
+    {
+        var id1 = Guid.NewGuid();
+        var id2 = Guid.NewGuid();
+        var id3 = Guid.NewGuid();
+        var stream1 = id1.ToString();
+        var stream2 = id2.ToString();
+        var stream3 = id3.ToString();
+
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, stream1, new TestEvent(id1, "event1"), ["alpha"], CancellationToken.None);
+            await eventStore.AppendAsync(null, stream2, new TestEvent(id2, "event2"), ["beta"], CancellationToken.None);
+            await eventStore.AppendAsync(null, stream3, new TestEvent(id3, "event3"), ["gamma"], CancellationToken.None);
+
+            var result = await eventStore.GetEnvelopesAsync(["alpha", "beta"], CancellationToken.None);
+
+            Assert.Equal(2, result.Length);
+            Assert.Contains(result, e => e.StreamId == stream1);
+            Assert.Contains(result, e => e.StreamId == stream2);
+            Assert.DoesNotContain(result, e => e.StreamId == stream3);
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithNonMatchingTag_ShouldReturnEmpty()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, streamId, new TestEvent(id, "event"), ["existing-tag"], CancellationToken.None);
+            var result = await eventStore.GetEnvelopesAsync(["non-existent-tag"], CancellationToken.None);
+
+            Assert.Empty(result);
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithEmptyOrWhitespaceTags_ShouldReturnEmpty()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, streamId, new TestEvent(id, "event"), ["some-tag"], CancellationToken.None);
+
+            Assert.Empty(await eventStore.GetEnvelopesAsync([], CancellationToken.None));
+            Assert.Empty(await eventStore.GetEnvelopesAsync(["", "  ", "\t"], CancellationToken.None));
+        }
+    }
+
+    [Fact]
+    public async Task AppendEvents_WithGenericAggregateAndTags_ShouldStoreTags()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync<TestAggregate>(streamId, new TestEvent(id, "val"), ["generic-tag"], CancellationToken.None);
+            var stream = await eventStore.GetStreamAsync(streamId, null, null, null, null, CancellationToken.None);
+
+            var envelope = Assert.Single(stream);
+            Assert.Equal(["generic-tag"], envelope.Tags);
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithMatchingTag_ShouldReturnFullyPopulatedEnvelopes()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            var testEvent = new TestEvent(id, "payload-check");
+            await eventStore.AppendAsync(null, streamId, testEvent, ["target-tag"], CancellationToken.None);
+
+            var envelopes = await eventStore.GetEnvelopesAsync(["target-tag"], CancellationToken.None);
+
+            var envelope = Assert.Single(envelopes);
+            Assert.Equal(streamId, envelope.StreamId);
+            Assert.Equal(0, envelope.Version);
+            Assert.Equal(testEvent, envelope.Event);
+            Assert.Equal(nameof(TestEvent), envelope.EventKey);
+            Assert.Equal(typeof(TestEvent), envelope.RuntimeType);
+            Assert.Equal(["target-tag"], envelope.Tags);
+            Assert.True(envelope.Timestamp <= DateTime.UtcNow);
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithDuplicateAndWhitespaceQueryTags_ShouldSanitizeQueryAndMatch()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, streamId, new TestEvent(id, "event"), ["sanitized-query"], CancellationToken.None);
+            var result = await eventStore.GetEnvelopesAsync(["sanitized-query", "sanitized-query", " ", null!], CancellationToken.None);
+
+            var envelope = Assert.Single(result);
+            Assert.Equal(streamId, envelope.StreamId);
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithSubstringTag_ShouldNotMatch()
+    {
+        var id = Guid.NewGuid();
+        var streamId = id.ToString();
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            await eventStore.AppendAsync(null, streamId, new TestEvent(id, "event"), ["tag12"], CancellationToken.None);
+            var result = await eventStore.GetEnvelopesAsync(["tag1"], CancellationToken.None);
+
+            Assert.Empty(result);
+        }
+    }
+
+    [Fact]
+    public async Task GetEnvelopes_WithCancelledToken_ShouldThrow()
+    {
+        var eventStore = GetEventStore(out var scope);
+        using (scope)
+        {
+            using var cancellation = new CancellationTokenSource();
+            cancellation.Cancel();
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
+                eventStore.GetEnvelopesAsync(["any-tag"], cancellation.Token));
+        }
     }
 
     private IEventStore GetEventStore(out IServiceScope scope)

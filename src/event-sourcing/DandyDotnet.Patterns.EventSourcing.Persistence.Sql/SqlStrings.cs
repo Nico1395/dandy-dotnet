@@ -107,9 +107,9 @@ public abstract class SqlStrings
             parameters.Add(parameterName, $"%;{tag};%");
 
             if (index == 0)
-                selectWhere += $"{TagsLike} @{parameterName}";
+                selectWhere += $" {TagsLike}@{parameterName}";
             else
-                selectWhere += $"{OrTagsLike} @{parameterName}";
+                selectWhere += $" {OrTagsLike}@{parameterName}";
 
             index++;
         }

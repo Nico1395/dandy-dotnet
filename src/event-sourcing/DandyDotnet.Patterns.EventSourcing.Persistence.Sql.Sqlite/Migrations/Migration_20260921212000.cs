@@ -10,7 +10,7 @@ internal sealed class Migration_20260921212000 : IMigration
     public void Up(IMigrationBuilder builder)
     {
         builder.Execute($"""
-                         ALTER TABLE "{Sql.Constants.Schema.Name}"."{Tables.Envelopes.Table}"
+                         ALTER TABLE "{Tables.Envelopes.Table}"
                          ADD COLUMN "{Tables.Envelopes.Tags}" TEXT NULL
                          """);
     }
@@ -18,7 +18,7 @@ internal sealed class Migration_20260921212000 : IMigration
     public void Down(IMigrationBuilder builder)
     {
         builder.Execute($"""
-                         ALTER TABLE "{Sql.Constants.Schema.Name}"."{Tables.Envelopes.Table}"
+                         ALTER TABLE "{Tables.Envelopes.Table}"
                          DROP COLUMN "{Tables.Envelopes.Tags}"
                          """);
     }

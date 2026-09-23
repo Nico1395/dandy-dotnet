@@ -17,7 +17,7 @@ public static class Tables
         public const string Timestamp = "timestamp";
         public const string EventKey = "event_key";
         public const int EventKeyLength = 255;
-        public const string Tags = "event_key";
+        public const string Tags = "tags";
     }
 
     public static class Snapshots

@@ -40,7 +40,7 @@ internal sealed class SqliteSqlStrings : SqlStrings
                                                             {Tables.Envelopes.Timestamp} AS Timestamp,
                                                             {Tables.Envelopes.EventKey} AS EventKey,
                                                             {Tables.Envelopes.Tags} AS Tags
-                                                        FROM {Schema.Name}.{Tables.Envelopes.Table}
+                                                        FROM {Tables.Envelopes.Table}
                                                         WHERE
                                                     """;
 
