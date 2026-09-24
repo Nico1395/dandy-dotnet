@@ -25,7 +25,7 @@ public sealed class DefaultFixture : Fixture
             .Build();
         _postgres.StartAsync().GetAwaiter().GetResult();
 
-        services.AddSerializer(cfg => cfg.UseSystemTextJson());
+        services.AddSerialization(cfg => cfg.UseSystemTextJson());
         services.AddEventSourcing(cfg =>
         {
             cfg.ScanInAssemblies(typeof(DefaultFixture).Assembly);
