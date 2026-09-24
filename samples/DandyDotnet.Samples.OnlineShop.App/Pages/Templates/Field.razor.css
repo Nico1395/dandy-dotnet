@@ -1,0 +1,12 @@
+.field {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.4rem;
+
+    .name {
+        font-weight: 600;
+        font-size: 10pt;
+    }
+}

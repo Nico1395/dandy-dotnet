@@ -1,0 +1,15 @@
+<div class="field">
+    <div class="name">
+        @Name
+    </div>
+
+    @ChildContent
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required string Name { get; set; }
+
+    [Parameter, EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+}

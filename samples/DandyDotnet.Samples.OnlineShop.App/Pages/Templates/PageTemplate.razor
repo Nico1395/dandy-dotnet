@@ -1,0 +1,67 @@
+@{
+    var classes = $"page-template {Class}".Trim();
+    var contentClasses = $"page-content {ContentClass}".Trim();
+}
+
+@if (Model != null)
+{
+    <EditForm class="@classes" Model="@Model" OnValidSubmit="@OnSubmit">
+        <div class="page-header">
+            <h2>
+                @Title
+            </h2>
+
+            <div class="page-actions">
+                @Actions
+            </div>
+        </div>
+
+        <div class="@contentClasses">
+            @Content
+        </div>
+    </EditForm>
+}
+else
+{
+    <div class="@classes">
+        <div class="page-header">
+            <h2>
+                @Title
+            </h2>
+        
+            <div class="page-actions">
+                @Actions
+            </div>
+        </div>
+    
+        <div class="@contentClasses">
+            @Content
+        </div>
+    </div>
+}
+
+
+@code {
+    
+    [Parameter, EditorRequired]
+    public required RenderFragment Title { get; init; }
+    
+    [Parameter, EditorRequired]
+    public required RenderFragment Actions { get; init; }
+
+    [Parameter, EditorRequired]
+    public required RenderFragment Content { get; init; }
+
+    [Parameter]
+    public string? Class { get; set; }
+    
+    [Parameter]
+    public string? ContentClass { get; set; }
+
+    [Parameter]
+    public object? Model { get; set; }
+    
+    [Parameter]
+    public EventCallback OnSubmit { get; set; }
+    
+}

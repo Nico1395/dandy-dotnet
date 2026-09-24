@@ -1,0 +1,120 @@
+﻿@page "/products/"
+@inherits PageComponentBase
+
+<PageTitle>Products</PageTitle>
+
+<PageTemplate>
+    <Title>
+        Products
+    </Title>
+
+    <Actions>
+        <button @onclick="@NavigateToEmptyForm" disabled="@IsBusy">
+            Add
+        </button>
+
+        <button @onclick="@NavigateToEditProduct" disabled="@(_selected == null || IsBusy)">
+            Edit
+        </button>
+
+        <button @onclick="@DeleteProductAsync" disabled="@(_selected == null || IsBusy)">
+            Delete
+        </button>
+
+        <button @onclick="@RefreshAsync" disabled="@IsBusy">
+            Refresh
+        </button>
+    </Actions>
+
+    <Content>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">SKU</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Created</th>
+                <th scope="col">Updated</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var product in GetProducts())
+            {
+                var selected = product == _selected ? "selected" : null;
+                var rowClasses = $"row {selected}".Trim();
+
+                <tr class="@rowClasses" @onclick="@(() => Select(product.Id))" disabled="@IsBusy">
+                    <th scope="col">@product.Sku</th>
+                    <th scope="col">@product.Name</th>
+                    <th scope="col">@product.Description</th>
+                    <th scope="col">@($"{product.PriceValue} {product.PriceCurrency}")</th>
+                    <th scope="col">@product.CreatedAt.ToString("d")</th>
+                    <th scope="col">@product.UpdatedAt.ToString("d")</th>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </Content>
+</PageTemplate>
+
+@code {
+    private ProductModelV1? _selected;
+
+    [Inject]
+    private IProductStore Store { get; set; } = null!;
+
+    [SupplyParameterFromQuery(Name = "selected")]
+    public Guid? SelectedId { get; set; }
+
+    private IEnumerable<ProductModelV1> GetProducts()
+    {
+        return Store.Products.OrderBy(p => p.Deleted).ThenBy(p => p.Sku);
+    }
+
+    private void Select(Guid? productId)
+    {
+        if (!productId.HasValue)
+            return;
+
+        _selected = Store.Products.SingleOrDefault(s => !s.Deleted && s.Id == productId.Value);
+    }
+
+    protected override async Task InitializePageAsync(CancellationToken cancellationToken)
+    {
+        await Store.GetAsync(cancellationToken);
+        Select(SelectedId);
+    }
+
+    private Task RefreshAsync()
+    {
+        return DoBusyAsync(async token =>
+        {
+            var selectedId = _selected?.Id;
+            await Store.GetAsync(token);
+            Select(selectedId);
+        });
+    }
+
+    private void NavigateToEmptyForm()
+    {
+        NavigateTo("/products/new");
+    }
+
+    private void NavigateToEditProduct()
+    {
+        if (_selected == null)
+            return;
+
+        NavigateTo($"/products/{_selected}");
+    }
+
+    private async Task DeleteProductAsync()
+    {
+        if (_selected == null)
+            return;
+
+        await DoBusyAsync(token => Store.DeleteAsync(_selected.Id, token));
+    }
+}

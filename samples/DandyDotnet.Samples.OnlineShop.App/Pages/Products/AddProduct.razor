@@ -1,0 +1,60 @@
+@page "/products/new"
+@inherits PageComponentBase
+
+<PageTitle>New product</PageTitle>
+
+<PageTemplate Model="@_request" OnSubmit="@AddAsync" Form>
+    <Title>
+        New product
+    </Title>
+
+    <Actions>
+        <button type="submit" disabled="@IsBusy">
+            Add
+        </button>
+
+        <button type="button" @onclick="@NavigateToProducts" disabled="@IsBusy">
+            Cancel
+        </button>
+    </Actions>
+
+    <Content>
+        <Field Name="Name">
+            <InputText id="product-name" @bind-Value="@_request.Name" type="text" placeholder="Mandatory, please fill." disabled="@IsBusy"/>
+        </Field>
+
+        <Field Name="Description">
+            <InputTextArea id="product-desc" @bind-Value="@_request.Description" type="text" disabled="@IsBusy"></InputTextArea>
+        </Field>
+
+        <Field Name="Price">
+            <InputNumber TValue="@double" id="product-price" @bind-Value="@_request.PriceValue" type="number" min="0" disabled="@IsBusy"/>
+        </Field>
+    </Content>
+</PageTemplate>
+
+@code {
+
+    private readonly AddProductRequestV1 _request = new();
+
+    [Inject]
+    private IProductStore Store { get; set; } = null!;
+
+    private Task AddAsync()
+    {
+        return DoBusyAsync(async token =>
+        {
+            var response = await Store.AddAsync(_request, token);
+            if (response == null)
+                return;
+
+            NavigateTo($"/products?selected={response.Id}");
+        });
+    }
+
+    private void NavigateToProducts()
+    {
+        NavigateTo("/products");
+    }
+
+}

@@ -1,0 +1,10 @@
+.row {
+    &.selected {
+        background-color: lightslategrey;
+    }
+
+    &:hover {
+        background-color: slategray;
+        cursor: pointer;
+    }
+}
