@@ -1,0 +1,58 @@
+services:
+  rabbitmq-1:
+    image: rabbitmq:management
+    container_name: os-rabbitmq-1
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=dev
+      - RABBITMQ_DEFAULT_PASS=dev
+      - RABBITMQ_ERLANG_COOKIE="super_secret_cookie"
+      - RABBITMQ_NODENAME=online-shop@os-rabbitmq-1
+    volumes:
+      - os-rabbitmq-1-lib:/var/lib/rabbitmq/
+      - os-rabbitmq-1-log:/var/log/rabbitmq/
+    networks:
+      - online-shop
+
+  rabbitmq-2:
+    image: rabbitmq:management
+    container_name: os-rabbitmq-2
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=dev
+      - RABBITMQ_DEFAULT_PASS=dev
+      - RABBITMQ_ERLANG_COOKIE="super_secret_cookie"
+      - RABBITMQ_NODENAME=online-shop@os-rabbitmq-2
+    volumes:
+      - os-rabbitmq-2-lib:/var/lib/rabbitmq/
+      - os-rabbitmq-2-log:/var/log/rabbitmq/
+    networks:
+      - online-shop
+
+  postgres:
+    image: postgres:latest
+    container_name: os-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+    volumes:
+      - os-postgres:/var/lib/postgresql
+    networks:
+      - online-shop
+
+volumes:
+  os-rabbitmq-1-lib:
+  os-rabbitmq-1-log:
+  os-rabbitmq-2-lib:
+  os-rabbitmq-2-log:
+  os-postgres:
+
+networks:
+  online-shop:
+    driver: bridge
