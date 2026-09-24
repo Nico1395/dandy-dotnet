@@ -84,7 +84,7 @@ public sealed class ProducerTests
         var services = new ServiceCollection();
         services.AddSingleton(connection);
         services.AddEncoder();
-        services.AddSerializer(builder => builder.UseSystemTextJson());
+        services.AddSerialization(builder => builder.UseSystemTextJson());
         services.AddRabbitMQProducer(_ => { });
         return services.BuildServiceProvider(new ServiceProviderOptions { ValidateScopes = true });
     }

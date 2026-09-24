@@ -33,7 +33,7 @@ public sealed class IntegrationFixture : IAsyncLifetime
         {
             await _rabbitMq.StartAsync();
             var services = new ServiceCollection();
-            services.AddSerializer(config => config.UseSystemTextJson());
+            services.AddSerialization(config => config.UseSystemTextJson());
             services.AddEncoder();
             services.AddSingleton<IConsumer<IntegrationMessage>>(Consumer);
             services.AddRabbitMQConsumer(config =>
