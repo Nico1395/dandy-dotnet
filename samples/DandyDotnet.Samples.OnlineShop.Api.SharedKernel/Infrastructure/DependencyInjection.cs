@@ -29,10 +29,10 @@ public static class DependencyInjection
         if (defaultConnectionString == null)
             throw new InvalidOperationException("Default connection string is not set in configuration");
 
-        services.AddDbContext<DbContext, ApiDbContext>(cfg =>
+        services.AddDbContext<DbContext, ApiDbContext>(options =>
         {
-            cfg.AddInterceptors(new DomainAbstractionsSaveChangesInterceptor());
-            cfg.UseNpgsql(defaultConnectionString);
+            options.UseNpgsql(defaultConnectionString);
+            options.AddInterceptors(new DomainAbstractionsSaveChangesInterceptor());
         });
 
         // Mediator

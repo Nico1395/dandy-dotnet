@@ -1,4 +1,6 @@
 using DandyDotnet.Http.StaticEndpoints;
+using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
+using Microsoft.EntityFrameworkCore;
 
 namespace DandyDotnet.Samples.OnlineShop.Api;
 
@@ -23,6 +25,37 @@ internal sealed class Program
 
         app.MapStaticEndpoints();
 
+        RunEntityFrameworkCoreMigrations(app);
+        RunEventSourcingMigrations(app);
+
         app.Run();
+    }
+
+    private static void RunEntityFrameworkCoreMigrations(WebApplication app)
+    {
+        try
+        {
+            using var context = app.Services.GetRequiredService<DbContext>();
+            context.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
+    }
+
+    private static void RunEventSourcingMigrations(WebApplication app)
+    {
+        try
+        {
+            var migrationRunner = app.Services.GetRequiredKeyedService<IMigrationRunner>("event-sourcing");
+            migrationRunner.MigrateUp();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 }

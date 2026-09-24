@@ -3,8 +3,6 @@ using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using DandyDotnet.Patterns.Mediator.Commands;
 using DandyDotnet.Patterns.Mediator.Commands.Abstractions;
 using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Domain.Abstractions;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +25,7 @@ internal static class DeleteProductV1
 
     private sealed record Command(Guid Id) : ICommand;
     
-    private sealed class CommandHandler(ApiDbContext context) : ICommandHandler<Command>
+    private sealed class CommandHandler(DbContext context) : ICommandHandler<Command>
     {
         public async Task<ICommandResponse> HandleAsync(Command request, CancellationToken cancellationToken)
         {

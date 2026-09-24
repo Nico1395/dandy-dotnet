@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence.EntityFrameworkCore;
 
-public sealed class ApiDbContext : DbContext
+internal sealed class ApiDbContext(DbContextOptions<ApiDbContext> options) : DbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

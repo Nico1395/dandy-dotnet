@@ -3,8 +3,6 @@ using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using DandyDotnet.Patterns.Mediator.Queries;
 using DandyDotnet.Patterns.Mediator.Queries.Abstractions;
 using DandyDotnet.Samples.OnlineShop.Api.Products.UseCases.Contracts;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +24,7 @@ internal static class GetProductsV1
 
     private sealed record Query : IQuery<Product[]>;
 
-    private sealed class QueryHandler(ApiDbContext context) : IQueryHandler<Query, Product[]>
+    private sealed class QueryHandler(DbContext context) : IQueryHandler<Query, Product[]>
     {
         public async Task<IQueryResponse<Product[]>> HandleAsync(Query request, CancellationToken cancellationToken)
         {

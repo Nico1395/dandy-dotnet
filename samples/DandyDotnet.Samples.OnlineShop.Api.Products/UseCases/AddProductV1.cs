@@ -4,8 +4,6 @@ using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using DandyDotnet.Patterns.Mediator.Commands;
 using DandyDotnet.Patterns.Mediator.Commands.Abstractions;
 using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Domain;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence;
-using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence.EntityFrameworkCore;
 using DandyDotnet.Validation.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +45,7 @@ internal static class AddProductV1
         [MaxLength(512)] string? Description,
         Money Price) : ICommand<Response>;
 
-    private sealed class CommandHandler(ApiDbContext context) : ICommandHandler<Command, Response>
+    private sealed class CommandHandler(DbContext context) : ICommandHandler<Command, Response>
     {
         public async Task<ICommandResponse<Response>> HandleAsync(Command request, CancellationToken cancellationToken)
         {
