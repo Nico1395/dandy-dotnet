@@ -80,6 +80,10 @@
     <Project Path="../src/serialization/DandyDotnet.Serialization.SystemTextJson/DandyDotnet.Serialization.SystemTextJson.csproj" />
     <Project Path="../src/serialization/DandyDotnet.Serialization/DandyDotnet.Serialization.csproj" />
   </Folder>
+  <Folder Name="/Packages/Validation/">
+    <Project Path="../src/validation/DandyDotnet.Validation.Abstractions/DandyDotnet.Validation.Abstractions.csproj" />
+    <Project Path="../src/validation/DandyDotnet.Validation.Tests/DandyDotnet.Validation.Tests.csproj" />
+  </Folder>
   <Folder Name="/_/">
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
@@ -88,6 +92,7 @@
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.Inventory/DandyDotnet.Samples.OnlineShop.Api.Inventory.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.Orders/DandyDotnet.Samples.OnlineShop.Api.Orders.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.Payment/DandyDotnet.Samples.OnlineShop.Api.Payment.csproj" />
+  <Project Path="DandyDotnet.Samples.OnlineShop.Api.Products/DandyDotnet.Samples.OnlineShop.Api.Products.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.SharedKernel\DandyDotnet.Samples.OnlineShop.Api.SharedKernel.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api.Users/DandyDotnet.Samples.OnlineShop.Api.Users.csproj" />
   <Project Path="DandyDotnet.Samples.OnlineShop.Api/DandyDotnet.Samples.OnlineShop.Api.csproj" />
