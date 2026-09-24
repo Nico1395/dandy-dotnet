@@ -1,3 +1,6 @@
+using DandyDotnet.DependencyInjection.Abstractions;
+using DandyDotnet.Serialization.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace DandyDotnet.Serialization.NewtonsoftJson;
@@ -18,7 +21,7 @@ namespace DandyDotnet.Serialization.NewtonsoftJson;
 /// </remarks>
 /// <example>
 ///     <code>
-///         services.AddSerializer(builder => builder
+///         services.AddSerialization(builder => builder
 ///             .UseNewtonsoftJson(config =>
 ///             {
 ///                 config.JsonSerializerSettings = new JsonSerializerSettings
@@ -29,7 +32,7 @@ namespace DandyDotnet.Serialization.NewtonsoftJson;
 ///             }));
 ///     </code>
 /// </example>
-public sealed class NewtonsoftJsonConfiguration
+public sealed class NewtonsoftJsonSerializerConfiguration : SerializerConfiguration
 {
     /// <summary>
     ///     Gets or sets the JSON serializer settings for the Newtonsoft.Json serializer.
@@ -54,4 +57,11 @@ public sealed class NewtonsoftJsonConfiguration
     ///     </para>
     /// </remarks>
     public JsonSerializerSettings? JsonSerializerSettings { get; set; }
+
+    /// <inheritdoc/>
+    protected override void ConfigureServices(SerializationConfiguration configuration, IServiceCollection services)
+    {
+        base.ConfigureServices(configuration, services);
+        services.AddKeyedSingletonOrDefault<ISerializer>(configuration.ServiceKey, new NewtonsoftJsonSerializer(this));
+    }
 }

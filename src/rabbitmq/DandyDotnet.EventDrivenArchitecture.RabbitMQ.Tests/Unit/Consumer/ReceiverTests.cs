@@ -155,7 +155,7 @@ public sealed class ReceiverTests
     {
         var services = new ServiceCollection();
         services.AddEncoder();
-        services.AddSerializer(configuration => configuration.UseSystemTextJson());
+        services.AddSerialization(configuration => configuration.UseSystemTextJson());
         services.AddSingleton<IConsumerInterceptor>(interceptor);
         return services.BuildServiceProvider();
     }

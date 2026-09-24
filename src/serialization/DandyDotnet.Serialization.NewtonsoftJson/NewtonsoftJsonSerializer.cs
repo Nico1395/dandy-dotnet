@@ -13,15 +13,13 @@ namespace DandyDotnet.Serialization.NewtonsoftJson;
 ///         <see cref="SerializerConfigurationBuilderExtensions" />.
 ///     </para>
 ///     <para>
-///         The serializer uses the provided <see cref="NewtonsoftJsonConfiguration" /> to customize serialization behavior.
-///         The configuration includes <see cref="NewtonsoftJsonConfiguration.JsonSerializerSettings" /> which allows
+///         The serializer uses the provided <see cref="NewtonsoftJsonSerializerConfiguration" /> to customize serialization behavior.
+///         The serializerConfiguration includes <see cref="NewtonsoftJsonSerializerConfiguration.JsonSerializerSettings" /> which allows
 ///         full control over the JSON serialization process.
 ///     </para>
 /// </remarks>
-internal sealed class NewtonsoftJsonSerializer(NewtonsoftJsonConfiguration configuration) : ISerializer
+internal sealed class NewtonsoftJsonSerializer(NewtonsoftJsonSerializerConfiguration serializerConfiguration) : ISerializer
 {
-    private readonly NewtonsoftJsonConfiguration _configuration = configuration;
-
     /// <summary>
     ///     Serializes the specified object to a JSON string.
     /// </summary>
@@ -37,17 +35,17 @@ internal sealed class NewtonsoftJsonSerializer(NewtonsoftJsonConfiguration confi
     /// <remarks>
     ///     <para>
     ///         This method uses <see cref="JsonConvert.SerializeObject(object, Type, JsonSerializerSettings)" /> for serialization.
-    ///         The behavior depends on the configured <see cref="NewtonsoftJsonConfiguration.JsonSerializerSettings" />.
+    ///         The behavior depends on the configured <see cref="NewtonsoftJsonSerializerConfiguration.JsonSerializerSettings" />.
     ///     </para>
     ///     <para>
-    ///         For <see langword="null" /> objects, the output depends on the NullValueHandling setting in the configuration.
+    ///         For <see langword="null" /> objects, the output depends on the NullValueHandling setting in the serializerConfiguration.
     ///         By default, Json.NET will include null values in the output.
     ///     </para>
     /// </remarks>
     public string Serialize(object item, Type? type)
     {
         type ??= item.GetType();
-        return JsonConvert.SerializeObject(item, type, _configuration.JsonSerializerSettings);
+        return JsonConvert.SerializeObject(item, type, serializerConfiguration.JsonSerializerSettings);
     }
 
     /// <summary>
@@ -68,7 +66,7 @@ internal sealed class NewtonsoftJsonSerializer(NewtonsoftJsonConfiguration confi
     /// <remarks>
     ///     <para>
     ///         This method uses <see cref="JsonConvert.DeserializeObject(string, Type, JsonSerializerSettings)" /> for deserialization.
-    ///         The behavior depends on the configured <see cref="NewtonsoftJsonConfiguration.JsonSerializerSettings" />.
+    ///         The behavior depends on the configured <see cref="NewtonsoftJsonSerializerConfiguration.JsonSerializerSettings" />.
     ///     </para>
     ///     <para>
     ///         If the JSON string represents a null value, this method returns <see langword="null" />.
@@ -77,6 +75,6 @@ internal sealed class NewtonsoftJsonSerializer(NewtonsoftJsonConfiguration confi
     /// </remarks>
     public object? Deserialize(string payload, Type type)
     {
-        return JsonConvert.DeserializeObject(payload, type, _configuration.JsonSerializerSettings);
+        return JsonConvert.DeserializeObject(payload, type, serializerConfiguration.JsonSerializerSettings);
     }
 }

@@ -8,7 +8,7 @@ public sealed class DefaultFixture : Fixture
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddSerializer(cfg => cfg.UseNewtonsoftJson());
+        services.AddSerialization(cfg => cfg.UseNewtonsoftJson());
     }
 
     public ISerializer GetSerializer()

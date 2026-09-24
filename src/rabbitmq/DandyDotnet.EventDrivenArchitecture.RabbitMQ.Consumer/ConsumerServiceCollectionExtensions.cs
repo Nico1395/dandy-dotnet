@@ -53,7 +53,7 @@ public static class ConsumerServiceCollectionExtensions
         services.AddRabbitMQDeclarations(configuration.DeclarationsConfigurationBuilder.Build());
 
         if (configuration.SerializerConfiguration != null)
-            services.AddSerializer(configuration.SerializerConfiguration);
+            services.AddSerialization(configuration.SerializerConfiguration);
 
         if (configuration.EncodingConfiguration != null)
             services.AddEncoder(configuration.EncodingConfiguration);

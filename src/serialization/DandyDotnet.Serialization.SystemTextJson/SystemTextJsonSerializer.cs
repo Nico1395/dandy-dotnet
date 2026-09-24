@@ -20,8 +20,6 @@ namespace DandyDotnet.Serialization.SystemTextJson;
 /// </remarks>
 internal sealed class SystemTextJsonSerializer(SystemTextJsonConfiguration configuration) : ISerializer
 {
-    private readonly SystemTextJsonConfiguration _configuration = configuration;
-
     /// <summary>
     ///     Serializes the specified object to a JSON string.
     /// </summary>
@@ -47,7 +45,7 @@ internal sealed class SystemTextJsonSerializer(SystemTextJsonConfiguration confi
     public string Serialize(object item, Type? type)
     {
         type ??= item.GetType();
-        return JsonSerializer.Serialize(item, type, _configuration.JsonSerializerOptions);
+        return JsonSerializer.Serialize(item, type, configuration.JsonSerializerOptions);
     }
 
     /// <summary>
@@ -79,6 +77,6 @@ internal sealed class SystemTextJsonSerializer(SystemTextJsonConfiguration confi
     /// </remarks>
     public object? Deserialize(string payload, Type type)
     {
-        return JsonSerializer.Deserialize(payload, type, _configuration.JsonSerializerOptions);
+        return JsonSerializer.Deserialize(payload, type, configuration.JsonSerializerOptions);
     }
 }
