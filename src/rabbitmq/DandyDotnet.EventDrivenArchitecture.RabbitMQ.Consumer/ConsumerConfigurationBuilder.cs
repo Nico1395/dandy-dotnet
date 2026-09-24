@@ -41,7 +41,7 @@ public sealed class ConsumerConfigurationBuilder
     ///         the <see cref="IServiceCollection"/> manually and <b>without</b> a service key.
     ///     </para>
     /// </remarks>
-    public SerializerConfigurationBuilder? Serializer { get; set; }
+    public SerializationConfigurationBuilder? Serializer { get; set; }
 
     /// <summary>
     /// Gets or sets the encoding configuration.

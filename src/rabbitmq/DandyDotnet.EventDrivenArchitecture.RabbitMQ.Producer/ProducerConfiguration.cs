@@ -25,10 +25,10 @@ public sealed class ProducerConfiguration
     ///         If not <see langword="null"/>, adds an <see cref="ISerializer"/> with the given configuration.
     ///     </para>
     ///     <para>
-    ///         If multiple serializers are added, consider setting the <see cref="SerializerConfiguration.ServiceKey"/>.
+    ///         If multiple serializers are added, consider setting the <see cref="SerializationConfiguration.ServiceKey"/>.
     ///     </para>
     /// </remarks>
-    public SerializerConfiguration? SerializerConfiguration { get; set; }
+    public SerializationConfiguration? SerializerConfiguration { get; set; }
     
     /// <summary>
     /// Gets or sets an encoder configuration.
