@@ -1,16 +1,27 @@
 using System.Diagnostics;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace DandyDotnet.Patterns.EventSourcing.Outbox;
 
 internal sealed class AsyncOutboxDaemon(
     EventStoreConfiguration eventStoreConfiguration,
-    IServiceProvider serviceProvider,
-    IOutbox outbox) : BackgroundService
+    IServiceProvider serviceProvider) : BackgroundService
 {
+    private IServiceScope? _serviceScope;
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        _serviceScope?.Dispose();
+    }
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        _serviceScope ??= serviceProvider.CreateScope();
+        var outbox = _serviceScope.ServiceProvider.GetRequiredService<IOutbox>();
+
         while (!stoppingToken.IsCancellationRequested)
         {
             var stopwatch = Stopwatch.StartNew();
