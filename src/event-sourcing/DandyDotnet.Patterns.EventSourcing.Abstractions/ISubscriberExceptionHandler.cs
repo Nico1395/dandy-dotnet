@@ -1,7 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 /// <summary>
@@ -17,10 +13,6 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///         Exception handlers can be registered during event store configuration and are called before
 ///         any retry logic is applied. They can inspect the exception, the event, and the subscriber context
 ///         to determine the appropriate action.
-///     </para>
-///     <para>
-///         The <see cref="EventStoreConfigurationBuilder.OnSubscriberException" /> property can be used to
-///         register a global exception handler that applies to all subscribers.
 ///     </para>
 /// </remarks>
 /// <example>
@@ -42,18 +34,17 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///     </code>
 /// </example>
 /// <seealso cref="ISubscriber{TEvent}" />
-/// <seealso cref="EventStoreConfigurationBuilder.OnSubscriberException" />
 public interface ISubscriberExceptionHandler<in TEvent>
     where TEvent : class
 {
     /// <summary>
     ///     Handles an exception that occurred during subscriber processing.
     /// </summary>
-    /// <param name="@event">
-    ///     The event that was being processed when the exception occurred.
+    /// <param name="subscribed">
+    ///     The subscribed that was being processed when the exception occurred.
     /// </param>
     /// <param name="context">
-    ///     The context containing metadata about the subscription and event being processed.
+    ///     The context containing metadata about the subscription and subscribed being processed.
     /// </param>
     /// <param name="exception">
     ///     The exception that was thrown during subscriber processing.
@@ -62,7 +53,7 @@ public interface ISubscriberExceptionHandler<in TEvent>
     /// <returns>A <see cref="Task" /> representing the asynchronous exception handling operation.</returns>
     /// <remarks>
     ///     <para>
-    ///         The implementation can inspect the <paramref name="exception" />, <paramref name="@event" />,
+    ///         The implementation can inspect the <paramref name="exception" />, <paramref name="subscribed" />,
     ///         and <paramref name="context" /> to determine the appropriate response.
     ///     </para>
     ///     <para>
@@ -80,7 +71,7 @@ public interface ISubscriberExceptionHandler<in TEvent>
     ///     </para>
     /// </remarks>
     /// <exception cref="OperationCanceledException">
-    ///     Thrown when the operation is cancelled via the <paramref name="cancellationToken" />.
+    ///     Thrown when the operation is canceled via the <paramref name="cancellationToken" />.
     /// </exception>
-    Task HandleAsync(TEvent @event, SubscriberContext context, Exception exception, CancellationToken cancellationToken);
+    Task HandleAsync(TEvent subscribed, SubscriberContext context, Exception exception, CancellationToken cancellationToken);
 }

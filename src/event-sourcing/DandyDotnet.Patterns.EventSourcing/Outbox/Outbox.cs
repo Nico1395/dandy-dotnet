@@ -36,9 +36,10 @@ internal sealed class Outbox(
         await unitOfWork.Outbox.InsertConsumersAsync(outboxConsumerEntities, cancellationToken);
     }
 
-    public async Task CheckAndProcessAsync(CancellationToken cancellationToken)
+    public async Task NotifyAsyncSubscribersAsync(CancellationToken cancellationToken)
     {
         var rawEnvelopes = await unitOfWork.Outbox.GetEnvelopesAsync(cancellationToken);
+        var now = DateTime.UtcNow;
 
         // Remove expired envelopes first, we don't want to consume those again
         var expired = rawEnvelopes.Where(e =>
@@ -47,7 +48,7 @@ internal sealed class Outbox(
                 throw new InvalidOperationException($"Envelope type {e.EventKey} is not configured.");
 
             var lifeTime = configuration.Lifetime ?? eventStoreConfiguration.Events.DefaultLifetime;
-            return DateTime.UtcNow >= e.Timestamp + lifeTime;
+            return now >= e.Timestamp + lifeTime;
         }).ToArray();
 
         if (expired.Length > 0)

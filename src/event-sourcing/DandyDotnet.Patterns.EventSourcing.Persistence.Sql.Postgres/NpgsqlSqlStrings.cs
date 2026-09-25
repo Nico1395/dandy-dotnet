@@ -22,7 +22,8 @@ internal sealed class NpgsqlSqlStrings : SqlStrings
                                                   {Tables.Envelopes.Payload} AS Payload,
                                                   {Tables.Envelopes.Version} AS Version,
                                                   {Tables.Envelopes.Timestamp} AS Timestamp,
-                                                  {Tables.Envelopes.EventKey} AS EventKey
+                                                  {Tables.Envelopes.EventKey} AS EventKey,
+                                                  {Tables.Envelopes.Tags} AS Tags
                                               FROM {Schema.Name}.{Tables.Envelopes.Table}
                                               WHERE {Tables.Envelopes.StreamId} = @StreamId
                                               AND (CAST(@FromVersion AS BIGINT) IS NULL OR {Tables.Envelopes.Version} >= CAST(@FromVersion AS BIGINT))
@@ -32,19 +33,40 @@ internal sealed class NpgsqlSqlStrings : SqlStrings
                                           """;
 
     /// <inheritdoc />
+    public override string SelectEnvelopesWhere => $"""
+                                                      SELECT
+                                                          {Tables.Envelopes.StreamId} AS StreamId,
+                                                          {Tables.Envelopes.Payload} AS Payload,
+                                                          {Tables.Envelopes.Version} AS Version,
+                                                          {Tables.Envelopes.Timestamp} AS Timestamp,
+                                                          {Tables.Envelopes.EventKey} AS EventKey,
+                                                          {Tables.Envelopes.Tags} AS Tags
+                                                      FROM {Schema.Name}.{Tables.Envelopes.Table}
+                                                      WHERE
+                                                  """;
+
+    /// <inheritdoc />
+    public override string TagsLike => $"{Tables.Envelopes.Tags} LIKE ";
+
+    /// <inheritdoc />
+    public override string OrTagsLike => $"OR {Tables.Envelopes.Tags} LIKE ";
+
+    /// <inheritdoc />
     public override string InsertEnvelope => $"""
                                                  INSERT INTO {Schema.Name}.{Tables.Envelopes.Table} (
                                                      {Tables.Envelopes.StreamId},
                                                      {Tables.Envelopes.Payload},
                                                      {Tables.Envelopes.Version},
                                                      {Tables.Envelopes.Timestamp},
-                                                     {Tables.Envelopes.EventKey})
+                                                     {Tables.Envelopes.EventKey},
+                                                     {Tables.Envelopes.Tags})
                                                  VALUES (
                                                      @StreamId,
                                                      @Payload,
                                                      @Version,
                                                      @Timestamp,
-                                                     @EventKey)
+                                                     @EventKey,
+                                                     @Tags)
                                              """;
 
     /// <inheritdoc />

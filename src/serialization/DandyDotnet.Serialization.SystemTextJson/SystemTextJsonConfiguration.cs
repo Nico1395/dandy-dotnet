@@ -1,4 +1,7 @@
 using System.Text.Json;
+using DandyDotnet.DependencyInjection.Abstractions;
+using DandyDotnet.Serialization.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DandyDotnet.Serialization.SystemTextJson;
 
@@ -18,7 +21,7 @@ namespace DandyDotnet.Serialization.SystemTextJson;
 /// </remarks>
 /// <example>
 ///     <code>
-///         services.AddSerializer(builder => builder
+///         services.AddSerialization(builder => builder
 ///             .UseSystemTextJson(config =>
 ///             {
 ///                 config.JsonSerializerOptions = new JsonSerializerOptions
@@ -30,7 +33,7 @@ namespace DandyDotnet.Serialization.SystemTextJson;
 ///             }));
 ///     </code>
 /// </example>
-public sealed class SystemTextJsonConfiguration
+public sealed class SystemTextJsonConfiguration : SerializerConfiguration
 {
     /// <summary>
     ///     Gets or sets the JSON serializer options for the System.Text.Json serializer.
@@ -64,4 +67,11 @@ public sealed class SystemTextJsonConfiguration
     ///     </para>
     /// </remarks>
     public JsonSerializerOptions? JsonSerializerOptions { get; set; }
+
+    /// <inheritdoc/>
+    protected override void ConfigureServices(SerializationConfiguration configuration, IServiceCollection services)
+    {
+        base.ConfigureServices(configuration, services);
+        services.AddKeyedSingletonOrDefault<ISerializer>(configuration.ServiceKey, new SystemTextJsonSerializer(this));
+    }
 }

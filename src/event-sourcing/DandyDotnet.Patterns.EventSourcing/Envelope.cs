@@ -24,4 +24,7 @@ internal sealed class Envelope : IReadOnlyEnvelope
 
     /// <inheritdoc />
     public required Type RuntimeType { get; init; }
+
+    /// <inheritdoc />
+    public required string[] Tags { get; init; }
 }

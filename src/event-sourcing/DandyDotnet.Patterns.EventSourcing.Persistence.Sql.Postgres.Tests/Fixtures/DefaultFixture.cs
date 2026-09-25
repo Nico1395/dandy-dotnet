@@ -18,15 +18,14 @@ public sealed class DefaultFixture : Fixture
 
     protected override void ConfigureServices(IServiceCollection services)
     {
-        _postgres = new PostgreSqlBuilder()
-            .WithImage("postgres:16-alpine")
+        _postgres = new PostgreSqlBuilder("postgres:16-alpine")
             .WithDatabase("tests")
             .WithUsername("dev")
             .WithPassword("dev")
             .Build();
         _postgres.StartAsync().GetAwaiter().GetResult();
 
-        services.AddSerializer(cfg => cfg.UseSystemTextJson());
+        services.AddSerialization(cfg => cfg.UseSystemTextJson());
         services.AddEventSourcing(cfg =>
         {
             cfg.ScanInAssemblies(typeof(DefaultFixture).Assembly);

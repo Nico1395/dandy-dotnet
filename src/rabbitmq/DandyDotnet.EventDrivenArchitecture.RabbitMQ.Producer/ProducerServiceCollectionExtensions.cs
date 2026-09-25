@@ -33,7 +33,7 @@ public static class ProducerServiceCollectionExtensions
         services.AddRabbitMQDeclarations(configuration.DeclarationsConfiguration.Build());
 
         if (configuration.SerializerConfiguration != null)
-            services.AddSerializer(configuration.SerializerConfiguration);
+            services.AddSerialization(configuration.SerializerConfiguration);
 
         if (configuration.EncodingConfiguration != null)
             services.AddEncoder(configuration.EncodingConfiguration);

@@ -1,5 +1,3 @@
-using System;
-
 namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 
 /// <summary>
@@ -16,7 +14,6 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 ///     </para>
 /// </remarks>
 /// <seealso cref="IReadOnlyEnvelope" />
-/// <seealso cref="OutboxEnvelope" />
 public interface IReadOnlyOutboxEnvelope
 {
     /// <summary>

@@ -12,5 +12,9 @@ public abstract class MediatorPluginConfiguration
     /// </summary>
     public abstract string Slot { get; }
 
+    /// <summary>
+    /// Configures services of the plugin.
+    /// </summary>
+    /// <param name="services">Service collection for adding services.</param>
     public abstract void ConfigureServices(IServiceCollection services);
 }

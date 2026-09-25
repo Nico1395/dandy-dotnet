@@ -3,7 +3,7 @@ using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 
 namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite.Migrations;
 
-public sealed class Migration_20260907205400 : IMigration
+internal sealed class Migration_20260907205400 : IMigration
 {
     public long Version => 20260907205400;
 
@@ -58,6 +58,7 @@ public sealed class Migration_20260907205400 : IMigration
                                  "{Tables.OutboxEnvelopes.StreamId}",
                                  "{Tables.OutboxEnvelopes.Version}"
                              )
+                             ON DELETE CASCADE
                          );
                          """);
     }

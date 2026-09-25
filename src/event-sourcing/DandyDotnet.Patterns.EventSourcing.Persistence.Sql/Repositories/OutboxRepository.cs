@@ -19,12 +19,12 @@ internal sealed class OutboxRepository(
         return RowsToEnvelopes(rows).ToArray();
     }
 
-    public async Task InsertEnvelopesAsync(OutboxEnvelopeEntity[] events, CancellationToken cancellationToken)
+    public async Task InsertEnvelopesAsync(OutboxEnvelopeEntity[] envelopes, CancellationToken cancellationToken)
     {
-        if (events.Length == 0)
+        if (envelopes.Length == 0)
             return;
 
-        var parameters = events.Select(e => new
+        var parameters = envelopes.Select(e => new
         {
             e.StreamId,
             e.Payload,
@@ -40,12 +40,12 @@ internal sealed class OutboxRepository(
             cancellationToken: cancellationToken));
     }
 
-    public async Task DeleteEnvelopesAsync(OutboxEnvelopeEntity[] events, CancellationToken cancellationToken)
+    public async Task DeleteEnvelopesAsync(OutboxEnvelopeEntity[] envelopes, CancellationToken cancellationToken)
     {
-        if (events.Length == 0)
+        if (envelopes.Length == 0)
             return;
 
-        var parameters = events.Select(e => new
+        var parameters = envelopes.Select(e => new
         {
             e.StreamId,
             e.Version,
