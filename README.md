@@ -21,65 +21,6 @@ DandyDotnet is a family of opinionated packages that build on top of [.NET Core]
 
 Aside from being available for everyone, this framework is a bundle of solutions that are commonly used by me (Nico1395).
 
-## Packages
-DandyDotnet differentiates between _feature packages_ and _internal packages_ that are used to provide common abstractions, utilites and functionalities for feature packages. Internal packages should better not be used on their own.
-
-Feature packages are production-ready frameworks. The following packages are feature packages for DandyDotnet:
-
-- Mediator: `DandyDotnet.Patterns.Mediator.*`
-- Strategies: `DandyDotnet.Patterns.Strategies.*`
-- Event sourcing: `DandyDotnet.Patterns.EventSourcing.*`
-- RabbitMQ: `DandyDotnet.EventDrivenArchitecture.RabbitMQ.*`
-
-All packages are currently using .NET 10. The .NET version will be kept up to date. New features, bug fixes and alike will only be added to the newest packages for the newest supported .NET release.
-
-Packages are always pushed to NuGet together, which is why they should be updated together. Version numbers of all packages will stay in sync.
-
-## Package overview
-This section offers a brief overview of all packages available on [nuget.org](https://www.nuget.org/). It contains links to the detailed documentation in the repositories wiki. For a detailed API reference see [here](https://nico1395.github.io/dandy-dotnet/).
-
-|Name|Type|Docs|
-|-|-|-|
-|`DandyDotnet.Encoding.Abstractions`|Internal|Incoming|
-|`DandyDotnet.Encoding`|Internal|Incoming|
-|`DandyDotnet.EventDrivenArchitecture.RabbitMQ.Abstractions`|Feature|Incoming|
-|`DandyDotnet.EventDrivenArchitecture.RabbitMQ`|Feature|Incoming|
-|`DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer.Abstractions`|Feature|Incoming|
-|`DandyDotnet.EventDrivenArchitecture.RabbitMQ.Consumer`|Feature|Incoming|
-|`DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer.Abstractions`|Feature|Incoming|
-|`DandyDotnet.EventDrivenArchitecture.RabbitMQ.Producer`|Feature|Incoming|
-|`DandyDotnet.Patterns.EventSourcing.Abstractions`|Feature|Incoming|
-|`DandyDotnet.Patterns.EventSourcing`|Feature|Incoming|
-|`DandyDotnet.Patterns.EventSourcing.Persistence.Sql`|Feature|Incoming|
-|`DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres`|Feature|Incoming|
-|`DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Sqlite`|Feature|Incoming|
-|`DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer`|Feature|Incoming|
-|`DandyDotnet.Patterns.Mediator.Abstractions`|Feature|Incoming|
-|`DandyDotnet.Patterns.Mediator`|Feature|Incoming|
-|`DandyDotnet.Patterns.Mediator.Queries.Abstractions`|Feature|Incoming|
-|`DandyDotnet.Patterns.Mediator.Queries`|Feature|Incoming|
-|`DandyDotnet.Patterns.Mediator.Commands.Abstractions`|Feature|Incoming|
-|`DandyDotnet.Patterns.Mediator.Commands`|Feature|Incoming|
-|`DandyDotnet.Patterns.Mediator.Validation`|Feature|Incoming|
-|`DandyDotnet.Patterns.Strategies.Abstractions`|Feature|Incoming|
-|`DandyDotnet.Patterns.Strategies`|Feature|Incoming|
-|`DandyDotnet.Persistence.Sql.Abstractions`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.Postgres`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.Sqlite`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.SqlServer`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.Migrations.Abstractions`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.Migrations`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.Migrations.Postgres`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.Migrations.Sqlite`|Internal|Incoming|
-|`DandyDotnet.Persistence.Sql.Migrations.SqlServer`|Internal|Incoming|
-|`DandyDotnet.Serialization.Abstractions`|Internal|Incoming|
-|`DandyDotnet.Serialization`|Internal|Incoming|
-|`DandyDotnet.Serialization.NewtonsoftJson`|Internal|Incoming|
-|`DandyDotnet.Serialization.SystemTextJson`|Internal|Incoming|
-|`DandyDotnet.DependencyInjection.Abstractions`|Internal|Incoming|
-|`DandyDotnet.DependencyInjection`|Internal|Incoming|
-|`DandyDotnet.Http.StaticEndpoints`|Internal|Incoming|
-
 ## Is AI being used and if yes, how?
 Yes, AI is being used. I am not a very heavy AI-user. However there are tasks that I use and consult AI for. This section briefly summarizes how AI is used and why.
 
