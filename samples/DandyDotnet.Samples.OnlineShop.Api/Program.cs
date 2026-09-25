@@ -1,4 +1,5 @@
 using DandyDotnet.Http.StaticEndpoints;
+using DandyDotnet.Patterns.EventSourcing.Configuration;
 using DandyDotnet.Persistence.Sql.Migrations.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,14 @@ internal sealed class Program
         builder.Services.AddOpenApi();
         builder.Services.AddOnlineShopApi(builder.Configuration);
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("App", policy =>
+            {
+                policy.WithOrigins("https://localhost:7250").AllowAnyHeader().AllowAnyMethod();
+            });
+        });
+
         var app = builder.Build();
         if (app.Environment.IsDevelopment())
         {
@@ -21,6 +30,7 @@ internal sealed class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseCors("App");
         app.UseAuthorization();
 
         app.MapStaticEndpoints();
@@ -35,7 +45,8 @@ internal sealed class Program
     {
         try
         {
-            using var context = app.Services.GetRequiredService<DbContext>();
+            using var scope = app.Services.CreateScope();
+            using var context = scope.ServiceProvider.GetRequiredService<DbContext>();
             context.Database.Migrate();
         }
         catch (Exception ex)
@@ -49,7 +60,7 @@ internal sealed class Program
     {
         try
         {
-            var migrationRunner = app.Services.GetRequiredKeyedService<IMigrationRunner>("event-sourcing");
+            var migrationRunner = app.Services.GetRequiredKeyedService<IMigrationRunner>(EventSourcingConstants.ServiceKey);
             migrationRunner.MigrateUp();
         }
         catch (Exception ex)

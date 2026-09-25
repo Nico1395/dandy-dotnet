@@ -25,15 +25,11 @@ internal sealed class DomainAbstractionsSaveChangesInterceptor : SaveChangesInte
 
         foreach (var entityEntry in context.ChangeTracker.Entries().Where(e => e.State > EntityState.Deleted))
         {
-            switch (entityEntry)
-            {
-                case { State: EntityState.Added, Entity: ICreatedAt createdAt }:
-                    createdAt.CreatedAt = DateTime.UtcNow;
-                    break;
-                case { State: EntityState.Modified or EntityState.Added, Entity: IUpdatedAt updatedAt }:
-                    updatedAt.UpdatedAt = DateTime.UtcNow;
-                    break;
-            }
+            if (entityEntry is { State: EntityState.Added, Entity: ICreatedAt createdAt })
+                createdAt.CreatedAt = DateTime.UtcNow;
+
+            if (entityEntry is { State: EntityState.Modified or EntityState.Added, Entity: IUpdatedAt updatedAt })
+                updatedAt.UpdatedAt = DateTime.UtcNow;
         }
     }
 }

@@ -3,7 +3,7 @@
 
 <PageTitle>New product</PageTitle>
 
-<PageTemplate Model="@_request" OnSubmit="@AddAsync" Form>
+<PageTemplate Model="@_request" OnSubmit="@AddAsync">
     <Title>
         New product
     </Title>
@@ -44,11 +44,11 @@
     {
         return DoBusyAsync(async token =>
         {
-            var response = await Store.AddAsync(_request, token);
-            if (response == null)
+            var product = await Store.AddAsync(_request, token);
+            if (product == null)
                 return;
 
-            NavigateTo($"/products?selected={response.Id}");
+            NavigateTo($"/products?selected={product.Id}");
         });
     }
 

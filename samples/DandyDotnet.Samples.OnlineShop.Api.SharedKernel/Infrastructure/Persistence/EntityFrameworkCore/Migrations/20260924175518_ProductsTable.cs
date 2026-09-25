@@ -20,9 +20,9 @@ namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persist
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    sku = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: true),
-                    name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    description = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    sku = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
+                    name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    description = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     price = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

@@ -17,7 +17,7 @@ public static class EntityTypeBuilderExtensions
     public static PropertyBuilder Property<TEntity>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, string?>> propertyExpression, string columnName, int maxLength, bool required = true)
         where TEntity : class
     {
-        return builder.Property(propertyExpression).HasColumnName(columnName).IsRequired(!required).HasMaxLength(maxLength);
+        return builder.Property(propertyExpression).HasColumnName(columnName).IsRequired(required).HasMaxLength(maxLength);
     }
 
     public static PropertyBuilder Property<TEntity>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, Money>> propertyExpression, string columnName, bool required = true)

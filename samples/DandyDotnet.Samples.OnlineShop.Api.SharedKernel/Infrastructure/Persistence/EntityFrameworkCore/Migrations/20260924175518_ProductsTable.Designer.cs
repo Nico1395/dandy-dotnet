@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persistence.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20260924120918_ProductsTable")]
+    [Migration("20260924175518_ProductsTable")]
     partial class ProductsTable
     {
         /// <inheritdoc />
@@ -45,12 +45,12 @@ namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persist
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("name");
@@ -61,6 +61,7 @@ namespace DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Infrastructure.Persist
                         .HasColumnName("price");
 
                     b.Property<string>("Sku")
+                        .IsRequired()
                         .HasMaxLength(21)
                         .HasColumnType("character varying(21)")
                         .HasColumnName("sku");

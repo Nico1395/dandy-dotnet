@@ -21,7 +21,6 @@
       <Folder Include="Contracts\Orders\" />
       <Folder Include="Contracts\Payment\" />
       <Folder Include="Contracts\Users\" />
-      <Folder Include="Infrastructure\Persistence\EntityFrameworkCore\Migrations\" />
     </ItemGroup>
 
 </Project>

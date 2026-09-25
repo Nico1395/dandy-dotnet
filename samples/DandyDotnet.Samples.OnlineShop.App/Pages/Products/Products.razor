@@ -60,7 +60,7 @@
 </PageTemplate>
 
 @code {
-    private ProductModelV1? _selected;
+    private ProductModel? _selected;
 
     [Inject]
     private IProductStore Store { get; set; } = null!;
@@ -68,7 +68,7 @@
     [SupplyParameterFromQuery(Name = "selected")]
     public Guid? SelectedId { get; set; }
 
-    private IEnumerable<ProductModelV1> GetProducts()
+    private IEnumerable<ProductModel> GetProducts()
     {
         return Store.Products.OrderBy(p => p.Deleted).ThenBy(p => p.Sku);
     }
@@ -85,6 +85,11 @@
     {
         await Store.GetAsync(cancellationToken);
         Select(SelectedId);
+    }
+
+    protected override Task OnExceptionAsync(Exception exception, CancellationToken cancellationToken)
+    {
+        return base.OnExceptionAsync(exception, cancellationToken);
     }
 
     private Task RefreshAsync()

@@ -58,6 +58,12 @@ public static class DependencyInjection
             });
         });
 
+        // Encoding
+        services.AddEncoder();
+
+        // Serialization
+        services.AddSerialization(cfg => cfg.UseSystemTextJson());
+
         // RabbitMQ
         var rabbitMqOptions = configuration.GetSection("RabbitMQ").Get<RabbitMQOptions>();
         if (rabbitMqOptions == null)
@@ -65,9 +71,6 @@ public static class DependencyInjection
 
         services.Configure<RabbitMQOptions>(configuration.GetSection("RabbitMQ"));
 
-        var encoder = new EncodingConfigurationBuilder().UseServiceKey("event-store");
-        var serializer = new SerializerConfigurationBuilder().UseSystemTextJson().UseServiceKey("event-store");
-        
         services.AddRabbitMQConsumer(cfg =>
         {
             cfg.ScanInAssemblies(assemblies);
@@ -77,15 +80,10 @@ public static class DependencyInjection
                 rabbitMqOptions.Password ?? throw new InvalidOperationException("RabbitMQ password is not set in configuration"),
                 rabbitMqOptions.Urls?.Select(url => new Uri(url)) ?? throw new InvalidOperationException("RabbitMQ urls are not set in configuration"),
                 recoveryInterval: null);
-
-            cfg.Encoder = encoder;
-            cfg.Serializer = serializer;
         });
 
         services.AddRabbitMQProducer(cfg =>
         {
-            cfg.Encoder = encoder;
-            cfg.Serializer = serializer;
         });
 
         // Strategies

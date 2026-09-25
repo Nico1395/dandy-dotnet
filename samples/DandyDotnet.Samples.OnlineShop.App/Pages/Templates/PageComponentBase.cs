@@ -32,6 +32,7 @@ public abstract class PageComponentBase : ComponentBase, IDisposable
         catch (Exception exception)
         {
             await JsRuntime.InvokeVoidAsync("console.error", exception.ToString());
+            await OnExceptionAsync(exception, _cancellationTokenSource.Token);
         }
 
         IsBusy = false;
@@ -53,5 +54,10 @@ public abstract class PageComponentBase : ComponentBase, IDisposable
     protected void NavigateTo(string uri)
     {
         NavigationManager.NavigateTo(uri);
+    }
+
+    protected virtual Task OnExceptionAsync(Exception exception, CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }
