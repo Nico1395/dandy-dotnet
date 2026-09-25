@@ -13,9 +13,9 @@ internal sealed class Program
         builder.RootComponents.Add<App>("#app");
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
-        builder.Services.AddHttpClient<HttpClient>(httpClient =>
+        builder.Services.AddHttpClient("api", httpClient =>
         {
-            httpClient.BaseAddress = new Uri("http://localhost:5169");
+            httpClient.BaseAddress = new Uri("https://localhost:7020/");
         });
 
         builder.Services.AddSingleton<IProductStore, ProductStore>();

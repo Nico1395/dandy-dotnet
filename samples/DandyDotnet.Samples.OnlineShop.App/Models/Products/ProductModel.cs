@@ -1,6 +1,6 @@
 namespace DandyDotnet.Samples.OnlineShop.App.Models.Products;
 
-internal sealed class ProductModelV1
+internal sealed class ProductModel
 {
     public required Guid Id { get; init; }
     public required string Sku { get; init; }

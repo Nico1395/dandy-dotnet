@@ -3,6 +3,7 @@ using DandyDotnet.Patterns.Mediator.Abstractions;
 using DandyDotnet.Patterns.Mediator.Abstractions.Requests;
 using DandyDotnet.Patterns.Mediator.Commands;
 using DandyDotnet.Patterns.Mediator.Commands.Abstractions;
+using DandyDotnet.Samples.OnlineShop.Api.Products.UseCases.Contracts;
 using DandyDotnet.Samples.OnlineShop.Api.SharedKernel.Domain;
 using DandyDotnet.Validation.Abstractions;
 using Microsoft.AspNetCore.Http;
@@ -19,10 +20,6 @@ internal static class AddProductV1
         double PriceValue,
         string PriceCurrency);
 
-    private sealed record AddProductResponseV1(
-        Guid Id,
-        string Sku);
-
     [HttpPost("api/v1/products")]
     private static async Task<IResult> AddAsync(
         [FromServices] IMediator mediator,
@@ -33,33 +30,29 @@ internal static class AddProductV1
         var command = new Command(request.Name, request.Description, price);
         var response = await mediator.SendAsync(command, cancellationToken);
 
-        return response.Map(result => new AddProductResponseV1(result.Id, result.Sku)).ToResult();
+        return response.Map(ProductV1.Create).ToResult();
     }
-
-    private sealed record Response(
-        Guid Id,
-        string Sku);
 
     private sealed record Command(
         [NotWhitespace, MaxLength(128)] string Name,
         [MaxLength(512)] string? Description,
-        Money Price) : ICommand<Response>;
+        Money Price) : ICommand<Product>;
 
-    private sealed class CommandHandler(DbContext context) : ICommandHandler<Command, Response>
+    private sealed class CommandHandler(DbContext context) : ICommandHandler<Command, Product>
     {
-        public async Task<ICommandResponse<Response>> HandleAsync(Command request, CancellationToken cancellationToken)
+        public async Task<ICommandResponse<Product>> HandleAsync(Command request, CancellationToken cancellationToken)
         {
             if (request.Price.Value < 0 || string.IsNullOrWhiteSpace(request.Price.Currency))
-                return CommandResponse.UnprocessableEntity_422<Response>().Build();
+                return CommandResponse.UnprocessableEntity_422<Product>().Build();
 
             // Beware: This kind of sku is probably silly, but it's enough dummy logic for demo purposes.
 
             var count = await context.Set<Product>().CountAsync(cancellationToken);
-            var no = (count + 1).ToString().PadLeft(20);
+            var no = (count + 1).ToString().PadLeft(20, '0');
             var sku = $"P{no}";     // P + 20 digits = 21 characters
             var skuExists = await context.Set<Product>().AnyAsync(p => p.Sku == sku, cancellationToken);
             if (skuExists)
-                return CommandResponse.Conflict_409<Response>().Build();
+                return CommandResponse.Conflict_409<Product>().Build();
 
             var product = new Product
             {
@@ -72,7 +65,7 @@ internal static class AddProductV1
             await context.SaveChangesAsync(cancellationToken);
 
             return CommandResponse
-                .OK_200(new Response(product.Id, product.Sku))
+                .OK_200(product)
                 .Build();
         }
     }
