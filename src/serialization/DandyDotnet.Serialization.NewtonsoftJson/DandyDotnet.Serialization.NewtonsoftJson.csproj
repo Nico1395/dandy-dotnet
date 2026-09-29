@@ -3,7 +3,7 @@
     <PropertyGroup>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageId>DandyDotnet.Serialization.Abstraction.NewtonsoftJson</PackageId>
+        <PackageId>DandyDotnet.Serialization.NewtonsoftJson</PackageId>
         <Authors>Nicolai Wolf</Authors>
         <Description>Serialization implementations using Newtonsoft.Json.</Description>
         <RepositoryUrl>https://github.com/Nico1395/dandy-dotnet</RepositoryUrl>
