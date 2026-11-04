@@ -1,3 +1,4 @@
+using System.Data;
 using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Constants;
@@ -26,12 +27,23 @@ internal sealed class SnapshotRepository(
             return [];
 
         var sql = sqlStrings.GetLatestSnapshots;
+        var parameters = new DynamicParameters();
+        parameters.Add("AggregateKey", aggregateKey, DbType.String);
         if (streamIds is not null)
-            sql += $" AND s.{Tables.Snapshots.StreamId} IN @StreamIds";
+        {
+            var ids = streamIds.Distinct().ToArray();
+            var names = new string[ids.Length];
+            for (var i = 0; i < ids.Length; i++)
+            {
+                names[i] = $"@StreamId{i}";
+                parameters.Add($"StreamId{i}", ids[i]);
+            }
+            sql += $" AND s.{Tables.Snapshots.StreamId} IN ({string.Join(", ", names)})";
+        }
 
         var rows = await unitOfWorkContext.Connection.QueryAsync<SnapshotEntity>(new CommandDefinition(
             sql,
-            new { StreamIds = streamIds?.Distinct().ToArray(), AggregateKey = aggregateKey },
+            parameters,
             transaction: unitOfWorkContext.Transaction,
             cancellationToken: cancellationToken));
 

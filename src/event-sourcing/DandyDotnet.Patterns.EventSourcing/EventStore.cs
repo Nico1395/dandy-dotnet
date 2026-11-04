@@ -33,19 +33,24 @@ internal sealed class EventStore(
         // Deserialize aggregates and keep track of versions
         var versionsByStreamId = new Dictionary<string, long?>(StringComparer.Ordinal);
         var snapshotsAndConfigsByStreamId = new Dictionary<string, (AggregateConfiguration Configuration, object? Snapshot)>(StringComparer.Ordinal);
-        foreach (var snapshot in snapshotByStreamIds)
+        foreach (var streamId in (IEnumerable<string>?)ids ?? snapshotByStreamIds.Keys)
         {
-            object? aggregate = null;
-            if (aggregateConfiguration != null && aggregateConfiguration.UseSnapshots())
-                aggregate = serializer.Deserialize(snapshot.Value.Payload, aggregateConfiguration.RuntimeType);
+            snapshotByStreamIds.TryGetValue(streamId, out var snapshot);
+            var configuration = aggregateConfiguration;
+            if (configuration == null && snapshot != null && !eventStoreConfiguration.Aggregates.AggregatesByKey.TryGetValue(snapshot.AggregateKey, out configuration))
+                throw new Abstractions.AggregateException($"Aggregate type '{snapshot.AggregateKey}' is not configured.");
 
-            versionsByStreamId[snapshot.Value.StreamId] = aggregate == null ? null : snapshot.Value.Version;
-            if (aggregateConfiguration != null)
-                snapshotsAndConfigsByStreamId[snapshot.Value.StreamId] = (aggregateConfiguration, aggregate);
+            object? aggregate = null;
+            if (snapshot != null && configuration != null && configuration.UseSnapshots())
+                aggregate = serializer.Deserialize(snapshot.Payload, configuration.RuntimeType);
+
+            versionsByStreamId[streamId] = aggregate == null ? null : snapshot!.Version;
+            if (configuration != null)
+                snapshotsAndConfigsByStreamId[streamId] = (configuration, aggregate);
         }
 
         // If none queried we really don't need to continue
-        if (versionsByStreamId.Count == 0 || snapshotsAndConfigsByStreamId.Count == 0)
+        if (versionsByStreamId.Count == 0)
             return new Dictionary<string, object>();
 
         // Querying remaining envelopes
