@@ -34,6 +34,12 @@ public interface IEnvelopeRepository
     /// <param name="cancellationToken">Token for cancelling the operation.</param>
     /// <returns>Envelopes that are associated with at least one of the given <paramref name="tags"/>.</returns>
     Task<EnvelopeEntity[]> GetEnvelopesAsync(string[] tags, CancellationToken cancellationToken);
+
+    /// <summary>Gets envelopes after the respective snapshot version for each requested stream.</summary>
+    /// <param name="snapshotVersions">Stream IDs and their snapshot versions; null requests the entire stream.</param>
+    /// <param name="cancellationToken">Token for cancelling the operation.</param>
+    /// <returns>Envelopes ordered by stream ID and version.</returns>
+    Task<EnvelopeEntity[]> GetEnvelopesAfterSnapshotsAsync(IReadOnlyDictionary<string, long?> snapshotVersions, CancellationToken cancellationToken);
     
     /// <summary>
     /// Inserts the given <paramref name="envelopes"/>.

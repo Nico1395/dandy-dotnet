@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using DandyDotnet.Patterns.EventSourcing.Abstractions;
 using DandyDotnet.Patterns.EventSourcing.Configuration;
+using DandyDotnet.Patterns.EventSourcing.Configuration.Aggregates;
 using DandyDotnet.Patterns.EventSourcing.Outbox;
 using DandyDotnet.Patterns.EventSourcing.Persistence;
 using DandyDotnet.Patterns.EventSourcing.Persistence.Entities;
@@ -16,6 +17,79 @@ internal sealed class EventStore(
     IOutbox outbox,
     IUnitOfWork unitOfWork) : IEventStore
 {
+    public async Task<Dictionary<string, object>> ReplayAggregatesAsync(Type? aggregateType, IEnumerable<string>? streamIds, CancellationToken cancellationToken)
+    {
+        if (aggregateType == null && streamIds == null)
+            throw new ArgumentException($"Either '{nameof(aggregateType)}' or '{nameof(streamIds)}' have to be provided.");
+
+        // Fetching the latest snapshots
+        var ids = streamIds?.Where(id => !string.IsNullOrWhiteSpace(id)).Distinct(StringComparer.Ordinal).ToArray();
+        if (ids is { Length: 0 })
+            return new Dictionary<string, object>();
+
+        var aggregateConfiguration = aggregateType == null ? null : eventStoreConfiguration.Aggregates.GetOrAddAggregateConfiguration(aggregateType);
+        var snapshotByStreamIds = await unitOfWork.Snapshots.GetLatestSnapshotsAsync(ids, aggregateConfiguration?.Key, cancellationToken);
+
+        // Deserialize aggregates and keep track of versions
+        var versionsByStreamId = new Dictionary<string, long?>(StringComparer.Ordinal);
+        var snapshotsAndConfigsByStreamId = new Dictionary<string, (AggregateConfiguration Configuration, object? Snapshot)>(StringComparer.Ordinal);
+        foreach (var streamId in (IEnumerable<string>?)ids ?? snapshotByStreamIds.Keys)
+        {
+            snapshotByStreamIds.TryGetValue(streamId, out var snapshot);
+            var configuration = aggregateConfiguration;
+            if (configuration == null && snapshot != null && !eventStoreConfiguration.Aggregates.AggregatesByKey.TryGetValue(snapshot.AggregateKey, out configuration))
+                throw new Abstractions.AggregateException($"Aggregate type '{snapshot.AggregateKey}' is not configured.");
+
+            object? aggregate = null;
+            if (snapshot != null && configuration != null && configuration.UseSnapshots())
+                aggregate = serializer.Deserialize(snapshot.Payload, configuration.RuntimeType);
+
+            versionsByStreamId[streamId] = aggregate == null ? null : snapshot!.Version;
+            if (configuration != null)
+                snapshotsAndConfigsByStreamId[streamId] = (configuration, aggregate);
+        }
+
+        // If none queried we really don't need to continue
+        if (versionsByStreamId.Count == 0)
+            return new Dictionary<string, object>();
+
+        // Querying remaining envelopes
+        var envelopeEntities = await unitOfWork.Envelopes.GetEnvelopesAfterSnapshotsAsync(versionsByStreamId, cancellationToken);
+        var envelopesByStreamId = InternalMapper.MapFromEntity(eventStoreConfiguration, serializer, envelopeEntities)
+            .GroupBy(envelope => envelope.StreamId, StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.OrderBy(envelope => envelope.Version).ToArray(), StringComparer.Ordinal);
+
+        // Orchestrate replay for every aggregate
+        var result = new Dictionary<string, object>(StringComparer.Ordinal);
+        foreach (var streamId in versionsByStreamId.Keys)
+        {
+            var envelopes = envelopesByStreamId.TryGetValue(streamId, out var env) ? env : [];
+
+            if (!snapshotsAndConfigsByStreamId.TryGetValue(streamId, out var snapshotAndConfig))
+            {
+                if (envelopes.Length != 0)
+                    throw new Abstractions.AggregateException($"Cannot determine aggregate type for stream '{streamId}' without a snapshot.");
+
+                continue;
+            }
+
+            // Neither snapshot nor events, so there is nothing to replay here
+            if (snapshotAndConfig.Snapshot == null && envelopes.Length == 0)
+                continue;
+
+            // Validate for version duplicates
+            if (envelopes.GroupBy(envelope => envelope.Version).Any(group => group.Count() > 1))
+                throw new EventStreamException($"Stream with ID '{streamId}' has duplicate events.");
+
+            // Replay and add if successful
+            var replayed = CreateAggregate(snapshotAndConfig.Configuration, snapshotAndConfig.Snapshot, envelopes);
+            if (replayed != null)
+                result.Add(streamId, replayed);
+        }
+
+        return result;
+    }
+
     public async Task<object?> ReplayAggregateAsync(Type aggregateType, string streamId, long? toVersion, DateTime? toTimestamp, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(streamId))
@@ -33,8 +107,13 @@ internal sealed class EventStore(
 
         stream = stream.OrderBy(e => e.Version).ToArray();
 
+        return CreateAggregate(configuration, snapshot?.Aggregate, stream);
+    }
+
+    private object? CreateAggregate(AggregateConfiguration configuration, object? snapshot, IReadOnlyEnvelope[] stream)
+    {
         if (configuration.FactoryFunc != null)
-            return configuration.FactoryFunc(snapshot?.Aggregate, stream);
+            return configuration.FactoryFunc(snapshot, stream);
 
         var factoryType = typeof(IAggregateFactory<>).MakeGenericType(configuration.RuntimeType);
         var factory = serviceProvider.GetService(factoryType);
@@ -42,7 +121,7 @@ internal sealed class EventStore(
             throw new Abstractions.AggregateException($"Could not resolve aggregate factory for aggregate of type '{configuration.RuntimeType}'.");
 
         var create = factoryType.GetMethod(nameof(IAggregateFactory<>.Create)) ?? throw new UnreachableException($"The aggregate factory should have a method 'Create'.");
-        return create.Invoke(factory, [snapshot?.Aggregate, stream]);
+        return create.Invoke(factory, [snapshot, stream]);
     }
 
     public async Task<IReadOnlyEnvelope[]> GetStreamAsync(string streamId, long? fromVersion, long? toVersion, DateTime? fromTimestamp, DateTime? toTimestamp, CancellationToken cancellationToken)

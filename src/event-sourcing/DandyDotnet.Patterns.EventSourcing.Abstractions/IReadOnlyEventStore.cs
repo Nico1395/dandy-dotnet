@@ -23,6 +23,19 @@ namespace DandyDotnet.Patterns.EventSourcing.Abstractions;
 public interface IReadOnlyEventStore
 {
     /// <summary>
+    /// Replays aggregates using their latest snapshots and subsequent events.
+    /// </summary>
+    /// <param name="aggregateType">Aggregate type, or null to determine it from each snapshot.</param>
+    /// <param name="streamIds">Streams to replay, or null to select streams with snapshots of the specified type.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>Reconstructed aggregates indexed by stream ID. Missing streams are omitted.</returns>
+    /// <remarks>
+    /// At least one filter is required. Without a type, a stream containing events must have a configured
+    /// snapshot to identify its aggregate type. Without stream IDs, streams without snapshots cannot be discovered.
+    /// </remarks>
+    Task<Dictionary<string, object>> ReplayAggregatesAsync(Type? aggregateType, IEnumerable<string>? streamIds, CancellationToken cancellationToken);
+
+    /// <summary>
     ///     Replays the state of an aggregate by loading its snapshot (if available) and applying subsequent events.
     /// </summary>
     /// <param name="aggregateType">The type of the aggregate to replay.</param>
