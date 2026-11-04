@@ -7,6 +7,8 @@ namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.SqlServer;
 /// </summary>
 internal sealed class SqlServerSqlStrings : SqlStrings
 {
+    protected override string SnapshotsTable => $"{Schema.Name}.{Tables.Snapshots.Table}";
+
     /// <inheritdoc />
     public override string GetStreamVersion => $"""
                                                     SELECT COALESCE(MAX(Version) + 1, 0)

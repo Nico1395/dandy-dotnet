@@ -50,6 +50,21 @@ internal sealed class EnvelopeRepository(
         return GetEntities(rows).ToArray();
     }
 
+    public async Task<EnvelopeEntity[]> GetEnvelopesAfterSnapshotsAsync(IReadOnlyDictionary<string, long?> snapshotVersions, CancellationToken cancellationToken)
+    {
+        var (sql, parameters) = sqlStrings.GetEnvelopesAfterSnapshots(snapshotVersions);
+        if (sql == null)
+            return [];
+
+        var rows = await unitOfWorkContext.Connection.QueryAsync<EnvelopeRow>(new CommandDefinition(
+            sql,
+            parameters,
+            transaction: unitOfWorkContext.Transaction,
+            cancellationToken: cancellationToken));
+
+        return GetEntities(rows).ToArray();
+    }
+
     public async Task InsertAsync(string streamId, EnvelopeEntity[] envelopes, CancellationToken cancellationToken)
     {
         if (envelopes.Length == 0)

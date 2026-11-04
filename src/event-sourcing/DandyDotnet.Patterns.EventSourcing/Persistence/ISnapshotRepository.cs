@@ -15,6 +15,13 @@ public interface ISnapshotRepository
     /// <param name="cancellationToken">For cancelling asynchronous operations.</param>
     /// <returns>The snapshot entity, if existing.</returns>
     Task<SnapshotEntity?> GetLatestSnapshotAsync(string streamId, long? toVersion, CancellationToken cancellationToken);
+
+    /// <summary>Gets the latest matching snapshot for each stream.</summary>
+    /// <param name="streamIds">Stream IDs to query; null selects all streams and an empty array selects none.</param>
+    /// <param name="aggregateKey">Aggregate type key to match, or null for all aggregate types.</param>
+    /// <param name="cancellationToken">For cancelling asynchronous operations.</param>
+    /// <returns>Snapshots found; streams without a matching snapshot are omitted.</returns>
+    Task<Dictionary<string, SnapshotEntity>> GetLatestSnapshotsAsync(string[]? streamIds, string? aggregateKey, CancellationToken cancellationToken);
     
     /// <summary>
     /// Inserts the given <paramref name="snapshotEntity"/>.

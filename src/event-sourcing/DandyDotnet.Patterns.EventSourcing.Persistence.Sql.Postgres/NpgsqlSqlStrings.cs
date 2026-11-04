@@ -8,6 +8,8 @@ namespace DandyDotnet.Patterns.EventSourcing.Persistence.Sql.Postgres;
 /// </summary>
 internal sealed class NpgsqlSqlStrings : SqlStrings
 {
+    protected override string SnapshotsTable => $"{Schema.Name}.{Tables.Snapshots.Table}";
+
     /// <inheritdoc />
     public override string GetStreamVersion => $"""
                                                     SELECT COALESCE(MAX(Version) + 1, 0)
